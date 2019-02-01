@@ -1,0 +1,16 @@
+{
+    "CN": "SIGHUP CA",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "IT",
+            "L": "Milan",
+            "O": "SIGHUP srl",
+            "ST": "Milano",
+            "OU": "DevOps Team"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+global
+    daemon
+    maxconn 512
+
+defaults
+    mode tcp
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http-in
+    bind *:6443
+    default_backend masters
+
+backend masters
+    server master1 192.168.18.51:6443 maxconn 256
+    server master2 192.168.18.52:6443 maxconn 256
+    server master3 192.168.18.53:6443 maxconn 256

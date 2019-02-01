@@ -1,0 +1,15 @@
+---
+users:
+  jacopo:
+    pub_key: team-pub-keys/jacopo.pub
+  giacomo:
+    pub_key: team-pub-keys/giacomo.pub
+  berat:
+    pub_key: team-pub-keys/berat.pub
+  philippe:
+    pub_key: team-pub-keys/philippe.pub
+  luca:
+    pub_key: team-pub-keys/luca.pub
+
+blacklist:
+  riccardo:

@@ -1,0 +1,23 @@
+server {
+  listen {{ etcd_metrics_port }} default_server;
+  server_name _;
+
+  location / {
+    return 301 http://$host:{{ etcd_metrics_port }}/metrics;
+  }
+
+  location /metrics {
+    proxy_pass {{ 'https' if etcd_secure else 'http' }}://127.0.0.1:2379/metrics;
+    proxy_pass_header Server;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+{% if etcd_secure %}
+    proxy_ssl_certificate {{ etcd_certs_dir }}/etcdctl-client.pem;
+    proxy_ssl_certificate_key {{ etcd_certs_dir }}/etcdctl-client-key.pem;
+    proxy_ssl_trusted_certificate {{ etcd_certs_dir }}/ca.pem;
+    proxy_ssl_verify off;
+{% endif %}
+  }
+}

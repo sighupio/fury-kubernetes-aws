@@ -1,0 +1,7 @@
+---
+
+- name: Installing container runtime
+  include_tasks: "{{ container_runtime }}.yml"
+
+- name: Installing Kubelet Kubeadm Kubectl Critools
+  include_tasks: "kubelet.yml"

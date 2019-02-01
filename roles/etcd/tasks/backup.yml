@@ -1,0 +1,25 @@
+- name: Ensure etcd backup directory is present
+  file:
+    path: "{{ etcd_backup_dir }}"
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Install etcd backup script
+  template:
+    src: etcd_backup.sh.j2
+    dest: "{{ etcd_binary_dir }}/etcd_backup.sh"
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Install etcd backup cronjob
+  cron:
+    name: etcd-backup
+    job: "{{ etcd_binary_dir }}/etcd_backup.sh"
+    day: "*"
+    hour: "*"
+    minute: "*/5"
+    month: "*"
+    state: present

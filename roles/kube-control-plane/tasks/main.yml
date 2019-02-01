@@ -1,0 +1,93 @@
+---
+- name: Ensuring audit folder is present on machine
+  file:
+    name: "{{ audit_log_dir }}"
+    state: directory
+
+- name: Ensuring audit config file is present on machine
+  copy:
+    src: audit.yml
+    dest: "{{ audit_policy_config_path }}"
+
+- name: Ensuring kubeadm.yml config file is present on machine
+  template:
+    src: kubeadm.yml.j2
+    dest: "{{ kubeadm_config_file }}"
+
+- name: Ensuring admission configuration file is present on machine
+  copy: 
+    src: admission_config.yml
+    dest: /etc/kubernetes/admission_config.yml
+
+- name: Ensuring PodNodeSelector configuration file is present on machine
+  copy: 
+    src: podnodeselector.yml
+    dest: /etc/kubernetes/podnodeselector.yml
+
+- name: Ensuring kubeconfig variable
+  copy:
+    src: kube.sh
+    dest: /etc/profile.d/kube.sh
+
+- name: Ensuring kubelet extra-args are present on machine
+  template:
+    src: kubelet_default.j2
+    dest: /etc/default/kubelet
+
+- name: Check that the /etc/kubernetes/admin.conf exists
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: stat_result
+
+- name: Ensuring Kubernetes pki folder exists
+  file:
+    path: /etc/kubernetes/pki
+    state: directory
+
+- name: Uploading Etcd client certificates and CA
+  copy:
+    src: "{{ kubernets_local_certs_dir }}/{{ item }}"
+    dest: "/etc/kubernetes/pki/{{ item }}"
+  with_items:
+    - apiserver-client-key.pem
+    - apiserver-client.pem
+    - ca.pem
+
+- name: Initializing master
+  command: "kubeadm init --config={{ kubeadm_config_file }}"
+  when:
+    - not stat_result.stat.exists
+
+- name: Getting join token
+  shell: "kubeadm token create --print-join-command --ttl=30m"
+  register: kubeadm_join_command
+
+- name: Creating users kubeconfig folder
+  file:
+    name: "{{ kubernetes_users_kubeconfig_dir }}"
+    state: directory
+
+- name: Creating Kubernetes Users with kubeadm
+  shell: "kubeadm alpha phase kubeconfig user --client-name={{item}} --org={{kubernetes_users_org}} > {{ kubernetes_users_kubeconfig_dir }}/{{item}}.kubeconfig"
+  with_items: "{{ kubernetes_users_names }}"
+
+# - name: Ensuring to use LB address if different
+#   replace:
+#     path: "{{ kubernetes_users_kubeconfig_dir }}/{{item}}.kubeconfig"
+#     regexp: '^(\s*server: https://).*$'
+#     replace: '    server: https://{{ kuberenetes_master_external_lb }}:6443'
+#     backup: yes
+#   with_items:  "{{ kubernetes_users_names }}"
+
+- name: Getting kubeconfig files from master
+  fetch:
+    src: "{{ kubernetes_users_kubeconfig_dir }}/{{item}}.kubeconfig"
+    dest: "{{ kubernetes_kubeconfig_path }}/{{item}}.kubeconfig"
+    flat: true
+  with_items:  "{{ kubernetes_users_names }}"
+
+- name: Getting admin.conf kubeconfig
+  fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: "{{ kubernetes_kubeconfig_path }}/admin.conf"
+    flat: yes

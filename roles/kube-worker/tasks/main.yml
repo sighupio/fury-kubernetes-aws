@@ -1,0 +1,10 @@
+---
+- name: Check that the /etc/kubernetes/kubelet.conf exists on nodes
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: node_kubelet_conf
+
+- name: Running kubeadm on the nodes
+  command: "{{ hostvars[groups.master[0]].kubeadm_join_command.stdout  }} --node-name={{ ansible_hostname }}"
+  when: 
+    - not node_kubelet_conf.stat.exists

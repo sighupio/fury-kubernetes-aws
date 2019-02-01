@@ -1,0 +1,14 @@
+---
+
+- name: restart docker
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: yes
+  listen: restart docker
+
+- name: restart journald
+  systemd:
+    name: systemd-journald
+    state: restarted
+  listen: restart journald

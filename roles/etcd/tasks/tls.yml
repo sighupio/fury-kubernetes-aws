@@ -1,0 +1,91 @@
+---
+- name: Getting cfssl
+  get_url:
+    url: https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+    dest: /usr/local/bin/cfssl
+    mode: 0511
+
+- name: Getting cfssljson
+  get_url:
+    url: https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+    dest: /usr/local/bin/cfssljson
+    mode: 0511
+
+- name: Creating directories
+  file:
+    name: "{{ etcd_certs_dir }}"
+    state: directory
+
+- name: Moving initial CA config from localhost to etcd node
+  copy:
+    src: "files/{{ item }}"
+    dest: "{{ etcd_certs_dir }}/{{ item }}"
+  with_items:
+    - ca-config.json
+    - ca-csr.json
+
+- name: Checking if ca.key needs to be created
+  stat:
+    path: "{{ etcd_certs_dir }}/ca-key.pem"
+  register: ca_key_present_result
+
+- name: Generating CA certs
+  shell: "cfssl gencert -initca ca-csr.json | cfssljson -bare ca -"
+  args:
+    chdir: "{{ etcd_certs_dir }}"
+  when: ca_key_present_result.stat.exists == False
+
+- name: Moving initial CA config from localhost to etcd node
+  copy:
+    src: "files/{{ item }}"
+    dest: "{{ etcd_certs_dir }}/{{ item }}"
+  with_items:
+    - cfssl-default.json
+
+- name: Checking client certificates
+  stat:
+    path: "{{ etcd_certs_dir }}/{{ item }}.pem"
+  register: certificates_client_present_result
+  with_items:
+  - apiserver-client
+  - etcdctl-client
+
+- name: Generating client certs
+  shell: "cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client cfssl-default.json | cfssljson -bare {{ item.item }}"
+  args:
+    chdir: "{{ etcd_certs_dir }}"
+  when: item.stat.exists == False
+  with_items:
+  - "{{ certificates_client_present_result.results }}"
+
+- name: Checking if server certificate needs to be created
+  stat:
+    path: "{{ etcd_certs_dir }}/server.pem"
+  register: server_present_result
+
+- name: Generating server certs
+  shell: echo '{"CN":"localhost","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server -hostname="localhost,127.0.0.1,{{ ansible_default_ipv4.address }}" - | cfssljson -bare server
+  args:
+    chdir: "{{ etcd_certs_dir }}"
+  when: server_present_result.stat.exists == False
+
+- name: Checking if peer certificate needs to be created
+  stat:
+    path: "{{ etcd_certs_dir }}/peer.pem"
+  register: peer_present_result
+
+- name: Generating peer certs
+  shell: echo '{"CN":"localhost","hosts":[""],"key":{"algo":"rsa","size":2048}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=peer -hostname="localhost,127.0.0.1,{{ ansible_default_ipv4.address }}" - | cfssljson -bare peer
+  args:
+    chdir: "{{ etcd_certs_dir }}"
+  when: peer_present_result.stat.exists == False
+
+- name: Fetching certs
+  fetch:
+    src: "{{ etcd_certs_dir }}/{{ item[0] }}{{ item[1] }}"
+    dest: "{{ etcd_certs_local_dir }}/{{ item[0] }}{{ item [1] }}"
+    flat: yes
+  run_once: true
+  with_nested:
+    - [ 'ca', 'etcdctl-client', 'apiserver-client', 'peer', 'server' ]
+    - [ '.pem', '-key.pem' ]

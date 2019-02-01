@@ -1,0 +1,15 @@
+---
+
+furyagent_uri: https://s3.wasabisys.com/sighup-releases/linux/furyagent
+furyagent_configure_master: false
+furyagent_configure_etcd: false
+furyagent_etcd_backup: false
+furyagent_config_dir: /etc/fury
+furyagent_config_name: furyagent.yml
+
+## AWS CREDENTIALS
+aws_access_key: ""
+aws_secret_key: ""
+aws_region: "eu-west-1"
+s3_bucket_name: ""
+s3_endpooint: "http://s3-{{ aws_region }}.amazonaws.com"

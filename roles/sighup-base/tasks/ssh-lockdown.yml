@@ -1,0 +1,16 @@
+---
+- name: Disallow password authentication
+  become: true
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: Restart ssh
+
+- name: Enable ssh pubkey login
+  become: true
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PubkeyAuthentication"
+              line="PubkeyAuthentication yes"
+              state=present
+  notify: Restart ssh

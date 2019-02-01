@@ -1,0 +1,49 @@
+---
+
+- name: Getting etcd release
+  unarchive:
+    src: "{{ etcd_download_url }}/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz"
+    dest: /tmp
+    remote_src: yes
+
+- name: Installing etcd to binary dir
+  copy:
+    src: "/tmp/etcd-{{ etcd_version }}-linux-amd64/{{ item }}"
+    dest: "{{ etcd_binary_dir }}/{{ item }}"
+    remote_src: yes
+    mode: 0511
+  with_items:
+    - etcd
+    - etcdctl
+
+- name: Making sure data_dir is present
+  file:
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - "{{ etcd_config_dir }}"
+    - "{{ etcd_data_dir }}"
+
+- name: Copying etcd config envs
+  template:
+    src: etcd.env.j2
+    dest: /etc/etcd/etcd.env
+  notify: Reload ETCD
+
+- name: Copying etcdctl config envs
+  template:
+    src: bashrc.j2
+    dest: /root/.bashrc
+
+- name: Copying systemd unit
+  template:
+    src: etcd.service.j2
+    dest: /etc/systemd/system/etcd.service
+  notify: Reload ETCD
+
+- name: Enabling and starting ETCD
+  systemd:
+    name: etcd
+    daemon_reload: yes
+    enabled: yes
+    state: stopped

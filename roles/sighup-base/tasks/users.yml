@@ -1,0 +1,50 @@
+---
+- name: Ensure group "sighup" is present
+  become: true
+  group:
+    name: sighup
+    state: present
+
+- name: Creating Sighup users
+  become: true
+  user:
+    name: "{{ item.key }}"
+    groups:
+      - sudo
+      - sighup
+    shell: /bin/bash
+    state: present
+  with_dict: "{{ users }}"
+
+- name: Removing users not part of the team anymore
+  become: true
+  user:
+    name: "{{ item.key }}"
+    state: absent
+  with_dict: "{{ blacklist }}"
+
+- name: Setting authorized_keys for users
+  become: true
+  authorized_key:
+    user: "{{ item.key }}"
+    state: present
+    key: "{{ lookup('file', item.value.pub_key) }}"
+  with_dict: "{{ users }}"
+
+- name: Proper permissions on home folder
+  become: true
+  file:
+    path: "/home/{{ item.key }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0755
+    recurse: true
+  with_dict: "{{ users }}"
+
+- name: Removing password need for sighup users
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sighup'
+    line: '%sighup ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s' 

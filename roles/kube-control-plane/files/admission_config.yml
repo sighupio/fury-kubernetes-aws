@@ -1,0 +1,5 @@
+kind: AdmissionConfiguration
+apiVersion: apiserver.k8s.io/v1alpha1
+plugins:
+- name: PodNodeSelector
+  path: /etc/kubernetes/podnodeselector.yml

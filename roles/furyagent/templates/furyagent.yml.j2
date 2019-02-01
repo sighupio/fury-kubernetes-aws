@@ -1,0 +1,37 @@
+storage:
+  provider: s3
+  url: "{{ s3_endpooint }}"
+  AccessKey: "{{ aws_access_key }}"
+  SecretKey: "{{ aws_secret_key }}"
+  bucketName: "{{ s3_bucket_name }}"
+  region: "{{ aws_region }}"
+clusterComponent:
+  nodeName: {{ ansible_hostname }}
+{% if furyagent_configure_etcd or furyagent_etcd_backup %}
+  etcd:
+    certDir: /etc/etcd/pki
+    dataDir: /var/lib/etcd
+    caCertFilename: ca.pem
+    caKeyFilename: ca-key.pem
+    clientCertFilename: etcdctl-client.pem
+    clientKeyFilename: etcdctl-client-key.pem
+    endpoint: https://localhost:2379
+    snapshotFile: /tmp/etcd-backup.db
+    backupRetention: 36h
+    backupFrequency: 15m
+{% endif %}
+{% if furyagent_configure_master %}
+  master:
+    certDir: /etc/kubernetes/pki
+    caCertFilename: ca.crt
+    caKeyFilename: ca.key
+    saPubFilename: sa.pub
+    saKeyFilename: sa.key
+    proxyCaCertFilename: front-proxy-ca.crt
+    proxyKeyCertFilename: front-proxy-ca.key
+    #etcdCaCertFilename: etcd-ca.crt
+    etcdClientCertFilename: etcd-client.crt
+    etcdClientKeyFilename: etcd-client.key
+    backupRetention: 24h
+    backupFrequency: 15m
+{% endif %}

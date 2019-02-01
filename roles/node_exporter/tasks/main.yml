@@ -1,0 +1,39 @@
+---
+
+- name: getting node_exporter binaries
+  unarchive: 
+    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: /tmp
+    remote_src: yes
+
+- name: copying binaries to right place
+  copy:
+    src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+    dest: /usr/sbin/node_exporter
+    remote_src: yes
+    mode: 511
+
+- name: making sure specific folders are present
+  file: 
+    path: "{{ item }}"
+    state: directory
+  with_items:   
+    - /var/lib/node_exporter
+    - /etc/sysconfig
+
+- name: copying config file
+  template:
+    src: node_exporter.j2
+    dest: /etc/sysconfig/node_exporter
+
+- name: copying service unit
+  template: 
+    src: node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+
+- name: starting service node_exporter
+  systemd:
+    name: node_exporter
+    daemon_reload: yes
+    enabled: yes
+    state: started

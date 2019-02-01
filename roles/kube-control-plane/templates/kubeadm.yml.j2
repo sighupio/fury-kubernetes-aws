@@ -1,0 +1,69 @@
+apiVersion: kubeadm.k8s.io/v1alpha3
+kind: InitConfiguration
+apiEndpoint:
+  advertiseAddress: {{ ansible_default_ipv4.address }}
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1alpha3
+kind: ClusterConfiguration
+etcd:
+  external:
+    endpoints: 
+{{ etcd.endpoints | to_nice_yaml | indent(4, true) }}
+    caFile: {{ etcd.caFile }}
+    certFile: {{ etcd.certFile }}
+    keyFile: {{ etcd.keyFile }}
+cloudProvider: {{ kubernetes_cloud_provider }}
+clusterName: {{ kubernetes_cluster_name }}
+kubernetesVersion: {{ kubernetes_version }}
+auditPolicy:
+  path: {{ audit_policy_config_path }}
+  logDir: {{ audit_log_dir }}
+  logMaxAge: {{ audit_policy_max_age }}
+controlPlaneEndpoint: {{ kuberenetes_master_external_lb }}
+nodeRegistration:
+  name: {{ kubernetes_hostname }}
+apiServerExtraArgs:
+  audit-log-path: "/var/log/kubernetes/audit/kube-apiserver-audit.log"
+  enable-admission-plugins: "NamespaceLifecycle,LimitRanger,PodNodeSelector,Initializers,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
+  runtime-config: "admissionregistration.k8s.io/v1alpha1"
+  cloud-provider: {{ kubernetes_cloud_provider }}
+  admission-control-config-file: /etc/kubernetes/admission_config.yml
+{% if oidc_isssuer_url != "" %}
+  oidc-issuer-url: {{ oidc_isssuer_url}}
+  oidc-client-id: {{ oidc_client_id }}
+  oidc-username-claim: "{{ oidc_username_claim }}"
+  oidc-groups-claim: "{{ oidc_groups_claim }}"
+  oidc-groups-prefix: "{{ oidc_group_prefix }}"
+{% endif %}
+apiServerExtraVolumes:
+  - name: admission-config
+    hostPath: /etc/kubernetes/admission_config.yml
+    mountPath: /etc/kubernetes/admission_config.yml
+    pathType: File
+  - name: podnodeselector
+    hostPath: /etc/kubernetes/podnodeselector.yml
+    mountPath: /etc/kubernetes/podnodeselector.yml
+    pathType: File
+schedulerExtraArgs:
+  address: {{ ansible_default_ipv4.address }}
+controllerManagerExtraArgs:
+  address: {{ ansible_default_ipv4.address }}
+  cloud-provider: {{ kubernetes_cloud_provider }}
+  configure-cloud-routes: "false"
+featureGates:
+  CoreDNS: true
+  DynamicKubeletConfig: false
+  Auditing: true
+  SelfHosting: false
+  StoreCertsInSecrets: false
+networking:
+  podSubnet: {{ kubernetes_pod_cidr }}
+  serviceSubnet: {{ kubernetes_svc_cidr }}
+  dnsDomain: "cluster.local"
+kubeProxy:
+  config:
+    clusterCIDR: {{ kubernetes_pod_cidr }}
+    mode: ipvs
+apiServerCertSANs:
+{{ kubernetes_api_SAN | to_nice_yaml }}

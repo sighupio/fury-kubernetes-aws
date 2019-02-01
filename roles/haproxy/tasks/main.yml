@@ -1,0 +1,33 @@
+---
+
+- name: installing dependencies
+  apt:
+    name: software-properties-common
+    state: latest
+
+- name: installing haproxy repo
+  apt_repository:
+    repo: 'ppa:vbernat/haproxy-1.8'
+    state: present
+
+- name: actually installing haproxy
+  apt:
+    name: haproxy
+    state: present
+    update_cache: yes
+
+- name: copying configurations
+  copy:
+    src: "{{playbook_dir}}/{{ haproxy_configuration_file }}"
+    dest: /etc/haproxy/haproxy.cfg
+  notify: reload haproxy
+
+- name: validating configuration
+  command: "haproxy -c -- /etc/haproxy/haproxy.cfg"
+
+- name: starting haproxy service
+  systemd:
+    daemon_reload: yes
+    name: haproxy
+    enabled: yes
+    state: started

@@ -1,0 +1,15 @@
+{
+{% if registry_mirrors is defined %}
+  "registry-mirrors": {{ registry_mirrors | to_json }},
+{% endif %}
+{% if docker_dns is defined %}
+  "dns": {{ docker_dns | to_json }},
+{% endif %}
+  "storage-driver": "overlay2",
+  "log-driver": "json-file",
+  "live-restore": true,
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "5"
+  }
+}

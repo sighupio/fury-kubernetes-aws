@@ -1,0 +1,17 @@
+---
+
+# CRI
+container_runtime: docker
+docker_version: 18.06.1~ce~3-0~ubuntu
+
+# Kurnetes Components Versions
+kubelet_version: "1.12.1"
+kubectl_version: "1.12.1"
+kubeadm_version: "1.12.1"
+critools_version: "1.12.0"
+
+# Docker Configurations
+# registry_mirrors:
+# - ""
+# docker_dns:
+# - ""

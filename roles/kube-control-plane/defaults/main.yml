@@ -1,0 +1,37 @@
+---
+kubeadm_config_file: /etc/kubernetes/kubeadm.yml
+audit_log_dir: /var/log/kubernetes
+audit_policy_max_age: 3
+audit_policy_config_path: /etc/kubernetes/audit.yaml
+
+## MasterConfig paramethers
+kubernetes_pod_cidr: "10.32.0.0/16"
+kubernetes_svc_cidr: "10.96.0.0/16"
+kubernetes_cluster_name: "sighup-cluster"
+kubernetes_cloud_provider: ""
+kubernetes_api_SAN:
+    - localhost
+    - kubernetes.local
+kubernetes_version: "1.12.1"
+kubernetes_hostname: "{{ ansible_hostname }}"
+kubernetes_kubeconfig_path: "."
+kubernetes_users_names:
+    - giacomo
+    - luca
+    - jacopo
+kubernetes_users_org: sighup
+kubernetes_users_kubeconfig_dir: /etc/kubernetes/users
+kubernets_local_certs_dir: secrets/pki/etcd
+kubernetes_elb_master_address: ""
+kuberenetes_master_external_lb: "{{ kubernetes_elb_master_address }}"
+etcd.endpoint: "http://localhost:2379"
+etcd.endpoints:
+    - "{{ etcd.endpoint }}"
+
+## OIDC
+oidc_isssuer_url: ""
+oidc_client_id: ""
+oidc_username_claim: email
+oidc_groups_claim: groups
+oidc_group_prefix: oidc
+

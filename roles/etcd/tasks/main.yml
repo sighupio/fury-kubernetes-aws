@@ -1,0 +1,44 @@
+- name: getting etcd and role dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - tar
+    - git
+    - curl
+
+- name: setting varibles for template rendering
+  set_fact:
+    etcd_scheme: "{{ etcd_secure | ternary('https','http') }}"
+    etcd_name: "{{ ansible_hostname }}"
+    etcd_address: "{{ ansible_default_ipv4.address }}"
+
+- name: setting node_name for clustering purposes
+  set_fact:
+    etcd_node: "{{ etcd_name }}={{ etcd_scheme }}://{{ etcd_address }}:2380"
+
+- name: installing and configuring etcd server
+  import_tasks: install.yml
+
+- name: restoring etcd from backup
+  import_tasks: restore.yml
+  when: etcd_restore
+
+- name: generating TLS certificates if required
+  import_tasks: tls.yml
+  when: etcd_secure
+
+- name: setting up etcd backup
+  import_tasks: backup.yml
+  when: etcd_backup
+
+- name: setting up etcd metrics
+  import_tasks: metrics.yml
+  when: etcd_metrics
+
+- name: Enabling and starting ETCD
+  systemd:
+    name: etcd
+    daemon_reload: yes
+    enabled: yes
+    state: started

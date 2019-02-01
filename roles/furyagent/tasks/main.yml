@@ -1,0 +1,49 @@
+---
+
+- name: Installing furyagent
+  get_url:
+    url: "{{ furyagent_uri }}"
+    dest: /usr/local/bin/furyagent
+    mode: 0750
+    force: yes
+
+- name: Making sure all aws variables are defined
+  assert:
+    that:
+      - aws_access_key != ""
+      - aws_secret_key != ""
+      - aws_region != ""
+      - s3_bucket_name != ""
+    msg: "aws_access_key, aws_secret_key, aws_region and s3_bucket_name must be defined"
+
+- name: Making sure furyagent config directory exist on host
+  file:
+    path: "{{ furyagent_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Ensuring furyagent.yml configuration is present on host
+  template:
+    src: furyagent.yml.j2
+    dest: "{{ furyagent_config_dir }}/{{ furyagent_config_name }}"
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Configuring Master node with furyagent
+  command: "furyagent configure master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
+  when: furyagent_configure_master
+
+- name: Configuring Etcd node with furyagent
+  command: "furyagent configure etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
+  when: furyagent_configure_etcd
+
+- name: Configure Etcd backup every 15 minutes with furyagent
+  cron:
+    minute: "*/10"
+    state: present
+    name: etcd-backup-furyagent
+    job: "/usr/local/bin/furyagent backup etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} > /var/log/furyagent.log"
+  when: furyagent_etcd_backup

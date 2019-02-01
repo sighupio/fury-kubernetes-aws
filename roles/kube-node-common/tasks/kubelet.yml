@@ -1,0 +1,62 @@
+---
+
+- name: Ensuring /var/log/journal is present
+  file:
+    name: /var/log/journal
+    state: directory
+  notify: restart journald
+
+- name: Remove swapfile from /etc/fstab
+  mount:
+    name: swap
+    fstype: swap
+    state: absent
+    
+- name: Disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+
+- name: Configuring network
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    state: present
+
+- name: Ensuring IPVS kernel modules are enabled
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ip_vs
+    - ip_vs_rr
+    - ip_vs_wrr
+    - ip_vs_sh
+
+- name: Adding kubernetes apt-key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Adding kubernetes repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+- name: Making sure kubelet, kubectl, kubeadm, cri-tools are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - openssl
+    - kubelet={{ kubelet_version }}-00
+    - kubeadm={{ kubeadm_version }}-00
+    - kubectl={{ kubectl_version }}-00
+    - cri-tools={{ critools_version }}-00
+
+- name: starting and enabling kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: yes
+    # daemon_reload: yes
