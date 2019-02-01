@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: weave-net
+  labels:
+    name: weave-net
+spec:
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      name: weave-net
+  template:
+    metadata:
+      labels:
+        name: weave-net
+    spec:
+      containers:
+        - name: weave
+          command:
+            - /home/weave/launch.sh
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          image: weaveworks/weave-kube:2.4.1
+          livenessProbe:
+            httpGet:
+              host: 127.0.0.1
+              path: /status
+              port: 6784
+            initialDelaySeconds: 30
+          resources:
+            requests:
+              cpu: 10m
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: weavedb
+              mountPath: /weavedb
+            - name: cni-bin
+              mountPath: /host/opt
+            - name: cni-bin2
+              mountPath: /host/home
+            - name: cni-conf
+              mountPath: /host/etc
+            - name: dbus
+              mountPath: /host/var/lib/dbus
+            - name: lib-modules
+              mountPath: /lib/modules
+            - name: xtables-lock
+              mountPath: /run/xtables.lock
+        - name: weave-npc
+          args: []
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          image: 'weaveworks/weave-npc:2.4.1'
+          resources:
+            requests:
+              cpu: 10m
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: xtables-lock
+              mountPath: /run/xtables.lock
+      hostNetwork: true
+      hostPID: true
+      restartPolicy: Always
+      securityContext:
+        seLinuxOptions: {}
+      serviceAccountName: weave-net
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      volumes:
+        - name: weavedb
+          hostPath:
+            path: /var/lib/weave
+        - name: cni-bin
+          hostPath:
+            path: /opt
+        - name: cni-bin2
+          hostPath:
+            path: /home
+        - name: cni-conf
+          hostPath:
+            path: /etc
+        - name: dbus
+          hostPath:
+            path: /var/lib/dbus
+        - name: lib-modules
+          hostPath:
+            path: /lib/modules
+        - name: xtables-lock
+          hostPath:
+            path: /run/xtables.lock
+            type: FileOrCreate
+  updateStrategy:
+    type: RollingUpdate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: weave-net
+  name: weave-net
+spec:
+  ports:
+  - name: metrics
+    port: 6782
+    protocol: TCP
+    targetPort: 6782
+  - name: metrics-npc
+    port: 6781
+    protocol: TCP
+    targetPort: 6781
+  selector:
+    name: weave-net

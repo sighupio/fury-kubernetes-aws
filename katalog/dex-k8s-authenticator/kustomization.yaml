@@ -1,0 +1,13 @@
+namespace: kube-system
+
+resources:
+ - deploy.yml
+
+configMapGenerator:
+ - name: dex-k8s-authenticator
+   files:
+     - config.yaml
+
+imageTags:
+ - name: mintel/dex-k8s-authenticator
+   newTag: 1.0.0

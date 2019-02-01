@@ -1,0 +1,15 @@
+namespace: kube-system
+
+resources:
+  - deploy.yml
+  - rbac.yml
+  - sm.yml
+
+imageTags:
+  - name: quay.io/dexidp/dex
+    newTag: v2.13.0
+
+# secretGenerator:
+#   - name: dex
+#     commands:
+#       config.yml: "cat dex.yml"

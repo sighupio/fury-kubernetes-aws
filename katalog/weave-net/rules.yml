@@ -1,0 +1,77 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: k8s
+    role: alert-rules
+  name: weave-net-k8s-rules
+spec:
+  groups:
+  - name: weave-net.rules
+    rules:
+      - alert: WeaveNetUnreachablePercentage
+        annotations:
+          message: 'Weave-net pod {{ $labels.pod }} is unreachable and is owning
+            {{ printf "%.2f" $value }}% of IPAM address space.'
+          doc: "This alert fires if the unreachable percentage of a given
+            weave-net pod was more than 0 in the last 10 minutes."
+        expr: |
+          weave_ipam_unreachable_percentage > 0
+        for: 10m
+        labels:
+          severity: critical
+      - alert: WeaveNetUnreachablePeers
+        annotations:
+          message: '{{ $value }} unreachable weave-net peers.'
+          doc: "This alert fires if there were more than 0 unreachable weave-net
+            peers in the last 10 minutes."
+        expr: |
+          weave_ipam_unreachable_count > 0
+        for: 10m
+        labels:
+          severity: critical
+      - alert: WeaveNetPendingAllocations
+        annotations:
+          message: '{{ $value }} pending allocates on weave-net pod
+            {{ $labels.pod }}.'
+          doc: "This alert fires if there were more than 0 pending allocates on
+            a given weave-net pod in the last 10 minutes."
+        expr: |
+          weave_ipam_pending_allocates > 0
+        for: 10m
+        labels:
+          severity: warning
+      - alert: WeaveNetPendingClaim
+        annotations:
+          message: '{{ $ value }} pending claims on weave-net pod
+            {{ $labels.pod }}.'
+          doc: "This alert fires if there were more than 0 pendins claims on a
+            given weave-net pod in the last 10 minutes."
+        expr: |
+          weave_ipam_pending_claims > 0
+        for: 10m
+        labels:
+          severity: warning
+      - alert: WeaveNetFailedConnections
+        annotations:
+          message: 'Weave-net pod {{ $labels.pod }} is failing
+            {{ printf "%.2f" $value }} conn/s.'
+          doc: "This alert fires if a given weave-net pod was failing more than
+            0 conn/sec in the last 10 minutes based on a
+            calculation made on a 1 minute time window."
+        expr: |
+          rate(weave_connections{state="failed"}[1m]) > 0
+        for: 10m
+        labels:
+          severity: warning
+      - alert: WeaveNetIPExhaustion
+        annotations:
+          message: 'Weave-net IP address space is exhausting. Current utilisation
+            is {{ printf "%.2f" $value }}%.'
+          doc: "This alert fires if the utilisation of Weave-net IP address space
+            was more than 85% in the last hour."
+        expr: |
+          100 * (weave_ips{state="local-used"} / ignoring(state) weave_max_ips) > 85
+        for: 1h
+        labels:
+          severity: critical

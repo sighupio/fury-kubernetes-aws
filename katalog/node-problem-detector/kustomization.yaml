@@ -1,0 +1,11 @@
+namespace: kube-system
+
+resources:
+- deploy.yml
+- rbac.yml
+
+configMapGenerator:
+  - name: node-problem-detector-config
+    files:
+    - docker-monitor.json
+    - kernel-monitor.json
