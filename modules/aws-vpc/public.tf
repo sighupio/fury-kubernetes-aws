@@ -18,6 +18,7 @@ resource "aws_eip" "main" {
   count      = "${var.az-count}"
   vpc        = true
   depends_on = ["aws_internet_gateway.main"]
+
   tags {
     Name = "nat-${var.name}-${var.env}-${count.index+1}"
   }
@@ -28,6 +29,7 @@ resource "aws_nat_gateway" "main" {
   allocation_id = "${element(aws_eip.main.*.id, count.index)}"
   subnet_id     = "${element(aws_subnet.public.*.id,count.index)}"
   depends_on    = ["aws_internet_gateway.main"]
+
   tags {
     Name = "nat-${var.name}-${var.env}-${count.index+1}"
   }
@@ -40,6 +42,7 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.main.id}"
   }
+
   tags {
     Name = "public-${var.name}-${var.env}"
   }

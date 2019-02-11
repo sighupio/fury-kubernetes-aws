@@ -23,15 +23,16 @@ resource "aws_instance" "bastion" {
 }
 
 resource "aws_eip" "bastion" {
-  count   = "${var.bastion-count}"
+  count      = "${var.bastion-count}"
   depends_on = ["aws_internet_gateway.main"]
+
   tags {
     Name = "bastion-${var.name}-${var.env}-${count.index+1}"
   }
 }
 
 resource "aws_eip_association" "bastion" {
-  count = "${var.bastion-count}"
+  count         = "${var.bastion-count}"
   instance_id   = "${element(aws_instance.bastion.*.id, count.index)}"
   allocation_id = "${element(aws_eip.bastion.*.id, count.index)}"
 }
@@ -39,6 +40,7 @@ resource "aws_eip_association" "bastion" {
 resource "aws_security_group" "bastion" {
   name   = "bastion-${var.env}"
   vpc_id = "${aws_vpc.main.id}"
+
   tags {
     Name = "bastion-${var.name}-${var.env}"
   }
