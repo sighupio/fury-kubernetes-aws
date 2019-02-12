@@ -32,6 +32,12 @@ variable "region" {
   default = "eu-west-1"
 }
 
+variable "domain" {
+  type        = "string"
+  default     = "sighup.io"
+  description = "Domain name for internal services"
+}
+
 variable "bastion-instance-type" {
   type    = "string"
   default = "t3.small"

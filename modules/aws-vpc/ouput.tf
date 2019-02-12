@@ -10,6 +10,10 @@ output "private_subnets" {
   value = "${flatten(aws_subnet.private.*.id)}"
 }
 
+output "domain_zone" {
+  value = "${aws_route53_zone.main.id}"
+}
+
 output "bastion_private_ip" {
   value = "${flatten(aws_instance.bastion.*.private_ip)}"
 }
