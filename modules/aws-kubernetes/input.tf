@@ -1,40 +1,94 @@
-variable cluster_name {}
-
-variable environment {}
-
-variable aws_region {
-  default = "eu-west-1"
+variable name {
+  type        = "string"
+  description = "Cluster name"
 }
 
-variable kube_master_count {}
-variable kube_master_type {}
-variable kube_infra_node_count {}
-variable kube_infra_node_type {}
-variable kube_app_node_count {}
-variable kube_app_node_type {}
-
-variable root_device_size {}
-
-variable ssh_public_key {}
-variable ssh_private_key {}
-variable default_ubuntu_ami {}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["${var.default_ubuntu_ami}"]
-  }
+variable env {
+  type        = "string"
+  description = "Cluster environment"
 }
 
-resource "aws_key_pair" "kube-key" {
-  key_name   = "${var.cluster_name}-kube-key"
-  public_key = "${file("${var.ssh_public_key}")}"
+variable region {
+  type        = "string"
+  default     = "eu-west-1"
+  description = "AWS region"
+}
+
+variable kube-master-count {
+  type        = "string"
+  default     = 1
+  description = "Number of Kubernetes master nodes"
+}
+
+variable kube-master-type {
+  type        = "string"
+  default     = "t3.medium"
+  description = "Kubernetes master nodes EC2 instance type"
+}
+
+variable kube-workers {
+  type = "list"
+  description = "List of maps holding definition of Kubernetes workers"
+}
+
+# kube-workers = [
+#   {
+#     kind = "infra"
+#     count = 2
+#     type = "m5.large"
+#   },
+#   {
+#     kind = "production"
+#     count = 3
+#     type = "c5.large"
+#   },
+# ]
+
+variable kube-ami {
+  type        = "string"
+  default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+  description = "Kubernetes nodes AMI"
+}
+
+variable kube-private-subnets {
+  type        = "list"
+  description = "List of AWS private subnet IDs"
+}
+
+variable kube-public-subnets {
+  type        = "list"
+  description = "List of AWS public subnet IDs"
+}
+
+variable kube-domain {
+  type        = "string"
+  description = "Route53 zone ID"
+}
+
+variable ssh-public-keys {
+  type        = "list"
+  description = "List of public SSH keys authorized to connect to Kubernetes nodes"
 }
 
 provider aws {
-  region = "eu-west-1"
+  region = "${var.region}"
 }
 
+data "aws_ami" "ubuntu" {
+  most_recent = true
 
-variable bastion {}
+  filter {
+    name   = "name"
+    values = ["${var.kube-ami}"]
+  }
+}
+
+data "aws_subnet" "private" {
+  count = "${length(var.kube-private-subnets)}"
+  id    = "${element(var.kube-private-subnets, count.index)}"
+}
+
+data "aws_subnet" "public" {
+  count = "${length(var.kube-public-subnets)}"
+  id    = "${element(var.kube-public-subnets, count.index)}"
+}
