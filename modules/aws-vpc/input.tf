@@ -27,6 +27,11 @@ variable "env" {
   type = "string"
 }
 
+variable "region" {
+  type    = "string"
+  default = "eu-west-1"
+}
+
 variable "bastion-instance-type" {
   type    = "string"
   default = "t3.small"
@@ -45,6 +50,10 @@ variable "bastion-ami" {
 variable "ssh-public-key" {
   type        = "string"
   description = "Path to the public ssh key"
+}
+
+provider "aws" {
+  region = "${var.region}"
 }
 
 data "aws_ami" "main" {
