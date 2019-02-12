@@ -1,11 +1,11 @@
 resource "aws_security_group" "kubernetes-nodes" {
-  name        = "kubernetes-nodes"
-  description = "kubenode Security Group"
-  vpc_id      = "${aws_vpc.kube-vpc.id}"
+  name        = "${var.name}-${var.env}-kube-node-sg"
+  description = "Kubernetes nodes Security Group"
+  vpc_id      = "${data.aws_subnet.private.0.vpc_id}"
 
   tags {
-    Name  = "${var.environment}-${var.cluster_name}"
-    Env   = "${var.environment}"
+    Name = "${var.name}-${var.env}"
+    Env  = "${var.env}"
   }
 
   //sg for ssh
@@ -80,7 +80,7 @@ resource "aws_security_group" "kubernetes-nodes" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    //sg for kubernetes kubelet metrics cadvisor
+  //sg for kubernetes kubelet metrics cadvisor
   ingress {
     from_port   = 10248
     to_port     = 10248
@@ -98,13 +98,13 @@ resource "aws_security_group" "kubernetes-nodes" {
 }
 
 resource "aws_security_group" "kubernetes-master" {
-  name        = "kubernetes-master"
-  description = "kubemaster Security Group"
-  vpc_id      = "${aws_vpc.kube-vpc.id}"
+  name        = "${var.name}-${var.env}-kube-master-sg"
+  description = "Kubernetes master Security Group"
+  vpc_id      = "${data.aws_subnet.private.0.vpc_id}"
 
   tags {
-    Name  = "${var.environment}-${var.cluster_name}"
-    Env   = "${var.environment}"
+    Name = "${var.name}-${var.env}"
+    Env  = "${var.env}"
   }
 
   //sg for ssh
