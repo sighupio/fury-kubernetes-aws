@@ -53,9 +53,9 @@ variable "bastion-ami" {
   default = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
 }
 
-variable "ssh-public-key" {
-  type        = "string"
-  description = "Path to the public ssh key"
+variable "ssh-public-keys" {
+  type        = "list"
+  description = "List of public SSH keys authorized to connect to the bastions"
 }
 
 provider "aws" {
@@ -69,11 +69,6 @@ data "aws_ami" "main" {
     name   = "name"
     values = ["${var.bastion-ami}"]
   }
-}
-
-resource "aws_key_pair" "main" {
-  key_name   = "${var.name}-${var.env}"
-  public_key = "${file("${var.ssh-public-key}")}"
 }
 
 data "aws_availability_zones" "available" {}

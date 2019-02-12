@@ -2,7 +2,7 @@ resource "aws_instance" "bastion" {
   count                       = "${var.bastion-count}"
   ami                         = "${data.aws_ami.main.id}"
   instance_type               = "${var.bastion-instance-type}"
-  key_name                    = "${aws_key_pair.main.id}"
+  user_data                   = "${data.template_cloudinit_config.config.rendered}"
   subnet_id                   = "${element(aws_subnet.public.*.id, count.index)}"
   associate_public_ip_address = true
   vpc_security_group_ids      = ["${aws_security_group.bastion.id}"]
