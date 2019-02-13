@@ -1,5 +1,5 @@
 locals {
-    inventory = <<EOF
+  inventory = <<EOF
 master ansible_host=${aws_instance.k8s-master.private_ip}
 bastion ansible_host=${aws_eip.kube-bastion.public_ip}
 
@@ -35,5 +35,5 @@ EOF
 }
 
 output "inventory" {
-    value = "${local.inventory}"
+  value = "${local.inventory}"
 }

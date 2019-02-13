@@ -26,8 +26,23 @@ variable kube-master-type {
   description = "Kubernetes master nodes EC2 instance type"
 }
 
+variable kube-master-volumes {
+  type        = "list"
+  default     = []
+  description = "Kubernetes master nodes volumes"
+}
+
+# kube-master-volumes = [
+#   {
+#     size = 10,
+#     type = gp2,
+#     iops = ...,
+#     device_name = /dev/sdf
+#   }
+# ]
+
 variable kube-workers {
-  type = "list"
+  type        = "list"
   description = "List of maps holding definition of Kubernetes workers"
 }
 
@@ -49,6 +64,40 @@ variable kube-ami {
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
   description = "Kubernetes nodes AMI"
 }
+
+variable kube-lb-external-type {
+  type        = "string"
+  default     = "application"
+  description = "Kubernetes external loadbalancer type"
+}
+
+variable kube-lb-external-domains {
+  type        = "list"
+  default     = []
+  description = "TLS certificates domains"
+}
+
+variable kube-master-security-group {
+  type        = "list"
+  default     = []
+  description = "Kubernetes master security group rules"
+}
+
+variable kube-workers-security-group {
+  type        = "list"
+  default     = []
+  description = "Kubernetes workers security group rules"
+}
+
+# kube-master-security-group = [
+#   {
+#     type = "ingress|engress",
+#     to_port = ...,
+#     from_port = ...,
+#     protocol = ...,
+#     cidr_blocks = ...,
+#   }
+# ]
 
 variable kube-private-subnets {
   type        = "list"
