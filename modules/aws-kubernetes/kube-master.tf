@@ -21,6 +21,21 @@ resource "aws_instance" "k8s-master" {
   }
 }
 
+#resource "aws_volume_attachment" "kube-master-ebs-attach" {
+#  count = "${length(var.kube-master-volumes) != 0 ? length(var.kube-master-volumes) * var.kube-master-count : 0}"
+#  device_name = "${lookup(var.kube-master-volumes[count.index % length(var.kube-master-volumes)], "device_name")}"
+#  volume_id   = "${aws_ebs_volume.kube-master-ebs.*.id["${count.index % length(var.kube-master-volumes)}"]}"
+#  instance_id = "${aws_instance.k8s-master.*.id["${count.index % var.kube-master-count}"]}"
+#}
+#
+#resource "aws_ebs_volume" "kube-master-ebs" {
+#  count = "${length(var.kube-master-volumes) != 0 ? length(var.kube-master-volumes) * var.kube-master-count : 0}"
+#  size = "${lookup(var.kube-master-volumes[count.index % length(var.kube-master-volumes)], "size")}"
+#  type = "${lookup(var.kube-master-volumes[count.index % length(var.kube-master-volumes)], "type")}"
+#  iops = "${lookup(var.kube-master-volumes[count.index % length(var.kube-master-volumes)], "iops")}"
+#  availability_zone = "us-west-1a"
+#}
+
 resource "aws_route53_record" "k8s-master" {
   count   = "${var.kube-master-count}"
   zone_id = "${var.kube-domain}"
