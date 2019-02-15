@@ -15,26 +15,26 @@ module "test-aws-kubernetes" {
   kube-master-count = 3
   kube-master-type  = "t3.small"
 
-  # kube-master-volumes = [
-  #   {
-  #     size = 10,
-  #     type = "gp2",
-  #     iops = 0,
-  #     device_name = "/dev/sdf"
-  #   },
-  #   # {
-  #   #   size = 15,
-  #   #   type = "io1",
-  #   #   iops = 100,
-  #   #   device_name = "/dev/sdg",
-  #   # },
-  #   # {
-  #   #   size = 10,
-  #   #   type = "standard",
-  #   #   iops = 0,
-  #   #   device_name = "/dev/sdh",
-  #   # }
-  # ]
+  kube-master-volumes = [
+    {
+      size        = 10
+      type        = "gp2"
+      iops        = 0
+      device_name = "/dev/sdf"
+    },
+    {
+      size        = 15
+      type        = "io1"
+      iops        = 100
+      device_name = "/dev/sdg"
+    },
+    {
+      size        = 10
+      type        = "standard"
+      iops        = 0
+      device_name = "/dev/sdh"
+    },
+  ]
 
   kube-workers = [
     {
@@ -57,7 +57,7 @@ module "test-aws-kubernetes" {
   kube-private-subnets = "${module.test-aws-vpc.private_subnets}"
   kube-public-subnets  = "${module.test-aws-vpc.public_subnets}"
   kube-domain          = "${module.test-aws-vpc.domain_zone}"
-  bastion-public-ip   = "${module.test-aws-vpc.bastion_public_ip}"
+  kube-bastions        = "${module.test-aws-vpc.bastion_public_ip}"
 
   kube-master-security-group = [
     {
@@ -107,8 +107,7 @@ module "test-aws-kubernetes" {
    },
  ]
 
- ssh-public-keys = [
-   "${file("fixtures/terraform.pub")}",
- ]
+  ssh-public-keys = [
+    "${file("fixtures/terraform.pub")}",
+  ]
 }
-
