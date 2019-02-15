@@ -29,10 +29,10 @@ resource "aws_security_group_rule" "k8s-node-apiserver" {
 
 resource "aws_security_group_rule" "k8s-node-nginx-ingress" {
   type              = "ingress"
-  from_port         =  31080
-  to_port           =  31080
-  protocol          =  "tcp"
-  cidr_blocks       =  ["0.0.0.0/0"]
+  from_port         = 31080
+  to_port           = 31080
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.kubernetes-nodes.id}"
 }
 
@@ -101,20 +101,21 @@ resource "aws_security_group" "kubernetes-master" {
     Env  = "${var.env}"
   }
 
-#  //sg for  kubernetes
-#  ingress {
-#    from_port   = 31000
-#    to_port     = 31000
-#    protocol    = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
-#  //sg for kubernetes
-#  ingress {
-#    from_port   = 32000
-#    to_port     = 32000
-#    protocol    = "tcp"
-#    cidr_blocks = ["0.0.0.0/0"]
-#  }
+  #  //sg for  kubernetes
+  #  ingress {
+  #    from_port   = 31000
+  #    to_port     = 31000
+  #    protocol    = "tcp"
+  #    cidr_blocks = ["0.0.0.0/0"]
+  #  }
+
+  #  //sg for kubernetes
+  #  ingress {
+  #    from_port   = 32000
+  #    to_port     = 32000
+  #    protocol    = "tcp"
+  #    cidr_blocks = ["0.0.0.0/0"]
+  #  }
 }
 
 resource "aws_security_group_rule" "k8s-master-ssh" {
@@ -128,10 +129,10 @@ resource "aws_security_group_rule" "k8s-master-ssh" {
 
 resource "aws_security_group_rule" "k8s-master-apiserver" {
   type              = "ingress"
-  from_port         =  6443
-  to_port           =  6443
-  protocol          =  "tcp"
-  cidr_blocks       =  ["0.0.0.0/0"]
+  from_port         = 6443
+  to_port           = 6443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
 
