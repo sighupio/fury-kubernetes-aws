@@ -4,12 +4,8 @@ variable name {
 }
 
 variable env {
+  type = "string"
   description = "Cluster environment"
-}
-
-# REMOVE IT!!!!
-variable ssh_private_key {
-  default = "ABC"
 }
 
 variable region {
@@ -113,6 +109,11 @@ variable kube-public-subnets {
   description = "List of AWS public subnet IDs"
 }
 
+variable kube-bastions {
+  type        = "list"
+  description = "List of bastion public IP addresses"
+}
+
 variable kube-domain {
   type        = "string"
   description = "Route53 zone ID"
@@ -138,14 +139,10 @@ data "aws_ami" "ubuntu" {
 
 data "aws_subnet" "private" {
   count = "${length(var.kube-private-subnets)}"
-  id    = "${element(var.kube-private-subnets, count.index)}"}
+  id    = "${element(var.kube-private-subnets, count.index)}"
+}
 
 data "aws_subnet" "public" {
   count = "${length(var.kube-public-subnets)}"
   id    = "${element(var.kube-public-subnets, count.index)}"
 }
-
-variable bastion-public-ip {
-  type = "list"
-} 
-
