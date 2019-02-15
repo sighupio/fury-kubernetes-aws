@@ -57,6 +57,7 @@ module "test-aws-kubernetes" {
   kube-private-subnets = "${module.test-aws-vpc.private_subnets}"
   kube-public-subnets  = "${module.test-aws-vpc.public_subnets}"
   kube-domain          = "${module.test-aws-vpc.domain_zone}"
+  bastion-public-ip   = "${module.test-aws-vpc.bastion_public_ip}"
 
   kube-master-security-group = [
     {
@@ -93,20 +94,21 @@ module "test-aws-kubernetes" {
     {
       type = "ingress",
       to_port = 9070
-      from_port = 9070
-      protocol = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-    {
-      type = "ingress",
-      to_port = 9080
-      from_port = 9080
-      protocol = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
+     from_port = 9070
+     protocol = "tcp"
+     cidr_blocks = "0.0.0.0/0"
+   },
+   {
+     type = "ingress",
+     to_port = 9080
+     from_port = 9080
+     protocol = "tcp"
+     cidr_blocks = "0.0.0.0/0"
+   },
+ ]
 
-  ssh-public-keys = [
-    "${file("fixtures/terraform.pub")}",
-  ]
+ ssh-public-keys = [
+   "${file("fixtures/terraform.pub")}",
+ ]
 }
+

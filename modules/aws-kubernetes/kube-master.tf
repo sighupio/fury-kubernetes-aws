@@ -111,3 +111,13 @@ resource "aws_route53_record" "k8s-master" {
     "${element(aws_instance.k8s-master.*.private_ip, count.index)}",
   ]
 }
+
+output "ips" {
+  #count = "${var.kube-master-count}"
+  #kind = "${lookup(var.kube-wokers[count.index], "kind")}"
+  value = "${join("\n", aws_instance.k8s-master.*.id)}"
+}
+
+output "master" {
+   value = "${join("\n", aws_instance.k8s-master.*.id)}"
+}
