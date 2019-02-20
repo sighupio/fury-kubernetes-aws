@@ -15,6 +15,12 @@ module "test-aws-kubernetes" {
   kube-master-count = 3
   kube-master-type  = "t3.small"
 
+  kube-lb-internal-domains = [
+    "grafana",
+    "prometheus",
+    "alertmanager",
+  ]
+
   kube-master-volumes = [
     {
       size        = 10
@@ -61,51 +67,51 @@ module "test-aws-kubernetes" {
 
   kube-master-security-group = [
     {
-      type = "ingress",
-      to_port = 8060
-      from_port = 8060
-      protocol = "tcp"
+      type        = "ingress"
+      to_port     = 8060
+      from_port   = 8060
+      protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0"
     },
     {
-      type = "ingress",
-      to_port = 8070
-      from_port = 8070
-      protocol = "tcp"
+      type        = "ingress"
+      to_port     = 8070
+      from_port   = 8070
+      protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0"
     },
     {
-      type = "ingress",
-      to_port = 8080
-      from_port = 8080
-      protocol = "tcp"
+      type        = "ingress"
+      to_port     = 8080
+      from_port   = 8080
+      protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0"
     },
   ]
 
   kube-workers-security-group = [
     {
-      type = "ingress",
-      to_port = 9060
-      from_port = 9060
-      protocol = "tcp"
+      type        = "ingress"
+      to_port     = 9060
+      from_port   = 9060
+      protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0"
     },
     {
-      type = "ingress",
-      to_port = 9070
-     from_port = 9070
-     protocol = "tcp"
-     cidr_blocks = "0.0.0.0/0"
-   },
-   {
-     type = "ingress",
-     to_port = 9080
-     from_port = 9080
-     protocol = "tcp"
-     cidr_blocks = "0.0.0.0/0"
-   },
- ]
+      type        = "ingress"
+      to_port     = 9070
+      from_port   = 9070
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      type        = "ingress"
+      to_port     = 9080
+      from_port   = 9080
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
 
   ssh-public-keys = [
     "${file("fixtures/terraform.pub")}",

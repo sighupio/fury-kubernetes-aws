@@ -4,7 +4,7 @@ variable name {
 }
 
 variable env {
-  type = "string"
+  type        = "string"
   description = "Cluster environment"
 }
 
@@ -65,16 +65,16 @@ variable kube-ami {
   description = "Kubernetes nodes AMI"
 }
 
-variable kube-lb-external-type {
-  type        = "string"
-  default     = "application"
-  description = "Kubernetes external loadbalancer type"
+variable kube-lb-internal-domains {
+  type        = "list"
+  default     = []
+  description = "List of domains to be created for internal loadbalancer"
 }
 
 variable kube-lb-external-domains {
   type        = "list"
   default     = []
-  description = "TLS certificates domains"
+  description = "List of domains for TLS termination on external loadbalancer"
 }
 
 variable kube-master-security-group {

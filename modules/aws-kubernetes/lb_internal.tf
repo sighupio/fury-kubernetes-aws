@@ -90,3 +90,16 @@ resource "aws_route53_record" "master-lb" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53_record" "internal" {
+  count   = "${length(var.kube-lb-internal-domains)}"
+  zone_id = "${var.kube-domain}"
+  name    = "${element(var.kube-lb-internal-domains, count.index)}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_lb.internal.dns_name}"
+    zone_id                = "${aws_lb.internal.zone_id}"
+    evaluate_target_health = true
+  }
+}

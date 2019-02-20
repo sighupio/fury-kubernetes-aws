@@ -29,10 +29,10 @@ resource "aws_volume_attachment" "k8s-master" {
 }
 
 resource "aws_ebs_volume" "k8s-master" {
-  count = "${length(var.kube-master-volumes) * var.kube-master-count}"
-  size  = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "size")}"
-  type  = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "type")}"
-  iops  = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "iops")}"
+  count             = "${length(var.kube-master-volumes) * var.kube-master-count}"
+  size              = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "size")}"
+  type              = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "type")}"
+  iops              = "${lookup(var.kube-master-volumes[(count.index / var.kube-master-count) % length(var.kube-master-volumes)], "iops")}"
   availability_zone = "${element(aws_instance.k8s-master.*.availability_zone, count.index % var.kube-master-count)}"
 }
 
