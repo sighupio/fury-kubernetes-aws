@@ -39,7 +39,7 @@
 
 - name: Adding kubernetes repository
   apt_repository:
-    repo: "deb http://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release}} main"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
     state: present
 
 - name: Making sure kubelet, kubectl, kubeadm, cri-tools are installed
