@@ -2,19 +2,18 @@
 
 - name: Installing apt-transport-https
   apt:
-    name: "apt-transport-https"
+    name: apt-transport-https
     state: latest
 
 - name: Installing docker dependency
   apt:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-  with_items:
+    name:
     - ca-certificates
     - curl
     - software-properties-common
-
+    state: latest
+    update_cache: yes
+    
 - name: Adding docker apt-key
   apt_key:
     id: 0EBFCD88
@@ -23,12 +22,12 @@
 
 - name: Removing old arch docker repository
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu xenial stable
+    repo: "deb https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable"
     state: absent
 
 - name: Adding docker repository
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable"
     state: present
 
 - name: Installing docker-ce with apt

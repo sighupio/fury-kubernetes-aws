@@ -39,20 +39,19 @@
 
 - name: Adding kubernetes repository
   apt_repository:
-    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    repo: "deb http://apt.kubernetes.io/ kubernetes-{{ansible_distribution_release}} main"
     state: present
 
 - name: Making sure kubelet, kubectl, kubeadm, cri-tools are installed
   apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-  with_items:
+    name: 
     - openssl
     - kubelet={{ kubelet_version }}-00
     - kubeadm={{ kubeadm_version }}-00
     - kubectl={{ kubectl_version }}-00
     - cri-tools={{ critools_version }}-00
+    state: present
+    update_cache: yes
 
 - name: starting and enabling kubelet
   systemd:

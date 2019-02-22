@@ -1,11 +1,10 @@
 - name: getting etcd and role dependencies
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name: 
     - tar
     - git
     - curl
+    state: present
 
 - name: setting varibles for template rendering
   set_fact:
