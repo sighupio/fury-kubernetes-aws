@@ -32,7 +32,7 @@ variable "region" {
   default = "eu-west-1"
 }
 
-variable "domain" {
+variable "internal-zone" {
   type        = "string"
   default     = "sighup.io"
   description = "Domain name for internal services"
