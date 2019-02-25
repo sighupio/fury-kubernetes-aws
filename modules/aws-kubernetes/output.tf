@@ -20,6 +20,10 @@ ansible_user=ubuntu
 
 [gated:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q ubuntu@${var.kube-bastions[0]}"'
+
+[master:vars]
+etcd_inital_cluster=${join(",", formatlist("https://%s:2380", aws_route53_record.k8s-master.*.fqdn))}
+
 EOF
 }
 
