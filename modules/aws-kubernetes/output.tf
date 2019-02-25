@@ -8,10 +8,8 @@ ${join("\n", aws_instance.k8s-master.*.private_ip)}
 
 ${join("\n", data.template_file.k8s-worker-node.*.rendered)}
 
-[gated]
-master
-
 [gated:children]
+master
 ${join("\n", data.template_file.k8s-worker-kind.*.rendered)}
 
 [nodes:children]
