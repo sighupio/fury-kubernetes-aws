@@ -11,7 +11,7 @@
     name: swap
     fstype: swap
     state: absent
-    
+
 - name: Disable swap
   command: swapoff -a
   when: ansible_swaptotal_mb > 0
@@ -39,17 +39,17 @@
 
 - name: Adding kubernetes repository
   apt_repository:
-    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-{{ kubernetes_repo_distribution }} main"
     state: present
 
 - name: Making sure kubelet, kubectl, kubeadm, cri-tools are installed
   apt:
-    name: 
-    - openssl
-    - kubelet={{ kubelet_version }}-00
-    - kubeadm={{ kubeadm_version }}-00
-    - kubectl={{ kubectl_version }}-00
-    - cri-tools={{ critools_version }}-00
+    name:
+      - openssl
+      - kubelet={{ kubelet_version }}-00
+      - kubeadm={{ kubeadm_version }}-00
+      - kubectl={{ kubectl_version }}-00
+      - cri-tools={{ critools_version }}-00
     state: present
     update_cache: yes
 

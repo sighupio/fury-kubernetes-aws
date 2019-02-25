@@ -6,6 +6,7 @@ docker_version: 18.06.1~ce~3-0~ubuntu
 # docker_version: 18.06.2~ce~3-0~ubuntu
 
 # Kurnetes Components Versions
+kubernetes_repo_distribution: "{{ ansible_distribution_release }}"
 kubelet_version: "1.12.1"
 kubectl_version: "1.12.1"
 kubeadm_version: "1.12.1"
