@@ -22,7 +22,7 @@
     value: '1'
     state: present
 
-- name: Ensuring IPVS kernel modules are enabled
+- name: Ensuring IPVS kernel modules are loaded
   modprobe:
     name: "{{ item }}"
     state: present
@@ -31,6 +31,24 @@
     - ip_vs_rr
     - ip_vs_wrr
     - ip_vs_sh
+
+- name: Ensuring IPVS kernel modules are loaded at boot
+  lineinfile:
+    state: present
+    path: /etc/modules-load.d/ipvs.conf
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - ip_vs
+    - ip_vs_rr
+    - ip_vs_wrr
+    - ip_vs_sh
+
+- name: Enabling systemd-modules-load service
+  systemd:
+    name: systemd-modules-load
+    enabled: yes
+    state: started
 
 - name: Adding kubernetes apt-key
   apt_key:

@@ -1,22 +1,18 @@
 ---
 
-- name: Installing apt-transport-https
-  apt:
-    name: apt-transport-https
-    state: latest
-
 - name: Installing docker dependency
   apt:
     name:
-    - ca-certificates
-    - curl
-    - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
     state: latest
     update_cache: yes
-    
+
 - name: Adding docker apt-key
   apt_key:
-    id: 0EBFCD88
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
@@ -41,7 +37,7 @@
     name: /etc/docker
     state: directory
 
-- name: Making sure docker configuration is present on machine (with devicemapper)
+- name: Making sure docker configuration is present on machine
   template:
     src: daemon.json.j2
     dest: /etc/docker/daemon.json
