@@ -1,10 +1,10 @@
 locals {
   inventory = <<EOF
 [bastion]
-${join("\n", var.kube-bastions)}
+${join("\n", formatlist("%s ansible_host=%s", data.template_file.bastion.*.rendered, var.kube-bastions))}
 
 [master]
-${join("\n", aws_instance.k8s-master.*.private_ip)}
+${join("\n", formatlist("%s ansible_host=%s", data.template_file.k8s-master.*.rendered, aws_instance.k8s-master.*.private_ip))}
 
 ${join("\n", data.template_file.k8s-worker-node.*.rendered)}
 
@@ -19,16 +19,37 @@ ${join("\n", data.template_file.k8s-worker-kind.*.rendered)}
 ansible_user=ubuntu
 
 [gated:vars]
+ansible_python_interpreter=python3
 ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q ubuntu@${var.kube-bastions[0]}"'
 
 [master:vars]
-etcd_inital_cluster=${join(",", formatlist("https://%s:2380", aws_route53_record.k8s-master.*.fqdn))}
+etcd_inital_cluster='${join(",", formatlist("%s=https://%s:2380", data.template_file.k8s-master.*.rendered, aws_route53_record.k8s-master.*.fqdn))}'
 
 EOF
 }
 
 output "inventory" {
   value = "${local.inventory}"
+}
+
+data "template_file" "bastion" {
+  count = "${length(var.kube-bastions)}"
+
+  template="bastion-$${index}"
+
+  vars {
+    index = "${count.index}"
+  }
+}
+
+data "template_file" "k8s-master" {
+  count = "${var.kube-master-count}"
+
+  template="master-$${index}"
+
+  vars {
+    index = "${count.index}"
+  }
 }
 
 data "template_file" "k8s-worker-kind" {
