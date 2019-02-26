@@ -16,7 +16,7 @@
     - etcd
     - etcdctl
 
-- name: Making sure data_dir is present
+- name: Making sure directories are present
   file:
     path: "{{item}}"
     state: directory
