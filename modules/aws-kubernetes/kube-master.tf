@@ -44,6 +44,6 @@ resource "aws_route53_record" "k8s-master" {
   ttl     = "600"
 
   records = [
-    "${element(aws_instance.k8s-master.*.private_ip, count.index)}",
+    "${element(aws_instance.k8s-master.*.private_ip, count.index+1)}",
   ]
 }
