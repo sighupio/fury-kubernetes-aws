@@ -136,6 +136,15 @@ resource "aws_security_group_rule" "k8s-master-apiserver" {
   security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
 
+resource "aws_security_group_rule" "k8s-master-etcd-peers" {
+  type              = "ingress"
+  from_port         = 2380
+  to_port           = 2380
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
 resource "aws_security_group_rule" "k8s-master-etcd-metrics" {
   type              = "ingress"
   from_port         = 2378
