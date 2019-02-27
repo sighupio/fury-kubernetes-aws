@@ -6,7 +6,7 @@
     dest: /etc/etcd/kubeadm-etcd.yml
 
 - name: Generating etcd certificates (server, peer, client)
-  shell: "kubeadm init phase certs etcd-{{ item }} --cert-dir={{ etcd_certs_dir }} --config=/etc/etcd/kubeadm-etcd.yml"
+  shell: "kubeadm init phase certs etcd-{{ item }} --config=/etc/etcd/kubeadm-etcd.yml"
   args:
     creates: "{{ etcd_certs_dir }}/etcd/{{ item }}.key"
   with_items:
