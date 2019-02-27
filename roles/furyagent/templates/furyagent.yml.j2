@@ -22,7 +22,7 @@ clusterComponent:
 {% endif %}
 {% if furyagent_configure_master %}
   master:
-    certDir: /etc/kubernetes/pki
+    certDir: {{ furyagent_kubernetes_certs_dir }}
     caCertFilename: ca.crt
     caKeyFilename: ca.key
     saPubFilename: sa.pub

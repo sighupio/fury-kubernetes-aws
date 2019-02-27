@@ -10,6 +10,8 @@ furyagent_config_name: furyagent.yml
 furyagent_etcd_certs_dir: /etc/kubernetes/pki/etcd
 furyagent_etcd_data_dir: /var/lib/etcd
 
+furyagent_kubernetes_certs_dir: /etc/kubernetes/pki
+
 ## AWS CREDENTIALS
 aws_access_key: ""
 aws_secret_key: ""
