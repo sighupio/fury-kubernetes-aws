@@ -7,26 +7,27 @@ audit_policy_config_path: /etc/kubernetes/audit.yaml
 ## MasterConfig paramethers
 kubernetes_pod_cidr: "10.32.0.0/16"
 kubernetes_svc_cidr: "10.96.0.0/16"
-kubernetes_cluster_name: "sighup-cluster"
-kubernetes_cloud_provider: ""
+kubernetes_cluster_name: "sighup-prod"
+kubernetes_cloud_provider: "aws"
 kubernetes_api_SAN:
     - localhost
     - kubernetes.local
-kubernetes_version: "1.12.1"
+kubernetes_version: "1.12.6"
 kubernetes_hostname: "{{ ansible_hostname }}"
 kubernetes_kubeconfig_path: "."
 kubernetes_users_names:
     - giacomo
     - luca
     - jacopo
+    - philippe
 kubernetes_users_org: sighup
 kubernetes_users_kubeconfig_dir: /etc/kubernetes/users
-kubernets_local_certs_dir: secrets/pki/etcd
-kubernetes_elb_master_address: ""
-kuberenetes_master_external_lb: "{{ kubernetes_elb_master_address }}"
-etcd.endpoint: "http://localhost:2379"
+kubernetes_control_plane_address: "{{ ansible_hostname }}"
 etcd.endpoints:
-    - "{{ etcd.endpoint }}"
+    - "https://127.0.0.1:2379"
+etcd.caFile: '/etc/etcd/pki/etcd/ca.crt'
+etcd.keyFile: '/etc/etcd/pki/apiserver-etcd-client.key'
+etcd.certFile: '/etc/etcd/pki/apiserver-etcd-client.crt'
 
 ## OIDC
 oidc_isssuer_url: ""
