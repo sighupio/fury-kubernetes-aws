@@ -43,11 +43,6 @@ apiServer:
     oidc-groups-prefix: "{{ oidc_group_prefix }}"
 {% endif %}
   extraVolumes:
-  - name: etcd-pki
-    hostPath: /etc/etcd/pki/
-    mountPath: /etc/etcd/pki/
-    readonly: true
-    pathType: Directory
   - name: audit-files
     hostPath: {{ audit_log_dir }}
     mountPath: {{ audit_log_dir }}
