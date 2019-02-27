@@ -49,7 +49,7 @@ data "template_file" "bastion" {
 data "template_file" "k8s-master" {
   count = "${var.kube-master-count}"
 
-  template="master-$${index}"
+  template="master-$${index+1}"
 
   vars {
     index = "${count.index}"
