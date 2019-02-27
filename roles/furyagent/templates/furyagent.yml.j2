@@ -9,12 +9,12 @@ clusterComponent:
   nodeName: {{ ansible_hostname }}
 {% if furyagent_configure_etcd or furyagent_etcd_backup %}
   etcd:
-    certDir: /etc/etcd/pki
-    dataDir: /var/lib/etcd
-    caCertFilename: ca.pem
-    caKeyFilename: ca-key.pem
-    clientCertFilename: etcdctl-client.pem
-    clientKeyFilename: etcdctl-client-key.pem
+    certDir: {{ furyagent_etcd_certs_dir }}
+    dataDir: {{ furyagent_etcd_data_dir }}
+    caCertFilename: ca.crt
+    caKeyFilename: ca.key
+    clientCertFilename: healthcheck-client.crt
+    clientKeyFilename: healthcheck-client.key
     endpoint: https://localhost:2379
     snapshotFile: /tmp/etcd-backup.db
     backupRetention: 36h
