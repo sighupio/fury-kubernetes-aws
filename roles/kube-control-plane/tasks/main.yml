@@ -24,20 +24,6 @@
     path: /etc/kubernetes/admin.conf
   register: stat_result
 
-- name: Ensuring Kubernetes pki folder exists
-  file:
-    path: /etc/kubernetes/pki
-    state: directory
-
-- name: Uploading Etcd client certificates and CA
-  copy:
-    src: "{{ kubernets_local_certs_dir }}/{{ item }}"
-    dest: "/etc/kubernetes/pki/{{ item }}"
-  with_items:
-    - apiserver-client-key.pem
-    - apiserver-client.pem
-    - ca.pem
-
 - name: Initializing master
   command: "kubeadm init --config={{ kubeadm_config_file }}"
   when:
