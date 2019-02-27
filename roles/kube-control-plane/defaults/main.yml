@@ -13,7 +13,7 @@ kubernetes_api_SAN:
   - localhost
   - kubernetes.local
 kubernetes_version: "1.12.6"
-kubernetes_hostname: "{{ ansible_hostname }}"
+kubernetes_hostname: "{{ ansible_fqdn }}"
 kubernetes_kubeconfig_path: "."
 kubernetes_users_names:
   - giacomo

@@ -35,13 +35,13 @@ apiServer:
     audit-policy-file: {{ audit_policy_config_path }}
     audit-log-maxsize: "50"
     audit-log-maxbackup: "20"
-  {% if oidc_isssuer_url != "" %}
+{% if oidc_isssuer_url != "" %}
     oidc-issuer-url: {{ oidc_isssuer_url}}
     oidc-client-id: {{ oidc_client_id }}
     oidc-username-claim: "{{ oidc_username_claim }}"
     oidc-groups-claim: "{{ oidc_groups_claim }}"
     oidc-groups-prefix: "{{ oidc_group_prefix }}"
-  {% endif %}
+{% endif %}
   extraVolumes:
   - name: etcd-pki
     hostPath: /etc/etcd/pki/
