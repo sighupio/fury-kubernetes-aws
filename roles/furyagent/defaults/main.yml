@@ -7,7 +7,7 @@ furyagent_etcd_backup: false
 furyagent_config_dir: /etc/fury
 furyagent_config_name: furyagent.yml
 
-furyagent_etcd_certs_dir: /etc/etcd/pki
+furyagent_etcd_certs_dir: /etc/etcd/pki/etcd
 furyagent_etcd_data_dir: /var/lib/etcd
 
 furyagent_kubernetes_certs_dir: /etc/kubernetes/pki
