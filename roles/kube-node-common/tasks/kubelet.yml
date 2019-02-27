@@ -71,14 +71,15 @@
     state: present
     update_cache: yes
 
-- name: starting and enabling kubelet
-  systemd:
-    name: kubelet
-    state: started
-    enabled: yes
-    # daemon_reload: yes
 
 - name: Ensuring kubelet extra-args are present on machine
   template:
     src: kubelet_default.j2
     dest: /etc/default/kubelet
+
+- name: starting and enabling kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: yes
+    daemon_reload: yes
