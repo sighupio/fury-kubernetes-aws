@@ -27,7 +27,7 @@ public_lb_address=${aws_lb.external.dns_name}
 [master:vars]
 etcd_inital_cluster='${join(",", formatlist("%s=https://%s:2380", data.template_file.k8s-master.*.rendered, aws_route53_record.k8s-master.*.fqdn))}'
 control_plane_endpoint=${aws_route53_record.control-plane.fqdn}
-dns_zone=${var.kube-domain}
+dns_zone=${data.aws_route53_zone.main.name}
 
 EOF
 }

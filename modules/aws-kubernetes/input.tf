@@ -152,3 +152,9 @@ data "aws_subnet" "public" {
   count = "${length(var.kube-public-subnets)}"
   id    = "${element(var.kube-public-subnets, count.index)}"
 }
+
+data "aws_route53_zone" "main" {
+  zone_id = "${var.kube-domain}"
+}
+
+
