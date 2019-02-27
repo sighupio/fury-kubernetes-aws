@@ -15,9 +15,8 @@
     dest: "{{ kubeadm_config_file }}"
 
 - name: Ensuring kubeconfig variable
-  file:
-    path: kube.sh
-    state: present
+  copy:
+    src: kube.sh
     dest: /etc/profile.d/kube.sh
 
 - name: Check that the /etc/kubernetes/admin.conf exists
