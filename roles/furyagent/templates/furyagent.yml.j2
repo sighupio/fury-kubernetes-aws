@@ -1,8 +1,8 @@
 storage:
   provider: s3
   url: "{{ s3_endpooint }}"
-  AccessKey: "{{ aws_access_key }}"
-  SecretKey: "{{ aws_secret_key }}"
+  aws_access_key: "{{ aws_access_key }}"
+  aws_secret_key: "{{ aws_secret_key }}"
   bucketName: "{{ s3_bucket_name }}"
   region: "{{ aws_region }}"
 clusterComponent:
