@@ -1,0 +1,10 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+etcd:
+  local:
+    serverCertSANs:
+      - {{ ansible_hostname}}.{{ dns_zone }}
+    peerCertSANs:
+      - {{ ansible_hostname}}.{{ dns_zone }}
+certificatesDir: {{ etcd_certs_dir }}

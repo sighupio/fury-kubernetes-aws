@@ -1,7 +1,12 @@
 ---
 
+- name: Making sure the kubeadm-etcd file is on the instance
+  template:
+    src: kubeadm-etcd.yml.j2
+    dest: /etc/etcd/kubeadm-etcd.yml
+
 - name: Generating etcd certificates (server, peer, client)
-  shell: "kubeadm alpha phase certs etcd-{{ item }} --cert-dir {{ etcd_certs_dir }}"
+  shell: "kubeadm init phase certs etcd-{{ item }} --cert-dir={{ etcd_certs_dir }} --config=/etc/etcd/kubeadm-etcd.yml"
   args:
     creates: "{{ etcd_certs_dir }}/etcd/{{ item }}.key"
   with_items:
