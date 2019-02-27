@@ -16,14 +16,6 @@
     - etcd
     - etcdctl
 
-- name: Making sure data_dir is present
-  file:
-    path: "{{item}}"
-    state: directory
-  with_items:
-    - "{{ etcd_config_dir }}"
-    - "{{ etcd_data_dir }}"
-
 - name: Copying etcd config envs
   template:
     src: etcd.env.j2
@@ -32,18 +24,11 @@
 
 - name: Copying etcdctl config envs
   template:
-    src: bashrc.j2
-    dest: /root/.bashrc
+    src: etcdctl.sh.j2
+    dest: /etc/profile.d/etcdctl.sh
 
 - name: Copying systemd unit
   template:
     src: etcd.service.j2
     dest: /etc/systemd/system/etcd.service
   notify: Reload ETCD
-
-- name: Enabling and starting ETCD
-  systemd:
-    name: etcd
-    daemon_reload: yes
-    enabled: yes
-    state: stopped

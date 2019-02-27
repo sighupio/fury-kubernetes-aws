@@ -4,9 +4,3 @@
     name: etcd
     daemon_reload: yes
     state: restarted
-
-- name: Reload NGINX
-  systemd:
-    name: nginx
-    enabled: yes
-    state: restarted

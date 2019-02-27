@@ -1,10 +1,10 @@
-apiVersion: kubeadm.k8s.io/v1alpha3
+apiVersion: kubeadm.k8s.io/v1beta1
 kind: InitConfiguration
 apiEndpoint:
   advertiseAddress: {{ ansible_default_ipv4.address }}
   bindPort: 6443
 ---
-apiVersion: kubeadm.k8s.io/v1alpha3
+apiVersion: kubeadm.k8s.io/v1beta1
 kind: ClusterConfiguration
 etcd:
   external:
@@ -16,10 +16,10 @@ etcd:
 cloudProvider: {{ kubernetes_cloud_provider }}
 clusterName: {{ kubernetes_cluster_name }}
 kubernetesVersion: {{ kubernetes_version }}
-auditPolicy:
-  path: {{ audit_policy_config_path }}
-  logDir: {{ audit_log_dir }}
-  logMaxAge: {{ audit_policy_max_age }}
+# auditPolicy:
+#   path: {{ audit_policy_config_path }}
+#   logDir: {{ audit_log_dir }}
+#   logMaxAge: {{ audit_policy_max_age }}
 controlPlaneEndpoint: {{ kuberenetes_master_external_lb }}
 nodeRegistration:
   name: {{ kubernetes_hostname }}
@@ -28,7 +28,6 @@ apiServerExtraArgs:
   enable-admission-plugins: "NamespaceLifecycle,LimitRanger,PodNodeSelector,Initializers,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
   runtime-config: "admissionregistration.k8s.io/v1alpha1"
   cloud-provider: {{ kubernetes_cloud_provider }}
-  admission-control-config-file: /etc/kubernetes/admission_config.yml
 {% if oidc_isssuer_url != "" %}
   oidc-issuer-url: {{ oidc_isssuer_url}}
   oidc-client-id: {{ oidc_client_id }}
