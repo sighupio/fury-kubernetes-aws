@@ -5,6 +5,6 @@
   register: node_kubelet_conf
 
 - name: Running kubeadm on the nodes
-  command: "{{ hostvars[groups.master[0]].kubeadm_join_command.stdout  }} --node-name={{ ansible_hostname }}"
+  command: "{{ hostvars[groups.master[0]].kubeadm_join_command.stdout  }} --node-name={{ ansible_fqdn }}"
   when: 
     - not node_kubelet_conf.stat.exists
