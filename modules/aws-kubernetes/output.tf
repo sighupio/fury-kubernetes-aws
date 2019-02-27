@@ -17,15 +17,16 @@ ${join("\n", data.template_file.k8s-worker-kind.*.rendered)}
 
 [all:vars]
 ansible_user=ubuntu
+ansible_ssh_private_key_file='${var.ssh-private-key}'
+ansible_python_interpreter=python3
 
 [gated:vars]
-ansible_python_interpreter=python3
-ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q ubuntu@${var.kube-bastions[0]}"'
-control_plane_endpoint=${aws_route53_record.control-plane.fqdn}
+ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q -i ${var.ssh-private-key} ubuntu@${var.kube-bastions[0]}"'
 public_lb_address=${aws_lb.external.dns_name}
 
 [master:vars]
 etcd_inital_cluster='${join(",", formatlist("%s=https://%s:2380", data.template_file.k8s-master.*.rendered, aws_route53_record.k8s-master.*.fqdn))}'
+control_plane_endpoint=${aws_route53_record.control-plane.fqdn}
 
 EOF
 }

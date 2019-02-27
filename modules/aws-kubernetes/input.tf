@@ -124,6 +124,12 @@ variable ssh-public-keys {
   description = "List of public SSH keys authorized to connect to Kubernetes nodes"
 }
 
+variable ssh-private-key {
+  type        = "string"
+  description = "Path to own private key to access machines"
+  default = ""
+}
+
 provider aws {
   region = "${var.region}"
 }
