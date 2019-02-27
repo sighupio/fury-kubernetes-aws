@@ -1,5 +1,5 @@
 ---
-etcd_name: "{{ ansible_hostname }}"
+etcd_name: "{{ inventory_hostname }}"
 etcd_version: v3.3.12
 etcd_download_url: https://storage.googleapis.com/etcd
 etcd_data_dir: /var/lib/etcd

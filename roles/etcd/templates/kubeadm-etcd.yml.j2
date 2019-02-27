@@ -4,7 +4,7 @@ kind: ClusterConfiguration
 etcd:
   local:
     serverCertSANs:
-      - {{ ansible_hostname}}.{{ dns_zone }}
+      - {{ inventory_hostname}}.{{ dns_zone }}
     peerCertSANs:
-      - {{ ansible_hostname}}.{{ dns_zone }}
+      - {{ inventory_hostname}}.{{ dns_zone }}
 certificatesDir: {{ etcd_certs_dir }}
