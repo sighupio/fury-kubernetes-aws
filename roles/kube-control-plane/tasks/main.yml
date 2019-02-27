@@ -25,8 +25,8 @@
     dest: /etc/kubernetes/podnodeselector.yml
 
 - name: Ensuring kubeconfig variable
-  copy:
-    src: kube.sh
+  lineinfile:
+    path: kube.sh
     dest: /etc/profile.d/kube.sh
 
 - name: Ensuring kubelet extra-args are present on machine

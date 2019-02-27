@@ -6,11 +6,20 @@
 #       - curl
 #     state: present
 
-- name: Installing and configuring etcd
-  import_tasks: install.yml
+- name: Making sure directories are present
+  file:
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - "{{ etcd_config_dir }}"
+    - "{{ etcd_data_dir }}"
+    - "{{ etcd_certs_dir }}"
 
 - name: Generating TLS certificates
   import_tasks: tls.yml
+
+- name: Installing and configuring etcd
+  import_tasks: install.yml
 
 - name: Enabling and starting ETCD
   systemd:

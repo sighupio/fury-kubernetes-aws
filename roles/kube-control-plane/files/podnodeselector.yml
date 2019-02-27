@@ -1,4 +1,0 @@
-podNodeSelectorPluginConfig:
-  clusterDefaultNodeSelector: ""
-  storage: "beta.sighup.io/type=infra"
-  ingress-nginx: "beta.sighup.io/type=infra"

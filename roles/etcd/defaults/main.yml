@@ -1,11 +1,11 @@
 ---
-
+etcd_name: "{{ ansible_hostname }}"
 etcd_version: v3.3.12
 etcd_download_url: https://storage.googleapis.com/etcd
 etcd_data_dir: /var/lib/etcd
 etcd_binary_dir: /usr/local/bin
 etcd_config_dir: /etc/etcd
-etcd_certs_dir: /etc/kubernetes/pki
-etcd_name: "{{ ansible_hostname }}"
+etcd_certs_dir: /etc/etcd/pki
 etcd_address: "{{ ansible_default_ipv4.address }}"
 etcd_initial_cluster: "https://localhost:2380"
+etcd_client_address: 127.0.0.1
