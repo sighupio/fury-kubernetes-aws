@@ -103,3 +103,15 @@ resource "aws_route53_record" "internal" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53_record" "control-plane" {
+  zone_id = "${var.kube-domain}"
+  name    = "control-plane"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_lb.internal.dns_name}"
+    zone_id                = "${aws_lb.internal.zone_id}"
+    evaluate_target_health = true
+  }
+}
