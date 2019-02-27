@@ -14,25 +14,10 @@
     src: kubeadm.yml.j2
     dest: "{{ kubeadm_config_file }}"
 
-- name: Ensuring admission configuration file is present on machine
-  copy: 
-    src: admission_config.yml
-    dest: /etc/kubernetes/admission_config.yml
-
-- name: Ensuring PodNodeSelector configuration file is present on machine
-  copy: 
-    src: podnodeselector.yml
-    dest: /etc/kubernetes/podnodeselector.yml
-
 - name: Ensuring kubeconfig variable
   lineinfile:
     path: kube.sh
     dest: /etc/profile.d/kube.sh
-
-- name: Ensuring kubelet extra-args are present on machine
-  template:
-    src: kubelet_default.j2
-    dest: /etc/default/kubelet
 
 - name: Check that the /etc/kubernetes/admin.conf exists
   stat:

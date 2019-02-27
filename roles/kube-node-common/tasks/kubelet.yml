@@ -77,3 +77,8 @@
     state: started
     enabled: yes
     # daemon_reload: yes
+
+- name: Ensuring kubelet extra-args are present on machine
+  template:
+    src: kubelet_default.j2
+    dest: /etc/default/kubelet
