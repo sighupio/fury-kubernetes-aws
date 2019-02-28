@@ -117,3 +117,17 @@ module "test-aws-kubernetes" {
     "${file("fixtures/terraform.pub")}",
   ]
 }
+
+module "test-rds" {
+  source             = "../aws-rds"
+  name               = "omega"
+  env                = "staging"
+  rds-nodes-count    = 1
+  rds-nodes-type     = "db.r4.large"
+  rds-engine         = "aurora-postgresql"
+  rds-engine-version = 10.6
+  rds-port           = 5432
+  rds-user           = "test"
+  rds-password       = "asfdfsljfsla1239enkcvslkjd"
+  subnets            = "${module.test-aws-vpc.private_subnets}"
+}
