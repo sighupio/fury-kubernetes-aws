@@ -76,6 +76,7 @@
   template:
     src: kubelet_default.j2
     dest: /etc/default/kubelet
+  notify: restart kubelet
 
 - name: starting and enabling kubelet
   systemd:
