@@ -182,6 +182,15 @@ resource "aws_security_group_rule" "k8s-master-kubelet" {
   security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
 
+resource "aws_security_group_rule" "k8s-master-node-exporter" {
+  type              = "ingress"
+  from_port         = 9100
+  to_port           = 9100
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
 resource "aws_security_group_rule" "k8s-master-all" {
   type              = "egress"
   from_port         = 0
