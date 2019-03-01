@@ -1,3 +1,8 @@
+provider "aws" {
+  region = "eu-west-1"
+  version = "1.60.0"
+}
+
 module "test-aws-vpc" {
   source = "../aws-vpc"
   name   = "omega"
