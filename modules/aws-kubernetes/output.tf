@@ -39,7 +39,7 @@ output "inventory" {
 data "template_file" "bastion" {
   count = "${length(var.kube-bastions)}"
 
-  template="bastion-$${index}"
+  template = "bastion-$${index}"
 
   vars {
     index = "${count.index}"
@@ -49,7 +49,7 @@ data "template_file" "bastion" {
 data "template_file" "k8s-master" {
   count = "${var.kube-master-count}"
 
-  template="master-$${index+1}"
+  template = "master-$${index+1}"
 
   vars {
     index = "${count.index}"

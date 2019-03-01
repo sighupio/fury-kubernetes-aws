@@ -127,7 +127,7 @@ variable ssh-public-keys {
 variable ssh-private-key {
   type        = "string"
   description = "Path to own private key to access machines"
-  default = ""
+  default     = ""
 }
 
 provider aws {
@@ -156,5 +156,3 @@ data "aws_subnet" "public" {
 data "aws_route53_zone" "main" {
   zone_id = "${var.kube-domain}"
 }
-
-
