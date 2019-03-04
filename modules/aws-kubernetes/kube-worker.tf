@@ -12,6 +12,10 @@ resource "aws_launch_configuration" "main" {
     volume_size           = "80"
     delete_on_termination = "true"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "main" {
@@ -40,6 +44,10 @@ resource "aws_autoscaling_group" "main" {
       propagate_at_launch = "true"
     },
   ]
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 data "aws_instances" "main" {
