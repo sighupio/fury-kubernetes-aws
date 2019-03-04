@@ -34,3 +34,7 @@ clusterComponent:
     backupRetention: 24h
     backupFrequency: 15m
 {% endif %}
+{% if furyagent_configure_openvpn %}
+  openvpn:
+    certDir: {{ furyagent_openvpn_certs_dir }}
+{% endif %}

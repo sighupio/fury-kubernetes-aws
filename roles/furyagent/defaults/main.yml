@@ -3,6 +3,7 @@
 furyagent_uri: https://s3.wasabisys.com/sighup-releases/linux/furyagent
 furyagent_configure_master: false
 furyagent_configure_etcd: false
+furyagent_configure_openvpn: false
 furyagent_etcd_backup: false
 furyagent_config_dir: /etc/fury
 furyagent_config_name: furyagent.yml
@@ -11,6 +12,8 @@ furyagent_etcd_certs_dir: /etc/etcd/pki/etcd
 furyagent_etcd_data_dir: /var/lib/etcd
 
 furyagent_kubernetes_certs_dir: /etc/kubernetes/pki
+
+furyagent_openvpn_certs_dir: /etc/openvpn/pki
 
 ## AWS CREDENTIALS
 aws_access_key: ""

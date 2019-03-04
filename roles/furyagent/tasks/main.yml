@@ -40,6 +40,10 @@
   command: "furyagent configure etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
   when: furyagent_configure_etcd
 
+- name: Configuring OpenVPN node with furyagent
+  command: "furyagent configure openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
+  when: furyagent_configure_openvpn
+
 - name: Configure Etcd backup every 15 minutes with furyagent
   cron:
     minute: "*/10"
