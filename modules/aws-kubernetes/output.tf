@@ -20,6 +20,9 @@ ansible_user=ubuntu
 ansible_ssh_private_key_file='${var.ssh-private-key}'
 ansible_python_interpreter=python3
 
+[bastion:vars]
+dns_server=${cidrhost(data.aws_vpc.main.cidr_block, 2)}
+
 [gated:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q -i ${var.ssh-private-key} ubuntu@${var.kube-bastions[0]}"'
 public_lb_address=${aws_lb.external.dns_name}

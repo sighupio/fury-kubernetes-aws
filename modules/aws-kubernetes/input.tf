@@ -153,6 +153,10 @@ data "aws_subnet" "public" {
   id    = "${element(var.kube-public-subnets, count.index)}"
 }
 
+data "aws_vpc" "main" {
+  id = "${data.aws_subnet.private.0.vpc_id}"
+}
+
 data "aws_route53_zone" "main" {
   zone_id = "${var.kube-domain}"
 }
