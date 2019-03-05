@@ -64,7 +64,7 @@ resource "aws_lb_target_group" "internal-ingress" {
 
 resource "aws_lb_listener" "internal-ingress" {
   load_balancer_arn = "${aws_lb.internal.arn}"
-  port              = 32080
+  port              = "80"
   protocol          = "TCP"
 
   default_action {
