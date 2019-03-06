@@ -134,6 +134,12 @@ provider aws {
   region = "${var.region}"
 }
 
+variable ecr-repositories {
+  type = "list"
+  description = "List of docker image repositories to create"
+}
+
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
