@@ -104,6 +104,19 @@ resource "aws_route53_record" "internal" {
   }
 }
 
+resource "aws_route53_record" "additional" {
+  count   = "${length(var.kube-lb-internal-additional-domains)}"
+  zone_id = "${var.additional-domain}"
+  name    = "${element(var.kube-lb-internal-additional-domains, count.index)}"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_lb.internal.dns_name}"
+    zone_id                = "${aws_lb.internal.zone_id}"
+    evaluate_target_health = true
+  }
+}
+
 resource "aws_route53_record" "control-plane" {
   zone_id = "${var.kube-domain}"
   name    = "control-plane"

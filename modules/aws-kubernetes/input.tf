@@ -68,7 +68,13 @@ variable kube-ami {
 variable kube-lb-internal-domains {
   type        = "list"
   default     = []
-  description = "List of domains to be created for internal loadbalancer"
+  description = "List of domains to be created for internal loadbalancer on Kubernetes DNS zone"
+}
+
+variable kube-lb-internal-additional-domains {
+  type        = "list"
+  default     = []
+  description = "List of domains to be created for internal loadbalancer on additional DNS zone"
 }
 
 variable kube-lb-external-domains {
@@ -116,7 +122,13 @@ variable kube-bastions {
 
 variable kube-domain {
   type        = "string"
-  description = "Route53 zone ID"
+  description = "Route53 Kubernetes zone ID"
+}
+
+variable additional-domain {
+  type        = "string"
+  default     = ""
+  description = "Route53 additional zone ID"
 }
 
 variable ssh-public-keys {
@@ -165,4 +177,9 @@ data "aws_vpc" "main" {
 
 data "aws_route53_zone" "main" {
   zone_id = "${var.kube-domain}"
+}
+
+data "aws_route53_zone" "additional" {
+  count = "${var.additional-domain == "" ? 0 : 1}"
+  zone_id = "${var.additional-domain}"
 }
