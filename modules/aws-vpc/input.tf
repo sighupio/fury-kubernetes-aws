@@ -38,6 +38,12 @@ variable "internal-zone" {
   description = "Domain name for internal services"
 }
 
+variable "additional-zone" {
+  type        = "string"
+  default     = ""
+  description = "Additional domain name for internal services"
+}
+
 variable "bastion-instance-type" {
   type    = "string"
   default = "t3.small"
