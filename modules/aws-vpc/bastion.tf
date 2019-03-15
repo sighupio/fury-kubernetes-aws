@@ -68,12 +68,23 @@ resource "aws_security_group_rule" "ssh" {
   security_group_id = "${aws_security_group.bastion.id}"
 }
 
-resource "aws_security_group_rule" "vpn" {
+resource "aws_security_group_rule" "vpn-tcp" {
   count       = "${var.bastion-vpn-enable}"
   type        = "ingress"
   from_port   = 1194
   to_port     = 1194
-  protocol    = "-1"
+  protocol    = "TCP"
+  cidr_blocks = ["0.0.0.0/0"]
+
+  security_group_id = "${aws_security_group.bastion.id}"
+}
+
+resource "aws_security_group_rule" "vpn-udp" {
+  count       = "${var.bastion-vpn-enable}"
+  type        = "ingress"
+  from_port   = 1194
+  to_port     = 1194
+  protocol    = "UDP"
   cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.bastion.id}"
