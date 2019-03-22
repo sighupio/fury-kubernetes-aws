@@ -74,8 +74,8 @@ resource "aws_lb_listener" "internal-ingress" {
 }
 
 resource "aws_autoscaling_attachment" "internal-ingress" {
-  count                  = "${length(var.kube-workers)}"
-  autoscaling_group_name = "${element(aws_autoscaling_group.main.*.id, count.index)}"
+  count                  = "${length(data.aws_autoscaling_groups.infra.names)}"
+  autoscaling_group_name = "${element(data.aws_autoscaling_groups.infra.names, count.index)}"
   alb_target_group_arn   = "${aws_lb_target_group.internal-ingress.arn}"
 }
 

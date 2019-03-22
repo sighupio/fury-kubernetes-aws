@@ -61,3 +61,16 @@ data "aws_instances" "main" {
   instance_state_names = ["running"]
   depends_on           = ["aws_autoscaling_group.main"]
 }
+
+data "aws_autoscaling_groups" "infra" {
+  filter {
+    name = "key"
+    values = ["Type"]
+  }
+
+  filter {
+    name = "value"
+    values = ["infra"]
+  }
+}
+

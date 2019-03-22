@@ -76,8 +76,8 @@ resource "aws_lb_target_group" "k8s-nodes-internal" {
 }
 
 resource "aws_autoscaling_attachment" "k8s-nodes-internal" {
-  count                  = "${length(var.kube-workers)}"
-  autoscaling_group_name = "${element(aws_autoscaling_group.main.*.name, count.index)}"
+  count                  = "${length(data.aws_autoscaling_groups.infra.names)}"
+  autoscaling_group_name = "${element(data.aws_autoscaling_groups.infra.names, count.index)}"
   alb_target_group_arn   = "${aws_lb_target_group.k8s-nodes-internal.arn}"
 }
 
