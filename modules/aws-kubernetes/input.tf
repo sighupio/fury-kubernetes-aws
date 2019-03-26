@@ -83,6 +83,12 @@ variable kube-lb-external-domains {
   description = "List of domains for TLS termination on external loadbalancer"
 }
 
+variable kube-lb-external-enable-access-log {
+  type        = "string"
+  default     = false
+  description = "Enable access log on external load balancer"
+}
+
 variable kube-master-security-group {
   type        = "list"
   default     = []

@@ -1,3 +1,17 @@
+locals {
+  access_log = {
+    enabled = {
+      bucket  = "${var.name}-${var.env}-external-lb-logs"
+      enabled = true
+    }
+
+    disabled = {
+      bucket  = "non-existent-bucket"
+      enabled = false
+    }
+  }
+}
+
 resource "aws_lb" "external" {
   name                             = "${var.name}-${var.env}-external"
   internal                         = false
@@ -7,6 +21,8 @@ resource "aws_lb" "external" {
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = false
   idle_timeout                     = 400
+
+  access_logs = ["${local.access_log[var.kube-lb-external-enable-access-log ? "enabled" : "disabled"]}"]
 
   tags {
     Name = "${var.name}-${var.env}-external"
