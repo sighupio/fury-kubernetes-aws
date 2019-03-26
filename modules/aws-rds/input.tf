@@ -27,12 +27,12 @@ variable "rds-nodes-type" {
 }
 
 variable "rds-user" {
-  type = "string"
+  type        = "string"
   description = "RDS cluster username"
 }
 
 variable "rds-password" {
-  type = "string"
+  type        = "string"
   description = "RDS cluster password"
 }
 
@@ -50,6 +50,23 @@ variable "rds-backup-retention" {
   type        = "string"
   default     = 7
   description = "RDS cluster backups retention days"
+}
+
+variable "rds-parameter-group-name" {
+  type        = "string"
+  default     = ""
+  description = "RDS cluster parameter group name"
+}
+
+variable "rds-parameter-group-family" {
+  type        = "string"
+  description = "RDS cluster parameter group family"
+}
+
+variable "rds-parameter" {
+  type        = "list"
+  default     = []
+  description = "RDS parameters list"
 }
 
 variable "rds-port" {
