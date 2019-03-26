@@ -43,7 +43,6 @@ output "external-lb-arn" {
   value = "${aws_lb.external.arn}"
 }
 
-
 data "template_file" "bastion" {
   count = "${length(var.kube-bastions)}"
 

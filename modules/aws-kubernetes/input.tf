@@ -147,10 +147,9 @@ provider aws {
 }
 
 variable ecr-repositories {
-  type = "list"
+  type        = "list"
   description = "List of docker image repositories to create"
 }
-
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -180,6 +179,6 @@ data "aws_route53_zone" "main" {
 }
 
 data "aws_route53_zone" "additional" {
-  count = "${var.additional-domain == "" ? 0 : 1}"
+  count   = "${var.additional-domain == "" ? 0 : 1}"
   zone_id = "${var.additional-domain}"
 }

@@ -1,13 +1,10 @@
-
-
 resource "aws_ecr_repository" "main" {
   count = "${length(var.ecr-repositories)}"
-  name = "${element(var.ecr-repositories, count.index)}"
+  name  = "${element(var.ecr-repositories, count.index)}"
 }
 
-
 resource "aws_ecr_lifecycle_policy" "main" {
-  count = "${length(var.ecr-repositories)}"
+  count      = "${length(var.ecr-repositories)}"
   repository = "${element(aws_ecr_repository.main.*.name, count.index)}"
 
   policy = <<EOF
@@ -88,7 +85,6 @@ resource "aws_iam_policy" "pusher" {
 }
 EOF
 }
-
 
 locals {
   ecr-pusher = <<EOF

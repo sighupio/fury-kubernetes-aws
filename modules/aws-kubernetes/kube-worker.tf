@@ -64,13 +64,12 @@ data "aws_instances" "main" {
 
 data "aws_autoscaling_groups" "infra" {
   filter {
-    name = "key"
+    name   = "key"
     values = ["Type"]
   }
 
   filter {
-    name = "value"
+    name   = "value"
     values = ["infra"]
   }
 }
-
