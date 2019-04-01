@@ -68,6 +68,7 @@
       - kubeadm={{ kubeadm_version }}-00
       - kubectl={{ kubectl_version }}-00
       - cri-tools={{ critools_version }}-00
+      - kubernetes-cni={{ kubernetescni_version }}-00
     state: present
     update_cache: yes
 
