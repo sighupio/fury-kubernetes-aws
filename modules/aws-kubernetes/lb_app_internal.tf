@@ -38,7 +38,7 @@ data "aws_acm_certificate" "internal" {
 }
 
 resource "aws_lb_listener" "k8s-nodes-https-internal" {
-  count             = "${length(var.kube-lb-external-domains) > 0 ? 1 : 0}"
+  count             = "${length(var.kube-lb-internal-additional-domains) > 0 ? 1 : 0}"
   load_balancer_arn = "${aws_lb.internal-http.arn}"
   port              = "443"
   protocol          = "HTTPS"
