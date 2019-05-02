@@ -47,6 +47,7 @@ resource "aws_lb_listener" "k8s-nodes-http" {
 }
 
 resource "aws_lb_listener" "k8s-nodes-https" {
+  count             = "${length(var.kube-lb-external-domains) > 0 ? 1 : 0}"
   load_balancer_arn = "${aws_lb.external.arn}"
   port              = "443"
   protocol          = "HTTPS"
@@ -62,7 +63,7 @@ resource "aws_lb_listener" "k8s-nodes-https" {
 }
 
 resource "aws_lb_listener_certificate" "main" {
-  count           = "${length(var.kube-lb-external-domains)-1}"
+  count           = "${length(var.kube-lb-external-domains) == 0 ? 0 : length(var.kube-lb-external-domains)-1}"
   listener_arn    = "${aws_lb_listener.k8s-nodes-https.arn}"
   certificate_arn = "${element(data.aws_acm_certificate.main.*.arn, count.index+1)}"
 }
