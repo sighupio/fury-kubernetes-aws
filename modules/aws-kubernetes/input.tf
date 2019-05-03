@@ -145,7 +145,6 @@ variable ssh-public-keys {
 variable ssh-private-key {
   type        = "string"
   description = "Path to own private key to access machines"
-  default     = ""
 }
 
 provider aws {
