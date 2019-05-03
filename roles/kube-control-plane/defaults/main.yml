@@ -15,11 +15,7 @@ kubernetes_api_SAN:
 kubernetes_version: "1.12.6"
 kubernetes_hostname: "{{ ansible_fqdn }}"
 kubernetes_kubeconfig_path: "."
-kubernetes_users_names:
-  - giacomo
-  - luca
-  - jacopo
-  - philippe
+kubernetes_users_names: []
 kubernetes_users_org: sighup
 kubernetes_users_kubeconfig_dir: /etc/kubernetes/users
 kubernetes_control_plane_address: "{{ ansible_hostname }}"
