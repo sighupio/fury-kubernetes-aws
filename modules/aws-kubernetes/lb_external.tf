@@ -1,14 +1,13 @@
 locals {
   access_log = {
-    enabled = {
-      bucket  = "${var.name}-${var.env}-external-lb-logs"
-      enabled = true
-    }
+    enabled = [
+      {
+        bucket  = "${var.name}-${var.env}-external-lb-logs"
+        enabled = true
+      },
+    ]
 
-    disabled = {
-      bucket  = "non-existent-bucket"
-      enabled = false
-    }
+    disabled = []
   }
 }
 
