@@ -32,9 +32,28 @@
     group: root
     mode: 0640
 
+- name: Ensuring furyagent.yml configuration is present on localhost
+  template:
+    src: furyagent.yml.j2
+    dest: "{{ secrets_path }}/{{ furyagent_config_name }}"
+    owner: root
+    group: root
+    mode: 0640
+  delegate_to: localhost
+
+- name: Initialize master nodes using furyagent init master
+  command: "furyagent init master --config={{ secrets_path }}/{{ furyagent_config_name }}"
+  delegate_to: localhost
+  ignore_errors: yes
+
 - name: Configuring Master node with furyagent
   command: "furyagent configure master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
   when: furyagent_configure_master
+
+- name: Initialize etcd using furyagent init etcd
+  command: "furyagent init etcd --config={{ secrets_path }}/{{ furyagent_config_name }}"
+  delegate_to: localhost
+  ignore_errors: yes
 
 - name: Configuring Etcd node with furyagent
   command: "furyagent configure etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"

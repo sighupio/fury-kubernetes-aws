@@ -21,3 +21,4 @@ aws_secret_key: ""
 aws_region: "eu-west-1"
 s3_bucket_name: ""
 s3_endpooint: "http://s3-{{ aws_region }}.amazonaws.com"
+secrets_path: ../secrets
