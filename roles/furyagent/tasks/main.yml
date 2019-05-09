@@ -39,11 +39,13 @@
     owner: root
     group: root
     mode: 0640
+  sudo: no
   delegate_to: localhost
 
 - name: Initialize master nodes using furyagent init master
   command: "furyagent init master --config={{ secrets_path }}/{{ furyagent_config_name }}"
   delegate_to: localhost
+  sudo: no
   ignore_errors: yes
 
 - name: Configuring Master node with furyagent
@@ -53,6 +55,7 @@
 - name: Initialize etcd using furyagent init etcd
   command: "furyagent init etcd --config={{ secrets_path }}/{{ furyagent_config_name }}"
   delegate_to: localhost
+  sudo: no
   ignore_errors: yes
 
 - name: Configuring Etcd node with furyagent
