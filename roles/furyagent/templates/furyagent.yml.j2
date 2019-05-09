@@ -37,4 +37,6 @@ clusterComponent:
 {% if furyagent_configure_openvpn %}
   openvpn:
     certDir: {{ furyagent_openvpn_certs_dir }}
+  openvpn-client:
+    targetDir: {{ secrets_path }}/openvp-clients
 {% endif %}
