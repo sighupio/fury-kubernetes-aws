@@ -42,6 +42,7 @@
   become: no
   run_once: true
   ignore_errors: yes
+  when: furyagent_configure_master
 
 - name: Configuring Master node with furyagent
   command: "furyagent configure master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
@@ -52,6 +53,7 @@
   become: no
   run_once: true
   ignore_errors: yes
+  when: furyagent_configure_etcd
 
 - name: Configuring Etcd node with furyagent
   command: "furyagent configure etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
@@ -62,6 +64,7 @@
   become: no
   run_once: true
   ignore_errors: yes
+  when: furyagent_configure_openvpn
 
 - name: Configuring OpenVPN node with furyagent
   command: "furyagent configure openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
