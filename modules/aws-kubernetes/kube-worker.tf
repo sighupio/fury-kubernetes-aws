@@ -60,6 +60,13 @@ data "aws_instances" "main" {
 
   instance_state_names = ["running"]
   depends_on           = ["aws_autoscaling_group.main"]
+
+  tags {
+    Name              = "kube-worker-${var.name}-${var.env}-${count.index+1}"
+    Role              = "worker"
+    Gated             = "true"
+    KubernetesCluster = "${var.name}-${var.env}"
+  }
 }
 
 data "aws_autoscaling_groups" "infra" {
