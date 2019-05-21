@@ -1,5 +1,5 @@
 resource "aws_lb" "internal-http" {
-  name                             = "${var.name}-${var.env}-internal-http"
+  name                             = "${var.name}-${var.env}-int-http"
   internal                         = true
   load_balancer_type               = "application"
   subnets                          = ["${flatten(data.aws_subnet.public.*.id)}"]
@@ -9,7 +9,7 @@ resource "aws_lb" "internal-http" {
   idle_timeout                     = 400
 
   tags {
-    Name = "${var.name}-${var.env}-internal-http"
+    Name = "${var.name}-${var.env}-int-http"
     env  = "${var.env}"
   }
 }
@@ -60,7 +60,7 @@ resource "aws_lb_listener_certificate" "internal-http" {
 }
 
 resource "aws_lb_target_group" "k8s-nodes-internal" {
-  name        = "${var.name}-${var.env}-k8s-nodes-internal"
+  name        = "${var.name}-${var.env}-k8s-nodes-int"
   port        = 32080
   protocol    = "HTTP"
   vpc_id      = "${data.aws_subnet.public.0.vpc_id}"

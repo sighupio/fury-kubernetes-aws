@@ -1,5 +1,5 @@
 resource "aws_lb" "internal" {
-  name                             = "${var.name}-${var.env}-internal"
+  name                             = "${var.name}-${var.env}-int"
   internal                         = true
   load_balancer_type               = "network"
   subnets                          = ["${flatten(data.aws_subnet.public.*.id)}"]
@@ -8,7 +8,7 @@ resource "aws_lb" "internal" {
   idle_timeout                     = 400
 
   tags {
-    Name        = "${var.name}-${var.env}-internal"
+    Name        = "${var.name}-${var.env}-int"
     Environment = "${var.env}"
   }
 }
@@ -47,7 +47,7 @@ resource "aws_lb_target_group_attachment" "k8s-master" {
 }
 
 resource "aws_lb_target_group" "internal-ingress" {
-  name        = "${var.name}-${var.env}-internal-ingress"
+  name        = "${var.name}-${var.env}-int-ingress"
   port        = 32080
   protocol    = "TCP"
   vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
