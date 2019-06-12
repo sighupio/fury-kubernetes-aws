@@ -162,9 +162,11 @@ create file with aws credentials running this command
 
 ```
 touch secrets/aws-credentials.sh  && \
-echo export AWS_ACCESS_KEY_ID=xxx >> secrets/aws-credentials.sh  && \
-echo export AWS_SECRET_ACCESS_KEY=xxx >> secrets/aws-credentials.sh
+echo export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id --profile [AWS_PROFILE]) >> secrets/aws-credentials.sh  && \
+echo export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key --profile [AWS_PROFILE]) >> secrets/aws-credentials.sh
 ```
+
+> change [AWS_PROFILE] with you profile name or remove the `profile` flag to use default user
 
 a file is created at _secrets/aws-credentials.sh_
 open it and set **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY**
