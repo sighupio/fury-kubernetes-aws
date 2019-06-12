@@ -303,7 +303,7 @@ module "vpc" {
   vpc-cidr      = "10.100.0.0/16"
   region        = "${var.aws_region}"
   internal-zone = "sighup.io"
-  bastion-ami   = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+  bastion-ami   = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1-*"
 
   ssh-public-keys = [
     # examples to add additions keys
@@ -356,7 +356,7 @@ module "k8s" {
   region                             = "${var.aws_region}"
   name                               = "${var.name}"
   env                                = "${var.env}"
-  kube-ami                           = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
+  kube-ami                           = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1-*"
   kube-master-count                  = 3
   kube-master-type                   = "t3.medium"
   kube-private-subnets               = "${module.vpc.private_subnets}"
