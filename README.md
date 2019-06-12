@@ -124,10 +124,10 @@ using the _aws_ cli
 
 ```
 export TERRAFORM_STATE_BUCKET_NAME=fury-tf-state
-aws s3 mb s3://${TERRAFORM_STATE_BUCKET_NAME}
+aws s3 mb s3://${TERRAFORM_STATE_BUCKET_NAME} --region eu-west-1
 ```
 
-> change `fury-tf-state` with custom name
+> change `fury-tf-state` with custom name and region
 
 ---
 
@@ -166,7 +166,7 @@ echo export AWS_ACCESS_KEY_ID=xxx >> secrets/aws-credentials.sh  && \
 echo export AWS_SECRET_ACCESS_KEY=xxx >> secrets/aws-credentials.sh
 ```
 
-a file is create at _secrets/aws-credentials.sh_
+a file is created at _secrets/aws-credentials.sh_
 open it and set **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY**
 
 > these credential are use by terraform to create the cluster
