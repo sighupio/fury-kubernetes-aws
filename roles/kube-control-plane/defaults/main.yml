@@ -12,7 +12,7 @@ kubernetes_cloud_provider: "aws"
 kubernetes_api_SAN:
   - localhost
   - kubernetes.local
-kubernetes_version: "1.12.6"
+kubernetes_version: "1.14.3"
 kubernetes_hostname: "{{ ansible_fqdn }}"
 kubernetes_kubeconfig_path: "."
 kubernetes_users_names: []
