@@ -5,7 +5,7 @@ container_runtime: docker
 docker_version: 18.06.2~ce~3-0~ubuntu
 
 # Kurnetes Components Versions
-kubernetes_repo_distribution: "{{ ansible_distribution_release }}"
+kubernetes_repo_distribution: "xenial"
 kubelet_version: "1.14.3"
 kubectl_version: "1.14.3"
 kubeadm_version: "1.14.3"
