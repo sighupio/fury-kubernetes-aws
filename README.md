@@ -465,12 +465,6 @@ cat <<-'EOF' > ansible/cluster.yml
 - name: Kubernetes node preparation
   hosts: master,nodes
   become: true
-  vars:
-    kubernetes_repo_distribution: 'xenial'
-    kubelet_version: '1.12.6'
-    kubectl_version: '1.12.6'
-    kubeadm_version: '1.13.3'
-    docker_version: '18.06.2~ce~3-0~ubuntu'
   roles:
     - aws/kube-node-common
 
@@ -489,8 +483,6 @@ cat <<-'EOF' > ansible/cluster.yml
 - name: Etcd cluster preparation
   hosts: master
   become: true
-  vars:
-    etcd_version: 'v3.3.11'
   roles:
     - aws/etcd
 
@@ -498,7 +490,6 @@ cat <<-'EOF' > ansible/cluster.yml
   hosts: master
   become: true
   vars:
-    kubernetes_version: '1.12.6'
     kubernetes_api_SAN:
       - '{{ public_lb_address }}'
     kubernetes_kubeconfig_path: '../secrets/users'
