@@ -27,8 +27,7 @@ DNS:
   type: "CoreDNS"
 apiServer:
   extraArgs:
-    enable-admission-plugins: "NamespaceLifecycle,LimitRanger,PodNodeSelector,Initializers,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
-    runtime-config: "admissionregistration.k8s.io/v1alpha1"
+    enable-admission-plugins: "NamespaceLifecycle,LimitRanger,PodNodeSelector,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
     cloud-provider: {{ kubernetes_cloud_provider }}
     audit-log-maxage: "{{ audit_policy_max_age }}"
     audit-log-path: "{{ audit_log_dir }}/kube-apiserver-audit.log"
