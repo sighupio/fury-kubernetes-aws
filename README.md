@@ -452,7 +452,7 @@ EOF
 
 ### checkpoint
 
-verify that machies are reachable by ansible run `ansible all -m ping` while in the _ansible_ folder
+verify that the machines are reachable by ansible run `ansible all -m ping` while in the _ansible_ folder
 
 ---
 
