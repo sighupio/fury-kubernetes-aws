@@ -136,7 +136,7 @@ aws s3 mb s3://${TERRAFORM_STATE_BUCKET_NAME} --region eu-west-1
 run
 
 ```
-mkdir {secrets,terraform,ansible}
+mkdir {secrets,terraform,ansible,manifests}
 ```
 
 project folder should now look like this:
