@@ -533,7 +533,7 @@ try to ssh into a master to check that everythins is working properly
 > the IPs for master node and bastion can be foundn in _ansible/hosts.init_
 
 run `sudo su`
-run `kubectl get node --kubeconfig /etc/kubernetes`
+run `kubectl get node --kubeconfig /etc/kubernetes/admin.conf`
 
 the output should look like
 
