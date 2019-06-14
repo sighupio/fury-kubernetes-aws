@@ -1,8 +1,8 @@
 ![logo](./fury-logo.svg)
 
-# Fury Kubernetes AWS
+# Kubernetes Fury AWS
 
-## what is fury kuberneters for AWS?
+## what is kuberneters fury AWS?
 
 - what problems does it solve?
   ...
