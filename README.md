@@ -1,6 +1,6 @@
-![logo](./fury-logo.svg)
-
 # Kubernetes Fury AWS
+
+![logo](./fury-logo.svg)
 
 ## what is kuberneters fury AWS?
 
