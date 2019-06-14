@@ -25,3 +25,7 @@ output "bastion_private_ip" {
 output "bastion_public_ip" {
   value = "${flatten(aws_eip.bastion.*.public_ip)}"
 }
+
+output "main_internet_gateway"{
+  value = "${aws_internet_gateway.main.id}"
+}
