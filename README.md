@@ -647,9 +647,7 @@ example command:
 
 create manifestes folders to hold k8s manifests files for _kustomize_
 
-in the project root run  
-`mkdir manifests`
-create the file _manifests/kustomization.yaml_
+in the project root run
 
 ```
 cat <<-EOF > manifests/kustomization.yaml
