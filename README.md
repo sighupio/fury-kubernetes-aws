@@ -25,7 +25,7 @@ cloudcraft diagram [here](https://cloudcraft.co/view/ee4cd783-8f91-430b-85e3-255
 #### Networking
 
 - The incoming public incoming traffic will be routed into the pods services via an application load balancer
-- 2 bastions machines are available in order to proxy commands from outside the cluste to the k8s master nodes via _ssh_
+- 2 bastions machines are available in order to proxy commands from outside the cluster to the k8s master nodes via _ssh_
 - VPN connection allow connecting directly to master nodes and worker nodes
 
 ### differences with installations using kubeadm
@@ -58,14 +58,18 @@ there programs needs to be installed locally and available in `$PATH`
 - install kustomize v1 (v2 is incompatible at the moment)
 - install terraform
 - install openvpn
+- install git
+- install git-crypt
 
 ---
 
 ## step-by-step cluster setup instructions
 
-create a new empty folder for the project and _cd_ into it
+Create a new empty folder for the project and _cd_ into it
 
 run `mkdir [project_name]`
+
+> While working with infrastructure as code, it is highly encouraged to keep your infrastructure definition files under strict version control. This task is out of the scope of this tutorial, but you should probably want to do `git init` right now and `git commit` at all the checkpoints ;)
 
 ---
 
@@ -75,9 +79,9 @@ Create a _Furyfile_ in the project root with commons and AWS specific dependenci
 
 > _Furyfile_ is used by _furyctl_ to download dependencies, for more info check [_furyctl's readme_](https://github.com/sighup-io/furyctl)
 
-> _bases_ are manifests files for kubernetes
-> _roles_ are terraform files
-> _bases_ are ansible playbooks or tasks
+> _bases_ are manifests files for deploying basic Kubernetes' components.
+> _modules_ are terraform modules for deploying the infrastructure and it's dependencies.
+> _roles_ are ansible roles for deploying, configuring and managing Kubernetes infrastructure.
 
 ```
 cat <<-EOF > Furyfile.yml
@@ -114,9 +118,9 @@ EOF
 
 ## Installing dependencies with furyctl
 
-run `furyctl install` while in the project root
+Run `furyctl install` while in the project root
 
-it will create a folder called _vendor_ and download dependencies defined in _Furyfile_ inside it
+It will create a folder called _vendor_ and then it will download all the dependencies that are defined in the _Furyfile_ into this folder.
 
 ---
 
@@ -147,20 +151,21 @@ project folder should now look like this:
 project_root
     ├── Furyfile.yml
     ├── ansible
+    ├── manifests
     ├── secrets
     ├── terraform
     └── vendor
 ```
 
-> we create these folders now because the output of some terraform command will create files in the ansible folder and
+> We need to create the folder structure now because the output of some terraform commands creates files in the _ansible_ folder and otherwise the command will fail.
 
 ---
 
 ## Secrets
 
-NB: the _secrets_ will contains all the keys and token required to operate the cluster, is **highly encouraged** to encrypt this folder before pushing it to a remote repository using something like [git-crypt](https://github.com/AGWA/git-crypt)
+NB: the _secrets_ will contains all the keys and tokens required to operate the cluster, it is **highly encouraged** to encrypt this folder before pushing it to a remote repository using something like [git-crypt](https://github.com/AGWA/git-crypt)
 
-create file with aws credentials running this command
+Create a file with aws credentials running this command
 
 ```
 touch secrets/aws-credentials.sh  && \
@@ -175,11 +180,31 @@ open it and set **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY**
 
 > these credential are use by terraform to create the cluster
 
+### Encrypting your secrets
+To encrypt your secrets (considering you have setup `git-crypt` properly) you need to run this in your project root
+
+run `git-crypt init`
+
+then create a _.gitattributes_ file declaring the folder to encrypt:
+```
+cat <<-EOF > .gitattributes
+secrets/** filter=git-crypt diff=git-crypt
+EOF
+```
+
+Add some of your colleagues with the command
+`git-crypt add-gpg-user USER_ID`
+
+> We need to have your colleague's gpg public key in your keyring.
+> You can add the gpg key with a command like `curl https://github.com/ralgozino.gpg | gpg --import`
+
+And you're done. All the files under the `secrets` folder are now automatically encrypted.
+
 ---
 
 ## setup terraform state backend
 
-create file for terraform backend
+Create file for the _terraform_ backend
 
 ```
 cat <<-EOF > terraform/backend.tf
@@ -195,15 +220,15 @@ terraform {
 EOF
 ```
 
-> the variable `TERRAFORM_STATE_BUCKET_NAME` was set in previous commands, in case you are using a different shell session and the env is not initialed change it with the name of the bucket previously created and set the region accordingly
+> The variable `TERRAFORM_STATE_BUCKET_NAME` was set in previous commands, in case you are using a different shell session and the env is not initialized change it with the name of the bucket previously created and set the region accordingly
 
 ---
 
 ## create ssh credential
 
-create new ssh credential to be used key for accessing the new machines
+Create a new ssh credential to be used as the key pair to access the new machines
 
-> this step is not mandatory, you can use your own key, but for the sake fo semplicity we generate a new one
+> this step is not mandatory, you can use your own key, but for the sake fo simplicity we generate a new one
 
 run this in the project root
 
@@ -213,7 +238,7 @@ run this in the project root
 
 ### Optional: additional ssh keys
 
-additional ssh keys can be added when creating the machines by adding them in `terraform/keys` folder
+Additional ssh keys can be added when creating the machines by adding them in `terraform/keys` folder
 one key per file
 
 `mkdir terraform/keys`
@@ -232,7 +257,7 @@ example using local key
 
 create Makefile for terraform operations
 
-> in order to semplify the complexity of bootstrapping the infrastructure, we will create a _Makefile_ with operation already in the correct order
+> in order to simplify the complexity of bootstrapping the infrastructure, we will create a _Makefile_ with the operations already in the right order
 
 ```
 cat <<-'EOF' > ./terraform/Makefile
@@ -429,6 +454,8 @@ now everything is deployed on aws
 
 > hosts.ini has been created by terraform's output in _ansible_ folder when we used `make run`
 
+> This is a good time to make your first `git commit` yif you haven't done it yet :) 
+
 ---
 
 ## Setup nodes using ansible
@@ -456,6 +483,7 @@ EOF
 
 verify that the machines are reachable by ansible run `ansible all -m ping` while in the _ansible_ folder
 
+> If you are using _git crypt_, you might get a connection error from ansible. Check that the _ssh private key_ file has the right permissions, it should be 0600. If it doesn't have the right permissions run `chmod 0600 ../secrets/ssh-user`
 ---
 
 ## prepare cluster playbook
@@ -520,7 +548,7 @@ run `ansible-playbook cluster.yml`
 
 ### checkpoint
 
-try to ssh into a master to check that everythins is working properly
+try to ssh into a master to check that everything is working properly
 `ssh ubuntu@[MASTER_IP] -i ../secrets/ssh-user -o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q -i ../secrets/ssh-user ubuntu@[BASTION_IP]"`
 
 > the IPs for master node and bastion can be foundn in _ansible/hosts.init_
