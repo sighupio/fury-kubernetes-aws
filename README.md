@@ -454,7 +454,7 @@ now everything is deployed on aws
 
 > hosts.ini has been created by terraform's output in _ansible_ folder when we used `make run`
 
-> This is a good time to make your first `git commit` yif you haven't done it yet :) 
+> This is a good time to make your first `git commit` if you haven't done it yet :) 
 
 ---
 
