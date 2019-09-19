@@ -25,6 +25,14 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Usage = "packer_build"
+  }
+}
+
 resource "aws_subnet" "main" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
@@ -47,6 +55,13 @@ output "packer" {
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "${var.region}",
+    "subnet_filter": {
+      "filters": {
+        "tag:Usage": "packer_build"
+      },
+      "most_free": true,
+      "random": false
+    }
     "vpc_id": "${aws_vpc.main.id}",
     "instance_type": "t2.micro",
     "source_ami_filter": {
