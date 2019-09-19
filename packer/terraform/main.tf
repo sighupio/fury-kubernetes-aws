@@ -27,11 +27,17 @@ resource "aws_vpc" "main" {
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
-
   tags = {
     Usage = "packer_build"
   }
 }
+
+resource "aws_route" "gw" {
+  route_table_id         = aws_vpc.main.main_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw.id
+}
+
 
 resource "aws_subnet" "main" {
   vpc_id                  = aws_vpc.main.id
