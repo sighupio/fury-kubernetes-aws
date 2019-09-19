@@ -31,7 +31,7 @@ resource "aws_subnet" "main" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "Main"
+    Usage = "packer_build"
   }
 }
 
@@ -63,5 +63,4 @@ output "packer" {
   }]
 }
 EOF
-
 }
