@@ -79,7 +79,7 @@ data "template_file" "amis" {
   template = file("amis.tpl")
   vars = {
     provisioners = join(", ", data.template_file.provisioners.*.rendered)
-    builders     = join(", ", data.template_file.provisioners.*.rendered)
+    builders     = join(", ", data.template_file.builders.*.rendered)
     user         = var.user
   }
 }
