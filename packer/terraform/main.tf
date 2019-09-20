@@ -58,7 +58,7 @@ variable "user" {
 }
 
 data "template_file" "builders" {
-  count    = len(var.kinds)
+  count    = length(var.kinds)
   template = <<EOF
   {
     "name": "${kind}",
@@ -96,7 +96,7 @@ data "template_file" "builders" {
 }
 
 data "template_file" "provisioners" {
-  count    = len(var.kinds)
+  count    = length(var.kinds)
   template = <<EOF
   {
     "type": "ansible",
