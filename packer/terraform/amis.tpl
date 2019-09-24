@@ -7,8 +7,7 @@
     ${builders}
   ],
   "provisioners": [
-    ${provisioners},
-    {
+    ${provisioners}, {
       "type": "shell",
       "inline": [
         "rm /home/${user}/.ssh/authorized_keys"

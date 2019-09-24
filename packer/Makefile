@@ -1,5 +1,5 @@
 output:
-	cd terraform && terraform output packer > ../ami.json
+	cd terraform && terraform output amis > ../ami.json
 
-ami:
+amis:
 	packer build ami.json
