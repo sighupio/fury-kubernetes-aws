@@ -18,3 +18,9 @@ resource "aws_iam_instance_profile" "main" {
   name = "${var.name}-${var.env}-kubernetes-instance-profile"
   role = "${aws_iam_role.main.name}"
 }
+
+resource "aws_iam_policy_attachment" "join" {
+  name       = "kubernetes_worker_join"
+  roles      = ["${aws_iam_role.main.name}"]
+  policy_arn = "${var.join-policy-arn}"
+}

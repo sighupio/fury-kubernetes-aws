@@ -156,14 +156,14 @@ variable ecr-repositories {
   description = "List of docker image repositories to create"
 }
 
-variable ecr-repositories {
-  type        = "list"
-  description = "List of docker image repositories to create"
-}
-
 variable join-token-url {
   default     = ""
   description = "output of to be used for hoin kubeadm token kubeadm token create"
+}
+
+variable join-policy-arn {
+  default     = ""
+  description = "policy granting access to kubeadm generated token to workers"
 }
 
 data "aws_ami" "ubuntu" {

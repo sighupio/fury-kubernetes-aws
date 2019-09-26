@@ -38,7 +38,7 @@ data "template_cloudinit_config" "config_worker" {
 
   part {
     content_type = "text/x-shellscript"
-    content      = "${data.template_file.cloud-init-worker.rendered}"
+    content      = "${data.template_file.cloud-init-workers.rendered}"
   }
 
   part {
