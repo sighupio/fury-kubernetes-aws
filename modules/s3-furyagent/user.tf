@@ -39,3 +39,30 @@ resource "aws_iam_policy" "main" {
 }
 EOF
 }
+
+resource "aws_iam_policy" "join" {
+  name = "${var.cluster_name}-${var.environment}-furyagent-join"
+
+  policy = <<EOF
+{
+     "Version": "2012-10-17",
+     "Statement": [
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:*"
+             ],
+            "Resource": "${aws_s3_bucket.main.arn}/join/*"
+         },
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:ListBucket",
+                 "s3:GetBucketLocation"
+             ],
+            "Resource": "${aws_s3_bucket.main.arn}"
+         }
+     ]
+}
+EOF
+}

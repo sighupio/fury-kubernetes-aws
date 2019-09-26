@@ -3,7 +3,7 @@ resource "aws_launch_configuration" "main" {
   name_prefix          = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers[count.index], "kind")}-nodes"
   image_id             = "${data.aws_ami.ubuntu.id}"
   instance_type        = "${lookup(var.kube-workers[count.index], "type")}"
-  user_data            = "${data.template_cloudinit_config.config.rendered}"
+  user_data            = "${data.template_cloudinit_config.config_worker.rendered}"
   iam_instance_profile = "${aws_iam_instance_profile.main.name}"
   security_groups      = ["${aws_security_group.kubernetes-nodes.id}"]
 

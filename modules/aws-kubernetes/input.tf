@@ -156,6 +156,16 @@ variable ecr-repositories {
   description = "List of docker image repositories to create"
 }
 
+variable ecr-repositories {
+  type        = "list"
+  description = "List of docker image repositories to create"
+}
+
+variable join-token-url {
+  default     = ""
+  description = "output of to be used for hoin kubeadm token kubeadm token create"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 

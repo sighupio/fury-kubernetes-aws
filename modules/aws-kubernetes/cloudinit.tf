@@ -7,7 +7,7 @@ data "template_file" "ssh_keys" {
   }
 }
 
-data "template_file" "cloud-init" {
+data "template_file" "cloud-init-keys" {
   template = "${file("${path.module}/cloudinit/userdata-template.yml")}"
 
   vars {
@@ -15,12 +15,35 @@ data "template_file" "cloud-init" {
   }
 }
 
-data "template_cloudinit_config" "config" {
+data "template_file" "cloud-init-workers" {
+  template = "${file("${path.module}/cloudinit/worker-join.sh")}"
+
+  vars {
+    join_token_url = "${var.join-token-url}"
+  }
+}
+
+data "template_cloudinit_config" "config_master" {
   gzip = false
 
   part {
     filename     = "ssh-authorized-keys.cfg"
     content_type = "text/cloud-config"
-    content      = "${data.template_file.cloud-init.rendered}"
+    content      = "${data.template_file.cloud-init-keys.rendered}"
+  }
+}
+
+data "template_cloudinit_config" "config_worker" {
+  gzip = false
+
+  part {
+    content_type = "text/x-shellscript"
+    content      = "${data.template_file.cloud-init-worker.rendered}"
+  }
+
+  part {
+    filename     = "ssh-authorized-keys.cfg"
+    content_type = "text/cloud-config"
+    content      = "${data.template_file.cloud-init-keys.rendered}"
   }
 }
