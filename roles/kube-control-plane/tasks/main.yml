@@ -39,7 +39,7 @@
     state: directory
 
 - name: Creating Kubernetes Users with kubeadm
-  shell: "kubeadm alpha kubeconfig user --client-name={{item}} --org={{kubernetes_users_org}} > {{ kubernetes_users_kubeconfig_dir }}/{{item}}.kubeconfig"
+  shell: "kubeadm alpha kubeconfig user --client-name={{item}} --org={{kubernetes_users_org}} --apiserver-advertise-address {{ kubernetes_control_plane_address }} > {{ kubernetes_users_kubeconfig_dir }}/{{item}}.kubeconfig"
   with_items: "{{ kubernetes_users_names }}"
 
 - name: Getting kubeconfig files from master

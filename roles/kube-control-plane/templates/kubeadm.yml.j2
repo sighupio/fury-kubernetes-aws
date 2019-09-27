@@ -54,9 +54,11 @@ apiServer:
     pathType: File
 scheduler:
   extraArgs:
+    bind-address: {{ ansible_default_ipv4.address }}
     address: {{ ansible_default_ipv4.address }}
 controllerManager:
   extraArgs:
+    bind-address: {{ ansible_default_ipv4.address }}
     address: {{ ansible_default_ipv4.address }}
     cloud-provider: {{ kubernetes_cloud_provider }}
     configure-cloud-routes: "false"
