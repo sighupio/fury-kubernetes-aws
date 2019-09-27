@@ -2,11 +2,6 @@
   hosts: all
   become: true
   vars:
-    kubernetes_repo_distribution: 'xenial'
-    kubelet_version: '1.13.7'
-    kubectl_version: '1.13.7'
-    kubeadm_version: '1.13.7'
-    kubernetescni_version: '0.7.5'
     docker_version: '18.06.3~ce~3-0~ubuntu'
   roles:
     - ../../roles/kube-node-common

@@ -11,10 +11,3 @@
       mode: 0750
       force: yes
 
-- name: Provisioning bastion hosts
-  hosts: bastion
-  become: true
-  roles:
-    - openvpn/openvpn
-    - ../../roles/openvpn/openvpn
-
