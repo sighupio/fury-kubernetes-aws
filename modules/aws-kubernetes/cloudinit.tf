@@ -16,10 +16,11 @@ data "template_file" "cloud-init-keys" {
 }
 
 data "template_file" "cloud-init-workers" {
-  template = "${file("${path.module}/cloudinit/worker-join.sh")}"
+  template = "${file("${path.module}/cloudinit/worker-join.yml")}"
 
   vars {
-    join_token_url = "${var.join-token-url}"
+    join_token_url      = "${var.join-token-url}"
+    ssh-authorized-keys = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
   }
 }
 
@@ -37,13 +38,9 @@ data "template_cloudinit_config" "config_worker" {
   gzip = false
 
   part {
-    content_type = "text/x-shellscript"
+    filename     = "workers-init.cfg"
+    content_type = "text/cloud-config"
     content      = "${data.template_file.cloud-init-workers.rendered}"
   }
 
-  part {
-    filename     = "ssh-authorized-keys.cfg"
-    content_type = "text/cloud-config"
-    content      = "${data.template_file.cloud-init-keys.rendered}"
-  }
 }

@@ -1,0 +1,18 @@
+cloud_final_modules:
+- [users-groups,always]
+- [scripts-user, always]
+users:
+- name: ubuntu
+  lock_passwd: True
+  gecos: Ubuntu
+  groups: [adm, audio, cdrom, dialout, dip, floppy, lxd, netdev, plugdev, sudo, video]
+  sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+  shell: /bin/bash
+  ssh-authorized-keys:
+  ${ssh-authorized-keys}
+runcmd:
+- apt update
+- apt install -y awscli
+- aws s3 cp s3://${join_token_url} token.sh
+- systemctl restart kubelet
+- sh token.sh
