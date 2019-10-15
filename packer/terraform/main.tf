@@ -1,11 +1,8 @@
 terraform {
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "sighupio"
-
-    workspaces {
-      name = "fury-kubernetes-aws"
-    }
+  backend "s3" {
+    bucket = "sighup-fury-dev"
+    key    = "fury-kubernetes-aws-feature-auto-join"
+    region = "eu-west-1"
   }
 }
 
