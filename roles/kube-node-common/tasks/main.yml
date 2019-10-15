@@ -1,5 +1,8 @@
 ---
 
+- name: Installing AWS dependencies
+  include_tasks: "aws.yml"
+
 - name: Installing container runtime
   include_tasks: "{{ container_runtime }}.yml"
 
