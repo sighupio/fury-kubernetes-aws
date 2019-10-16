@@ -11,8 +11,6 @@ users:
   ssh-authorized-keys:
   ${ssh-authorized-keys}
 runcmd:
-- apt update
-- apt install -y awscli
 - aws s3 cp s3://${join_token_url} token.sh
 - systemctl restart kubelet
 - sh token.sh
