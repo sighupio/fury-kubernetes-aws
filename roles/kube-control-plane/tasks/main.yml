@@ -33,6 +33,13 @@
   shell: "kubeadm token create --print-join-command --ttl=30m"
   register: kubeadm_join_command
 
+- name: Configure new join token every 30 minutes
+  cron:
+    minute: "*/30"
+    state: present
+    name: join-token
+    job: "/usr/bin/kubeadm token create --print-join-command --ttl=30m | aws s3 cp - s3://{{ furyagent_bucket_name }}/join/join.sh"
+
 - name: Creating users kubeconfig folder
   file:
     name: "{{ kubernetes_users_kubeconfig_dir }}"

@@ -33,3 +33,6 @@ oidc_username_claim: email
 oidc_groups_claim: groups
 oidc_group_prefix: oidc
 
+## auto-join
+
+furyagent_bucket_name: ""
