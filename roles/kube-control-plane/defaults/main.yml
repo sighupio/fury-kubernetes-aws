@@ -35,4 +35,4 @@ oidc_group_prefix: oidc
 
 ## auto-join
 
-furyagent_bucket_name: ""
+s3_bucket_name: ""
