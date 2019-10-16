@@ -34,14 +34,14 @@
   register: kubeadm_join_command
 
 - name: Upload first join token
-  shell: "/usr/bin/kubeadm token create --print-join-command --ttl=30m | aws s3 cp - s3://{{ s3_bucket_name }}/join/join.sh"
+  shell: "/usr/bin/kubeadm token create --print-join-command --ttl=30m | /usr/local/bin/aws s3 cp - s3://{{ s3_bucket_name }}/join/join.sh"
 
 - name: Configure new join token every 30 minutes
   cron:
     minute: "*/30"
     state: present
     name: join-token
-    job: "/usr/bin/kubeadm token create --print-join-command --ttl=30m | aws s3 cp - s3://{{ s3_bucket_name }}/join/join.sh"
+    job: "/usr/bin/kubeadm token create --print-join-command --ttl=30m | /usr/local/bin/aws s3 cp - s3://{{ s3_bucket_name }}/join/join.sh"
 
 - name: Creating users kubeconfig folder
   file:
