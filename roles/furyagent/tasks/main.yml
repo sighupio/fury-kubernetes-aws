@@ -45,8 +45,8 @@
   when: furyagent_configure_openvpn
 
 - name: Initialize master nodes using furyagent init master
-  local_action: command furyagent init master --config={{ secrets_path }}/{{ furyagent_config_name }}
-  become: no
+  command: "furyagent init master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}"
+  become: yes
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_master
@@ -56,8 +56,8 @@
   when: furyagent_configure_master
 
 - name: Initialize etcd using furyagent init etcd
-  local_action: command furyagent init etcd --config={{ secrets_path }}/{{ furyagent_config_name }}
-  become: no
+  command: furyagent init etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}
+  become: yes
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_etcd
@@ -67,8 +67,8 @@
   when: furyagent_configure_etcd
 
 - name: Initialize openvpn using furyagent init openvpn
-  local_action: command furyagent init openvpn --config={{ secrets_path }}/{{ furyagent_config_name }}
-  become: no
+  command: furyagent init openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}
+  become: yes
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_openvpn
