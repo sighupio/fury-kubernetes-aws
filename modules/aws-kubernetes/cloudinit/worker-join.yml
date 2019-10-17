@@ -13,4 +13,4 @@ users:
 runcmd:
 - aws s3 cp s3://${join_token_url} token.sh
 - systemctl restart kubelet
-- sh token.sh
+- cat token.sh | echo "$(cat -) --node-name=$(hostname -f)" | sh
