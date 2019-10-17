@@ -10,7 +10,28 @@ users:
   shell: /bin/bash
   ssh-authorized-keys:
   ${ssh-authorized-keys}
+write_files:
+  - content: |
+      #!/bin/bash
+      # Block until cloud-init completes
+      cloud-init status --wait
+      RC=$?
+      echo $RC > /cloud-init-report.sh.log
+      if [ $RC -ne 0 ]
+      then
+        echo 'Cloud-init failed' >> /cloud-init-report.sh.log
+        echo 'Cloud-init status:' >> /cloud-init-report.sh.log
+        cat /run/cloud-init/status.json >> /cloud-init-report.sh.log
+        echo 'Cloud-init result:' >> /cloud-init-report.sh.log
+        cat /run/cloud-init/result.json >> /cloud-init-report.sh.log
+        exit 1
+      else
+        echo 'Cloud-init succeeded at ' `date -R`  >> /cloud-init-report.sh.log
+      fi
+    path: /cloud-init-report.sh
+    permissions: '0755'
 runcmd:
+- /cloud-init-report.sh &>/dev/null &
 - aws s3 cp s3://${join_token_url} token.sh
 - systemctl restart kubelet
 - cat token.sh | echo "$(cat -) --node-name=$(hostname -f)" | sh
