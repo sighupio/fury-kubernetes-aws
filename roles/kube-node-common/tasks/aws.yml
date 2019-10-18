@@ -13,6 +13,7 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - python3-distutils
     - python3-pip
 
 - name: Install awscli
