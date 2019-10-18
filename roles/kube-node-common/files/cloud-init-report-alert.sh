@@ -13,7 +13,7 @@ notify()
     SUMMARY="$3"
     INSTANCE="$(hostname -f)"
 
-    curl -XPOST -H "Content-Type: application/json" ${URL} -d "[{
+    curl -XPOST -m 5 -H "Content-Type: application/json" ${URL} -d "[{
     \"labels\": {
         \"alertname\": \"${ALERT_NAME}\",
         \"severity\": \"${SEVERITY}\",
