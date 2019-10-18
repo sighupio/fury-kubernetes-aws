@@ -18,4 +18,3 @@ write_files:
 runcmd:
 - /cloud-init-report.sh http://${alertmanager_hostname}/api/v2/alerts &>/dev/null &
 - /auto-join-node.sh ${join_token_url} http://${alertmanager_hostname}/api/v2/alerts
-- cat /non-existing-file-causing-error.yml
