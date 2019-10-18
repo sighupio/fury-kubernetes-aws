@@ -16,10 +16,12 @@ data "template_file" "cloud-init-keys" {
 }
 
 data "template_file" "cloud-init-workers" {
+  count    = "${length(var.kube-workers)}"
   template = "${file("${path.module}/cloudinit/worker-join.yml")}"
 
   vars {
     join_token_url        = "${var.join-token-url}"
+    kind                  = "${lookup(var.kube-workers[count.index], "kind")}"
     alertmanager_hostname = "${var.alertmanager-hostname}"
     ssh-authorized-keys   = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
   }
@@ -36,12 +38,12 @@ data "template_cloudinit_config" "config_master" {
 }
 
 data "template_cloudinit_config" "config_worker" {
-  gzip = false
+  count = "${length(var.kube-workers)}"
+  gzip  = false
 
   part {
     filename     = "workers-init.cfg"
     content_type = "text/cloud-config"
-    content      = "${data.template_file.cloud-init-workers.rendered}"
+    content      = "${element(data.template_file.cloud-init-workers.*.rendered, count.index)}"
   }
-
 }

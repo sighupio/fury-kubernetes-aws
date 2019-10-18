@@ -10,6 +10,11 @@ users:
   shell: /bin/bash
   ssh-authorized-keys:
   ${ssh-authorized-keys}
+write_files:
+  - content: |
+      KUBELET_EXTRA_ARGS='--cloud-provider=aws --node-labels=node-kind.sighup.io/${kind}=""'
+    path: /etc/default/kubelet
+    permissions: '0644'
 runcmd:
 - /cloud-init-report.sh http://${alertmanager_hostname}/api/v2/alerts &>/dev/null &
 - /auto-join-node.sh ${join_token_url} http://${alertmanager_hostname}/api/v2/alerts
