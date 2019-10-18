@@ -51,15 +51,17 @@ variable kube-workers {
 #     kind = "infra"
 #     count = 2
 #     type = "m5.large"
+#     kube-ami= "KFD-Ubuntu-Infra-1571399626"
 #   },
 #   {
 #     kind = "production"
 #     count = 3
 #     type = "c5.large"
+#     kube-ami= "KFD-Ubuntu-Worker-1571399626"
 #   },
 # ]
 
-variable kube-ami {
+variable kube-master-ami {
   type        = "string"
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
   description = "Kubernetes nodes AMI"
@@ -166,12 +168,23 @@ variable join-policy-arn {
   description = "policy granting access to kubeadm generated token to workers"
 }
 
-data "aws_ami" "ubuntu" {
+
+data "aws_ami" "master" {
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["${var.kube-ami}"]
+    values = ["${var.kube-master-ami}"]
+  }
+}
+
+data "aws_ami" "worker" {
+  count       = "${length(var.kube-workers)}"
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["${lookup(var.kube-workers[count.index], "kube-ami")}"]
   }
 }
 

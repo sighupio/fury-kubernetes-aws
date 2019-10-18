@@ -1,6 +1,6 @@
 resource "aws_instance" "k8s-master" {
   count                  = "${var.kube-master-count}"
-  ami                    = "${data.aws_ami.ubuntu.id}"
+  ami                    = "${data.aws_ami.master.id}"
   instance_type          = "${var.kube-master-type}"
   user_data              = "${data.template_cloudinit_config.config_master.rendered}"
   subnet_id              = "${element(data.aws_subnet.private.*.id, count.index)}"
