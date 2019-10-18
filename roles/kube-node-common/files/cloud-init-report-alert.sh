@@ -1,15 +1,25 @@
 #!/bin/bash
 
-ALERT_NAME="cloud-init"
-URL="$1"
-INSTANCE="$(hostname -f)"
+# Notify function
+# Sends notification to alertmanager
+# $1: The alertmanager alerts url
+# $2: Severity: warning,critical,error
+# $3: Summary: Description about the error
+notify()
+{
+    ALERT_NAME="cloud-init"
+    URL="$1"
+    SEVERITY="$2"
+    SUMMARY="$3"
+    INSTANCE="$(hostname -f)"
 
-curl -XPOST -H "Content-Type: application/json" ${URL} -d "[{
-\"labels\": {
-    \"alertname\": \"${ALERT_NAME}\",
-    \"severity\":\"warning\",
-    \"instance\": \"${INSTANCE}\"
-}, \"annotations\": {
-    \"summary\": \"Cloud-init script fails. Take a look to the /cloud-init-report.sh.log file for more details\",
-    \"instance\": \"${INSTANCE}\"
-}}]"
+    curl -XPOST -H "Content-Type: application/json" ${URL} -d "[{
+    \"labels\": {
+        \"alertname\": \"${ALERT_NAME}\",
+        \"severity\": \"${SEVERITY}\",
+        \"instance\": \"${INSTANCE}\"
+    }, \"annotations\": {
+        \"summary\": \"${SUMMARY}\",
+        \"instance\": \"${INSTANCE}\"
+    }}]"
+}
