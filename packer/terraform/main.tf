@@ -47,7 +47,7 @@ resource "aws_subnet" "main" {
 }
 
 variable "kinds" {
-  default = ["Worker", "Master", "Bastion"]
+  default = ["Worker", "Master", "Bastion", "Infra"]
 }
 
 variable "user" {
