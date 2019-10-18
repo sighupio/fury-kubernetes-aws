@@ -1,0 +1,9 @@
+---
+
+- name: Installing auto-join feature
+  copy:
+    src: '{{ item }}'
+    dest: '/{{ item }}'
+    mode: '0755'
+  with_items:
+    - auto-join-node.sh

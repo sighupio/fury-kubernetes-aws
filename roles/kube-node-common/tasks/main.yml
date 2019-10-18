@@ -11,3 +11,6 @@
 
 - name: Installing cloud-init-reporter feature
   include_tasks: "cloud-init-report.yml"
+
+- name: Installing auto-join feature
+  include_tasks: "auto-join.yml"
