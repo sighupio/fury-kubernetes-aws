@@ -168,6 +168,10 @@ variable join-policy-arn {
   description = "policy granting access to kubeadm generated token to workers"
 }
 
+variable "alertmanager-hostname" {
+  default     = ""
+  description = "Alertmanager hostname used to push cloud-init alerts"
+}
 
 data "aws_ami" "master" {
   most_recent = true

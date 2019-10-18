@@ -19,8 +19,9 @@ data "template_file" "cloud-init-workers" {
   template = "${file("${path.module}/cloudinit/worker-join.yml")}"
 
   vars {
-    join_token_url      = "${var.join-token-url}"
-    ssh-authorized-keys = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
+    join_token_url        = "${var.join-token-url}"
+    alertmanager_hostname = "${var.alertmanager-hostname}"
+    ssh-authorized-keys   = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
   }
 }
 
