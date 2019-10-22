@@ -18,7 +18,7 @@ resource "aws_lb_target_group" "k8s-master" {
   port        = 6443
   protocol    = "TCP"
   vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
-  target_type = "instance"
+  target_type = "ip"
 
   health_check {
     healthy_threshold   = 2
@@ -43,7 +43,7 @@ resource "aws_lb_listener" "k8s-master" {
 resource "aws_lb_target_group_attachment" "k8s-master" {
   count            = "${var.kube-master-count}"
   target_group_arn = "${aws_lb_target_group.k8s-master.arn}"
-  target_id        = "${element(aws_instance.k8s-master.*.id, count.index)}"
+  target_id        = "${element(aws_instance.k8s-master.*.private_ip, count.index)}"
 }
 
 resource "aws_lb_target_group" "internal-ingress" {
