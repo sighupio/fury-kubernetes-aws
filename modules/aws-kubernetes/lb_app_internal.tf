@@ -54,9 +54,9 @@ resource "aws_lb_listener" "k8s-nodes-https-internal" {
 }
 
 resource "aws_lb_listener_certificate" "internal-http" {
-  count           = "${length(var.kube-lb-internal-additional-domains) == 0 ? 0 : length(var.kube-lb-internal-additional-domains)-1}"
+  count           = "${length(var.kube-lb-internal-additional-domains) == 0 ? 0 : length(var.kube-lb-internal-additional-domains) - 1}"
   listener_arn    = "${aws_lb_listener.k8s-nodes-https-internal.arn}"
-  certificate_arn = "${element(data.aws_acm_certificate.internal.*.arn, count.index+1)}"
+  certificate_arn = "${element(data.aws_acm_certificate.internal.*.arn, count.index + 1)}"
 }
 
 resource "aws_lb_target_group" "k8s-nodes-internal" {
