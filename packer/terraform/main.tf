@@ -47,20 +47,25 @@ resource "aws_subnet" "main" {
 }
 
 variable "kinds" {
-  default = ["Worker", "Master", "Bastion", "Infra"]
+  default = ["Node", "Master", "Bastion"]
 }
 
 variable "user" {
   default = "ubuntu"
 }
 
+variable "fury-version" {
+  default = "1.15.4-2"
+}
+
 data "template_file" "builders" {
   count    = length(var.kinds)
   template = file("builders.tpl")
   vars = {
-    vpc_id = aws_vpc.main.id
-    user   = var.user
-    kind   = var.kinds[count.index]
+    vpc_id  = aws_vpc.main.id
+    user    = var.user
+    kind    = var.kinds[count.index]
+    version = var.fury-version
   }
 }
 
