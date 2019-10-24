@@ -39,5 +39,6 @@ volumes:
   temp: {}
 
 trigger:
-  branch:
-    - feature/auto-join
+  ref:
+  - refs/heads/master
+  - refs/tags/*
