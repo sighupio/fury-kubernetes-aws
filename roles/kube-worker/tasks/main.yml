@@ -1,5 +1,0 @@
----
-- name: Check that the /etc/kubernetes/kubelet.conf exists on nodes
-  stat:
-    path: /etc/kubernetes/kubelet.conf
-  register: node_kubelet_conf
