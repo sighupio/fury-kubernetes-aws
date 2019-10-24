@@ -21,9 +21,8 @@ steps:
       from_secret: aws_secret_access_key
 
 - name: packer
-  image: hashicorp/packer:1.4.3
+  image: quay.io/sighup/packer:2.8.5_10_1.4.4
   commands:
-    - apk update && apk add ansible python
     - cd packer
     - packer build /shared/ami.json
   volumes:
