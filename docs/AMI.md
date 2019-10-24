@@ -1,5 +1,7 @@
 # Fury Amazon AMIs
 
+[![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-kubernetes-aws/status.svg)](http://ci.sighup.io/sighupio/fury-kubernetes-aws)
+
 Fury Kubernetes distribution uses custom AMI's based on Ubuntu to run in a proper way.
 
 ## Ubuntu based
