@@ -15,7 +15,7 @@ join()
 }
 S3_BUCKET_NAME=$1
 JOIN_TOKEN_URL="s3://${S3_BUCKET_NAME}/join/join.sh"
-ALERTMANAGER_URL=$2
+ALERT_MANAGER_HOSTNAME=$2
 
 RETRIES=3
 RETRY_SECONDS=10
@@ -28,7 +28,7 @@ until [ $n -ge $RETRIES ]
 do
    join $JOIN_TOKEN_URL && fail_join=0 && break
    n=$[$n+1]
-   notify $ALERTMANAGER_URL "warning" "Cloud-init script is failing. /$me causes this warning"
+   notify $ALERT_MANAGER_HOSTNAME "warning" "Cloud-init script is failing. /$me causes this warning"
    sleep $RETRY_SECONDS
 done
 exit $fail_join

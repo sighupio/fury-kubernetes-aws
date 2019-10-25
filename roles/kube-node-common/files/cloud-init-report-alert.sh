@@ -8,7 +8,8 @@
 notify()
 {
     ALERT_NAME="cloud-init"
-    URL="$1"
+    ALERT_MANAGER_HOSTNAME="$1"
+    URL="http://${ALERT_MANAGER_HOSTNAME}/api/v2/alerts"
     SEVERITY="$2"
     SUMMARY="$3"
     INSTANCE="$(hostname -f)"

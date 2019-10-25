@@ -16,5 +16,5 @@ write_files:
     path: /etc/default/kubelet
     permissions: '0644'
 runcmd:
-- /cloud-init-report.sh http://${alertmanager_hostname}/api/v2/alerts &>/dev/null &
-- /auto-join-node.sh ${s3_bucket_name} http://${alertmanager_hostname}/api/v2/alerts
+- /cloud-init-report.sh ${alertmanager_hostname} &>/dev/null &
+- /auto-join-node.sh ${s3_bucket_name} ${alertmanager_hostname}
