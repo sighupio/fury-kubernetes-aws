@@ -20,7 +20,7 @@ data "template_file" "cloud-init-workers" {
   template = "${file("${path.module}/cloudinit/worker-join.yml")}"
 
   vars {
-    join_token_url        = "${var.join-token-url}"
+    s3_bucket_name        = "${var.s3-bucket-name}"
     kind                  = "${lookup(var.kube-workers[count.index], "kind")}"
     alertmanager_hostname = "${var.alertmanager-hostname}"
     ssh-authorized-keys   = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"

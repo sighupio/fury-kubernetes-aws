@@ -158,9 +158,9 @@ variable ecr-repositories {
   description = "List of docker image repositories to create"
 }
 
-variable join-token-url {
+variable s3-bucket-name {
   default     = ""
-  description = "output of to be used for hoin kubeadm token kubeadm token create"
+  description = "furyagent auxiliary bucket name"
 }
 
 variable join-policy-arn {

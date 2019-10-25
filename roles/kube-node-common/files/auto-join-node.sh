@@ -9,12 +9,12 @@ source /cloud-init-report-alert.sh
 join()
 {
     JOIN_TOKEN_URL=$1
-    aws s3 cp s3://${JOIN_TOKEN_URL} /token.sh
+    aws s3 cp ${JOIN_TOKEN_URL} /token.sh
     systemctl restart kubelet
     cat /token.sh | echo "$(cat -) --node-name=$(hostname -f)" | bash
 }
-
-JOIN_TOKEN_URL=$1
+S3_BUCKET_NAME=$1
+JOIN_TOKEN_URL="s3://${S3_BUCKET_NAME}/join/join.sh"
 ALERTMANAGER_URL=$2
 
 RETRIES=3
