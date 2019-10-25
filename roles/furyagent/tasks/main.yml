@@ -67,8 +67,8 @@
   when: furyagent_configure_etcd
 
 - name: Initialize openvpn using furyagent init openvpn
-  command: furyagent init openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}
-  become: yes
+  local_action: command furyagent init openvpn --config={{ secrets_path }}/openvpn-{{ furyagent_config_name }}
+  become: no
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_openvpn
