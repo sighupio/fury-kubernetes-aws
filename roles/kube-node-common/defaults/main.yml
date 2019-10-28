@@ -8,7 +8,7 @@ kubernetes_repo_distribution: 'xenial'
 kubelet_version: '1.15.4'
 kubectl_version: '1.15.4'
 kubeadm_version: '1.15.4'
-critools_version: '1.15.0'
+critools_version: '1.13.0'
 kubernetescni_version: '0.7.5'
 kubernetes_cloud_provider: 'aws'
 # Docker Configurations
