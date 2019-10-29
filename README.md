@@ -86,7 +86,7 @@ Create a _Furyfile_ in the project root with commons and AWS specific dependenci
 ```
 cat <<-EOF > Furyfile.yml
 bases:
-  - name: aws/weave-net
+  - name: networking/weave-net
     version: master
   - name: aws/storageclass
     version: master
@@ -692,10 +692,10 @@ install weave-net in k8s cluster
 add to _manifests/kustomization.yaml_ in `bases`
 
 ```
-- ../vendor/katalog/aws/weave-net
+- ../vendor/katalog/networking/weave-net
 ```
 
-run `kustomize build manifests | kubectl apply -f - --kubeconfig=secrets/users/admin.conf` to deply
+run `kustomize build manifests | kubectl apply -f - --kubeconfig=secrets/users/admin.conf` to deploy
 
 > if you encounter this error, this is expected, not need to worry about
 > `error: unable to recognize "STDIN": no matches for kind "ServiceMonitor" in version "monitoring.coreos.com/v1"`
