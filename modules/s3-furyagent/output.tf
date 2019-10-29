@@ -24,7 +24,3 @@ output "bucket_policy" {
 output "bucket_policy_join" {
   value = "${aws_iam_policy.join.arn}"
 }
-
-output "bucket_url" {
-  value = "${aws_s3_bucket.main.bucket_domain_name}/join"
-}
