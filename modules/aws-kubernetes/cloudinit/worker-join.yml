@@ -12,7 +12,7 @@ users:
   ${ssh-authorized-keys}
 write_files:
   - content: |
-      KUBELET_EXTRA_ARGS='--cloud-provider=aws --node-labels=node-kind.sighup.io/${kind}=""'
+      KUBELET_EXTRA_ARGS='--cloud-provider=aws --node-labels=node-kind.sighup.io/${kind}="" --node-labels=node-role.kubernetes.io/${kind}=""'
     path: /etc/default/kubelet
     permissions: '0644'
 runcmd:
