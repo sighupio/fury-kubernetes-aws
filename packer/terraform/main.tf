@@ -58,6 +58,11 @@ variable "fury-version" {
   default = "1.15.4-2"
 }
 
+locals {
+  kube-version = "${substr(var.fury-version, 0, 6)}"
+  cri-tools-version = "${substr(local.kube-version, 0, 5)}0"
+}
+
 data "template_file" "builders" {
   count    = length(var.kinds)
   template = file("builders.tpl")
@@ -74,6 +79,8 @@ data "template_file" "provisioners" {
   template = file("provisioners.tpl")
   vars = {
     kind = var.kinds[count.index]
+    kube-version = local.kube-version
+    cri-tools-version = local.cri-tools-version
   }
 }
 
