@@ -365,7 +365,7 @@ run `make apply`
 
 ---
 
-## Create control plane
+## Create the cluster
 
 append k8s module to `terraform/main.tf`
 
@@ -402,7 +402,14 @@ module "k8s" {
 
   kube-lb-external-enable-access-log = false
 
-  kube-workers = []
+  kube-workers = [
+    {
+      kind  = "infra"
+      count = 1
+      type  = "t3.medium"
+      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-*"
+     },
+  ]
 
   ecr-repositories = []
 
@@ -435,7 +442,7 @@ EOF
 
 run `make init && make run`
 
-> this will create the machines _(control-plane, masters)_ on aws with terraform
+> this will create the machines on aws with terraform
 
 > `make run` does terraform apply and also outpus files with stack info to be used by ansible
 
@@ -545,14 +552,13 @@ the output should look like
 
 ```
 NAME                                          STATUS     ROLES    AGE     VERSION
-ip-10-100-10-20.eu-west-1.compute.internal    NotReady   master   10m     v1.15.4
-ip-10-100-11-138.eu-west-1.compute.internal   NotReady   master   9m46s   v1.15.4
-ip-10-100-12-221.eu-west-1.compute.internal   NotReady   master   10m     v1.15.4
+ip-10-100-10-20.eu-west-1.compute.internal    NotReady   master   10m     v1.15.5
+ip-10-100-11-138.eu-west-1.compute.internal   NotReady   master   9m46s   v1.15.5
+ip-10-100-12-221.eu-west-1.compute.internal   NotReady   master   10m     v1.15.5
+ip-10-100-11-121.eu-west-1.compute.internal   NotReady   infra    1m      v1.15.5
 ```
 
 > the status is _NotReady_ because the CNI is not yet configured, but seeing the nodes is enough to prove we are good to continue
-
----
 
 ---
 
@@ -690,39 +696,11 @@ run `kustomize build manifests | kubectl apply -f - --kubeconfig=secrets/users/a
 at this point the cluster is setup with
 2 bastion
 3 master nodes running control _plane inside_ pods managed by k8s except for _etcd_ which runs under _systemd_
+1 infra node
 
 every machine is accessible by it's IP using then VPN (IPs are found in _ansible/hosts.ini_)
 
 ---
-
-## Adding nodes to the cluster
-
-Modify the `k8s` module inside the terraform `main.tf` file adding a new `kube-worker` inside the `kube-workers` variable:
-
-```diff
-module "k8s" {
-   kube-workers = [
-+    {
-+      kind  = "infra"
-+      count = 2
-+      type  = "t3.medium"
-+      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-1572361722"
-     },
-   ]
-```
-
-run `make init && make run`
-
-> this will create the machines _(infra nodes)_ on aws with terraform
-
-### checkpoint
-
-at this point the cluster is setup with
-2 bastion
-3 master nodes running control _plane inside_ pods managed by k8s except for _etcd_ which runs under _systemd_
-2 infra nodes
-
-every machine is accessible by it's IP using then VPN (IPs are found in _ansible/hosts.ini_)
 
 ## Nest steps:
 
