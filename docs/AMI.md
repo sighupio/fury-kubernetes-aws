@@ -14,32 +14,32 @@ Fury distributes three different AMI types: *Master*, *Node* and *Bastion*.
 
 ### Master
 
-TBD
+Contains all the neccessary configuration to make it working with the specific kubernetes version.
 
 ### Node
 
-TBD
+Contains all the neccessary configuration to make it working with the specific kubernetes version. Auto-join feature is activated in this AMI.
 
 ### Bastion
 
-TBD
+Contains only furyagent installed.
 
 ## AMI IDs
 
 | Name                                      | Fury Version | AMI                   | Region       | Kind    |
 |-------------------------------------------|--------------|-----------------------|--------------|---------|
-| KFD-Ubuntu-Master-1.15.5-2-1572361721     | 1.15.4-2     | ami-0c16da1661580f6bc | eu-central-1 | Master  |
-| KFD-Ubuntu-Node-1.15.5-2-1572361722       | 1.15.4-2     | ami-07dd63778a25e023c | eu-central-1 | Node    |
-| KFD-Ubuntu-Bastion-1.15.5-2-1572361720    | 1.15.4-2     | ami-0ee9b789c73c3ecb3 | eu-central-1 | Bastion |
-| KFD-Ubuntu-Master-1.15.5-2-1572361721     | 1.15.4-2     | ami-097033d0cbb5a77f0 | eu-north-1   | Master  |
-| KFD-Ubuntu-Node-1.15.5-2-1572361722       | 1.15.4-2     | ami-021760d906df882bd | eu-north-1   | Node    |
-| KFD-Ubuntu-Bastion-1.15.5-2-1572361720    | 1.15.4-2     | ami-01372bb326901efad | eu-north-1   | Bastion |
-| KFD-Ubuntu-Master-1.15.5-2-1572361721     | 1.15.4-2     | ami-01c330105a939e778 | eu-west-1    | Master  |
-| KFD-Ubuntu-Node-1.15.5-2-1572361722       | 1.15.4-2     | ami-0b99a01290e60924f | eu-west-1    | Node    |
-| KFD-Ubuntu-Bastion-1.15.5-2-1572361720    | 1.15.4-2     | ami-0a83825200ed1ffa9 | eu-west-1    | Bastion |
-| KFD-Ubuntu-Master-1.15.5-2-1572361721     | 1.15.4-2     | ami-0098da278669ac99e | eu-west-2    | Master  |
-| KFD-Ubuntu-Node-1.15.5-2-1572361722       | 1.15.4-2     | ami-0584838ddc40fd6a7 | eu-west-2    | Node    |
-| KFD-Ubuntu-Bastion-1.15.5-2-1572361720    | 1.15.4-2     | ami-0e73f2ea16834cc19 | eu-west-2    | Bastion |
-| KFD-Ubuntu-Master-1.15.5-2-1572361721     | 1.15.4-2     | ami-0d91f0729ed72970c | eu-west-3    | Master  |
-| KFD-Ubuntu-Node-1.15.5-2-1572361722       | 1.15.4-2     | ami-08703d4726bfadb5f | eu-west-3    | Node    |
-| KFD-Ubuntu-Bastion-1.15.5-2-1572361720    | 1.15.4-2     | ami-0457281610cf6d869 | eu-west-3    | Bastion |
+| KFD-Ubuntu-Master-1.15.5-2-1572436070     | 1.15.4-2     | ami-07bf0537ace102ba4 | eu-central-1 | Master  |
+| KFD-Ubuntu-Node-1.15.5-2-1572436071       | 1.15.4-2     | ami-026eaa3e3ca8827ce | eu-central-1 | Node    |
+| KFD-Ubuntu-Bastion-1.15.5-2-1572436070    | 1.15.4-2     | ami-0326230e05b7f29a8 | eu-central-1 | Bastion |
+| KFD-Ubuntu-Master-1.15.5-2-1572436070     | 1.15.4-2     | ami-02100b6018d7b17c5 | eu-north-1   | Master  |
+| KFD-Ubuntu-Node-1.15.5-2-1572436071       | 1.15.4-2     | ami-06a1e980e801cc6f2 | eu-north-1   | Node    |
+| KFD-Ubuntu-Bastion-1.15.5-2-1572436070    | 1.15.4-2     | ami-0d8d6e2b63cd2f0be | eu-north-1   | Bastion |
+| KFD-Ubuntu-Master-1.15.5-2-1572436070     | 1.15.4-2     | ami-0c3f77ab96e04e208 | eu-west-1    | Master  |
+| KFD-Ubuntu-Node-1.15.5-2-1572436071       | 1.15.4-2     | ami-02b3cd4c27a9c0139 | eu-west-1    | Node    |
+| KFD-Ubuntu-Bastion-1.15.5-2-1572436070    | 1.15.4-2     | ami-0c4d3c3b952e38ee6 | eu-west-1    | Bastion |
+| KFD-Ubuntu-Master-1.15.5-2-1572436070     | 1.15.4-2     | ami-081b37e491554ad36 | eu-west-2    | Master  |
+| KFD-Ubuntu-Node-1.15.5-2-1572436071       | 1.15.4-2     | ami-048dfff321b0f0dac | eu-west-2    | Node    |
+| KFD-Ubuntu-Bastion-1.15.5-2-1572436070    | 1.15.4-2     | ami-03a696cd31c95d10a | eu-west-2    | Bastion |
+| KFD-Ubuntu-Master-1.15.5-2-1572436070     | 1.15.4-2     | ami-055b703f134ba9c72 | eu-west-3    | Master  |
+| KFD-Ubuntu-Node-1.15.5-2-1572436071       | 1.15.4-2     | ami-0ac1df9ab2d92bba7 | eu-west-3    | Node    |
+| KFD-Ubuntu-Bastion-1.15.5-2-1572436070    | 1.15.4-2     | ami-023651eb3e778c6fd | eu-west-3    | Bastion |
