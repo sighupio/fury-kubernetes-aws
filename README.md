@@ -98,10 +98,6 @@ roles:
     version: master
   - name: aws/kube-control-plane
     version: master
-  - name: aws/kube-node-common
-    version: master
-  - name: aws/kube-worker
-    version: master
   - name: openvpn/openvpn
     version: master
 
@@ -349,7 +345,7 @@ EOF
 
 run these commands
 
-`cd terraform`  
+`cd terraform`
 `make init`
 
 ---
@@ -369,7 +365,7 @@ run `make apply`
 
 ---
 
-## Create nodes
+## Create control plane
 
 append k8s module to `terraform/main.tf`
 
@@ -383,7 +379,7 @@ module "k8s" {
   region                             = "${var.aws_region}"
   name                               = "${var.name}"
   env                                = "${var.env}"
-  kube-ami                           = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1-*"
+  kube-master-ami                    = "KFD-Ubuntu-Master-1.15.5-2-*"
   kube-master-count                  = 3
   kube-master-type                   = "t3.medium"
   kube-private-subnets               = "${module.vpc.private_subnets}"
@@ -391,6 +387,9 @@ module "k8s" {
   kube-domain                        = "${module.vpc.domain_zone}"
   kube-bastions                      = "${module.vpc.bastion_public_ip}"
   ssh-private-key                    = "${var.ssh-private-key}"
+  s3-bucket-name                     = "sighup-${var.name}-${var.env}-agent"
+  join-policy-arn                    = "${module.prod-furyagent.bucket_policy_join}"
+  alertmanager-hostname              = "alertmanager.test.fury.sighup.io"
 
   kube-lb-internal-domains = [
     "grafana",
@@ -403,13 +402,7 @@ module "k8s" {
 
   kube-lb-external-enable-access-log = false
 
-  kube-workers = [
-    {
-      kind  = "infra"
-      count = 2
-      type  = "t3.medium"
-    },
-  ]
+  kube-workers = []
 
   ecr-repositories = []
 
@@ -442,7 +435,7 @@ EOF
 
 run `make init && make run`
 
-> this will create the machines on aws with terraform
+> this will create the machines _(control-plane, masters)_ on aws with terraform
 
 > `make run` does terraform apply and also outpus files with stack info to be used by ansible
 
@@ -454,11 +447,11 @@ now everything is deployed on aws
 
 > hosts.ini has been created by terraform's output in _ansible_ folder when we used `make run`
 
-> This is a good time to make your first `git commit` if you haven't done it yet :) 
+> This is a good time to make your first `git commit` if you haven't done it yet :)
 
 ---
 
-## Setup nodes using ansible
+## Setup control-plane using ansible
 
 create ansible config file
 
@@ -492,11 +485,6 @@ create ansible playbook to setup cluster
 
 ```bash
 cat <<-'EOF' > ansible/cluster.yml
-- name: Kubernetes node preparation
-  hosts: master,nodes
-  become: true
-  roles:
-    - aws/kube-node-common
 
 - name: Installing and configuring furyagent
   hosts: master
@@ -526,14 +514,11 @@ cat <<-'EOF' > ansible/cluster.yml
     kubernetes_cluster_name: 'fury-test'
     kubernetes_users_org: sighup
     kubernetes_control_plane_address: '{{control_plane_endpoint}}:6443'
+    kubernetes_version: '1.15.5'
+  vars_files:
+    - '../secrets/fury.yml'
   roles:
     - aws/kube-control-plane
-
-- name: Kubernetes join nodes
-  hosts: nodes
-  become: true
-  roles:
-    - aws/kube-worker
 EOF
 ```
 
@@ -560,14 +545,12 @@ the output should look like
 
 ```
 NAME                                          STATUS     ROLES    AGE     VERSION
-ip-10-100-10-20.eu-west-1.compute.internal    NotReady   master   10m     v1.12.6
-ip-10-100-10-253.eu-west-1.compute.internal   NotReady   <none>   9m16s   v1.12.6
-ip-10-100-11-138.eu-west-1.compute.internal   NotReady   master   9m46s   v1.12.6
-ip-10-100-11-201.eu-west-1.compute.internal   NotReady   <none>   9m16s   v1.12.6
-ip-10-100-12-221.eu-west-1.compute.internal   NotReady   master   10m     v1.12.6
+ip-10-100-10-20.eu-west-1.compute.internal    NotReady   master   10m     v1.15.4
+ip-10-100-11-138.eu-west-1.compute.internal   NotReady   master   9m46s   v1.15.4
+ip-10-100-12-221.eu-west-1.compute.internal   NotReady   master   10m     v1.15.4
 ```
 
-> the status is _NotReady_ because the NCI is not yet configured, but seeing the nodes is enough to prove we are good to continue
+> the status is _NotReady_ because the CNI is not yet configured, but seeing the nodes is enough to prove we are good to continue
 
 ---
 
@@ -685,7 +668,7 @@ EOF
 
 ---
 
-## installing a NCI
+## installing a CNI
 
 install weave-net in k8s cluster
 
@@ -707,11 +690,39 @@ run `kustomize build manifests | kubectl apply -f - --kubeconfig=secrets/users/a
 at this point the cluster is setup with
 2 bastion
 3 master nodes running control _plane inside_ pods managed by k8s except for _etcd_ which runs under _systemd_
-2 workes nodes
 
 every machine is accessible by it's IP using then VPN (IPs are found in _ansible/hosts.ini_)
 
 ---
+
+## Adding nodes to the cluster
+
+Modify the `k8s` module inside the terraform `main.tf` file adding a new `kube-worker` inside the `kube-workers` variable:
+
+```diff
+module "k8s" {
+   kube-workers = [
++    {
++      kind  = "infra"
++      count = 2
++      type  = "t3.medium"
++      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-1572361722"
+     },
+   ]
+```
+
+run `make init && make run`
+
+> this will create the machines _(infra nodes)_ on aws with terraform
+
+### checkpoint
+
+at this point the cluster is setup with
+2 bastion
+3 master nodes running control _plane inside_ pods managed by k8s except for _etcd_ which runs under _systemd_
+2 infra nodes
+
+every machine is accessible by it's IP using then VPN (IPs are found in _ansible/hosts.ini_)
 
 ## Nest steps:
 
