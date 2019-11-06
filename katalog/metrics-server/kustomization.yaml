@@ -1,6 +1,7 @@
-
 namespace: kube-system
 
 resources:
-  - rbac.yml
-  - deployment.yml
+- apiservice.yml
+- deploy.yml
+- rbac.yml
+- tls.yml
