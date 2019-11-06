@@ -1,18 +1,11 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kubernetes-dashboard-certs
-type: Opaque
----
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
+  name: kubernetes-dashboard
   labels:
     app: kubernetes-dashboard
-  name: kubernetes-dashboard
 spec:
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: kubernetes-dashboard
@@ -21,40 +14,85 @@ spec:
       labels:
         app: kubernetes-dashboard
     spec:
+      serviceAccountName: kubernetes-dashboard
       containers:
       - name: kubernetes-dashboard
-        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1
-        ports:
-        - containerPort: 8443
-          protocol: TCP
+        image: kubernetesui/dashboard:v2.0.0-beta5
+        imagePullPolicy: Always
         args:
-          - --auto-generate-certificates
-        volumeMounts:
-        - name: kubernetes-dashboard-certs
-          mountPath: /certs
-        - mountPath: /tmp
-          name: tmp-volume
+        - --auto-generate-certificates
+        - --sidecar-host=http://127.0.0.1:8000
+        ports:
+        - name: https
+          containerPort: 8443
         livenessProbe:
           httpGet:
             scheme: HTTPS
             path: /
-            port: 8443
+            port: https
           initialDelaySeconds: 30
           timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /
+            port: https
+          timeoutSeconds: 30
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 1001
+          runAsGroup: 2001
+        volumeMounts:
+        - name: kubernetes-dashboard-certs
+          mountPath: /certs
+        - name: tmp-volume-dashboard
+          mountPath: /tmp
+      - name: dashboard-metrics-scraper
+        image: kubernetesui/metrics-scraper:v1.0.1
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8000
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /healthz
+            port: http
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 1001
+          runAsGroup: 2001
+        volumeMounts:
+        - name: tmp-volume-metrics-scraper
+          mountPath: /tmp
       volumes:
       - name: kubernetes-dashboard-certs
         secret:
           secretName: kubernetes-dashboard-certs
-      - name: tmp-volume
+      - name: tmp-volume-dashboard
         emptyDir: {}
-      serviceAccountName: kubernetes-dashboard
+      - name: tmp-volume-metrics-scraper
+        emptyDir: {}
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: kubernetes-dashboard
+  labels:
+    app: kubernetes-dashboard
 spec:
   ports:
-    - port: 8443
+  - name: https
+    port: 443
+    targetPort: https
   selector:
     app: kubernetes-dashboard

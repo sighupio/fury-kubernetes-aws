@@ -11,8 +11,8 @@ cluster.
 
 ## Image repository and tag
 
-* Dashboard image: `k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3`
-* Dashboard repo: https://github.com/kubernetes/dashboard 
+* Dashboard image: `k8s.gcr.io/kubernetes-dashboard-amd64:v2.0.0-beta5`
+* Dashboard repo: https://github.com/kubernetes/dashboard
 * Dashboard documentation (and user guide): https://github.com/kubernetes/dashboard/wiki
 
 
