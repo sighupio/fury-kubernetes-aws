@@ -159,12 +159,10 @@ variable ecr-repositories {
 }
 
 variable s3-bucket-name {
-  default     = ""
   description = "furyagent auxiliary bucket name"
 }
 
 variable join-policy-arn {
-  default     = ""
   description = "policy granting access to kubeadm generated token to workers"
 }
 
