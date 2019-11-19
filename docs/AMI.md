@@ -14,11 +14,11 @@ Fury distributes three different AMI types: *Master*, *Node* and *Bastion*.
 
 ### Master
 
-Contains all the neccessary configuration to make it working with the specific kubernetes version.
+Contains all the necessary configuration to make it working with the specific kubernetes version.
 
 ### Node
 
-Contains all the neccessary configuration to make it working with the specific kubernetes version. Auto-join feature is activated in this AMI.
+Contains all the necessary configuration to make it working with the specific kubernetes version. Auto-join feature is active in this AMI.
 
 ### Bastion
 
