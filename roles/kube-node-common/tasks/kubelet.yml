@@ -78,10 +78,20 @@
     state: present
     update_cache: yes
 
+- name: Download cri-tools
+  get_url:
+    url: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ critools_version }}/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz
+    dest: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
+    mode: 0600
+    checksum: "sha256:{{ lookup('vars', 'critools_sha_' + item + '_v' + critools_version)}}"
+  with_items:
+    - critest
+    - crictl
+
 - name: Install cri-tools
   become: yes
   unarchive:
-    src: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ critools_version }}/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz
+    src: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
     dest: /usr/bin
     remote_src: yes
     owner: root
