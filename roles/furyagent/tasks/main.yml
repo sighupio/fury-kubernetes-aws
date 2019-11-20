@@ -49,7 +49,6 @@
 
 - name: Initialize master nodes using furyagent init master
   command: "furyagent init master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}"
-  become: yes
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_master
@@ -60,7 +59,6 @@
 
 - name: Initialize etcd using furyagent init etcd
   command: furyagent init etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}
-  become: yes
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_etcd
