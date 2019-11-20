@@ -1,7 +1,6 @@
 ---
 
 - name: Install basic packages
-  become: true
   package: 
     name: "{{ item }}"
     state: present
