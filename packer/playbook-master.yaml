@@ -8,15 +8,10 @@
   roles:
     - ../../roles/kube-node-common
 
-- name: Installing and configuring furyagent
+- name: Installing furyagent
   hosts: all
   become: true
   vars:
     furyagent_uri: https://github.com/sighupio/furyagent/releases/download/v0.0.5/furyagent-linux-amd64
-  tasks:
-  - name: Installing furyagent
-    get_url:
-      url: "{{ furyagent_uri }}"
-      dest: /usr/local/bin/furyagent
-      mode: 0750
-      force: yes
+  roles:
+    - ../../roles/furyagent
