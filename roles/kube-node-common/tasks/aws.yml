@@ -7,7 +7,6 @@
   when: ansible_distribution_release == 'bionic'
 
 - name: Install Python PIP
-  become: true
   apt:
     allow_unauthenticated: yes
     name: "{{ item }}"
@@ -18,7 +17,6 @@
     - python3-pip
 
 - name: Install awscli
-  become: true
   pip:
     name: awscli
     state: latest

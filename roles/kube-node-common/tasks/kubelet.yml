@@ -89,7 +89,6 @@
     - crictl
 
 - name: Install cri-tools
-  become: yes
   unarchive:
     src: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
     dest: /usr/bin
