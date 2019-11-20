@@ -80,10 +80,10 @@
 
 - name: Download cri-tools
   get_url:
-    url: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ critools_version }}/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz
+    url: "{{ critools['v' + critools_version][item]['base_url'] }}/v{{ critools_version }}/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
     dest: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
     mode: 0600
-    checksum: "sha256:{{ lookup('vars', 'critools_sha_' + item + '_v' + critools_version)}}"
+    checksum: "sha256:{{ critools['v' + critools_version][item]['sha256'] }}"
   with_items:
     - critest
     - crictl
