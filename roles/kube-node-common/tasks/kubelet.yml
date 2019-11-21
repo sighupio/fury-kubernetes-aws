@@ -93,6 +93,7 @@
     src: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
     dest: /usr/bin
     remote_src: yes
+    mode: 0755
     owner: root
     group: root
   with_items:
