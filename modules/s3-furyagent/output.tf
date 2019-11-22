@@ -20,3 +20,7 @@ output "bucket_username" {
 output "bucket_policy" {
   value = "${aws_iam_policy.main.arn}"
 }
+
+output "bucket_policy_join" {
+  value = "${aws_iam_policy.join.arn}"
+}

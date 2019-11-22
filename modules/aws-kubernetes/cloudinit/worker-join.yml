@@ -1,0 +1,20 @@
+cloud_final_modules:
+- [users-groups,always]
+- [scripts-user, always]
+users:
+- name: ubuntu
+  lock_passwd: True
+  gecos: Ubuntu
+  groups: [adm, audio, cdrom, dialout, dip, floppy, lxd, netdev, plugdev, sudo, video]
+  sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+  shell: /bin/bash
+  ssh-authorized-keys:
+  ${ssh-authorized-keys}
+write_files:
+  - content: |
+      KUBELET_EXTRA_ARGS='--cloud-provider=aws --node-labels=node-kind.sighup.io/${kind}="" --node-labels=node-role.kubernetes.io/${kind}=""'
+    path: /etc/default/kubelet
+    permissions: '0644'
+runcmd:
+- /cloud-init-report.sh ${alertmanager_hostname} &>/dev/null &
+- /auto-join-node.sh ${s3_bucket_name} ${alertmanager_hostname}

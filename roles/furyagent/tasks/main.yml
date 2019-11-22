@@ -15,6 +15,7 @@
       - aws_region != ""
       - s3_bucket_name != ""
     msg: "aws_access_key, aws_secret_key, aws_region and s3_bucket_name must be defined"
+  when: furyagent_configure_etcd or furyagent_configure_master or furyagent_configure_openvpn or furyagent_etcd_backup
 
 - name: Making sure furyagent config directory exist on host
   file:
@@ -23,6 +24,7 @@
     owner: root
     group: root
     mode: 0750
+  when: furyagent_configure_etcd or furyagent_configure_master or furyagent_configure_openvpn or furyagent_etcd_backup
 
 - name: Ensuring furyagent.yml configuration is present on host
   template:
@@ -31,6 +33,7 @@
     owner: root
     group: root
     mode: 0640
+  when: furyagent_configure_etcd or furyagent_configure_master or furyagent_configure_openvpn or furyagent_etcd_backup
 
 - name: Ensuring furyagent.yml configuration is present on localhost
   local_action: template src=furyagent.yml.j2 dest={{ secrets_path }}/{{ furyagent_config_name }}
@@ -45,8 +48,7 @@
   when: furyagent_configure_openvpn
 
 - name: Initialize master nodes using furyagent init master
-  local_action: command furyagent init master --config={{ secrets_path }}/{{ furyagent_config_name }}
-  become: no
+  command: "furyagent init master --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}"
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_master
@@ -56,8 +58,7 @@
   when: furyagent_configure_master
 
 - name: Initialize etcd using furyagent init etcd
-  local_action: command furyagent init etcd --config={{ secrets_path }}/{{ furyagent_config_name }}
-  become: no
+  command: furyagent init etcd --config={{ furyagent_config_dir }}/{{ furyagent_config_name }}
   run_once: true
   ignore_errors: yes
   when: furyagent_configure_etcd

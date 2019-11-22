@@ -1,0 +1,22 @@
+---
+
+- name: Add universe repository for bionic
+  apt_repository:
+    repo: deb http://archive.ubuntu.com/ubuntu bionic universe
+    state: present
+  when: ansible_distribution_release == 'bionic'
+
+- name: Install Python PIP
+  apt:
+    allow_unauthenticated: yes
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - python3-distutils
+    - python3-pip
+
+- name: Install awscli
+  pip:
+    name: awscli
+    state: latest

@@ -92,7 +92,7 @@ export AWS_ACCESS_KEY_ID=${aws_iam_access_key.pusher.id}
 export AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.pusher.secret}
 export AWS_DEFAULT_REGION=${var.region}
 # `aws ecr get-login --no-include-email --region eu-west-1`
-#${join("\n#",aws_ecr_repository.main.*.repository_url)}
+#${join("\n#", aws_ecr_repository.main.*.repository_url)}
 EOF
 }
 

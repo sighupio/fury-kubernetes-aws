@@ -67,18 +67,38 @@
     repo: "deb https://apt.kubernetes.io/ kubernetes-{{ kubernetes_repo_distribution }} main"
     state: present
 
-- name: Making sure kubelet, kubectl, kubeadm, cri-tools are installed
+- name: Making sure kubelet, kubectl, kubeadm are installed
   apt:
     name:
       - openssl
       - kubelet={{ kubelet_version }}-00
       - kubeadm={{ kubeadm_version }}-00
       - kubectl={{ kubectl_version }}-00
-      - cri-tools={{ critools_version }}-00
       - kubernetes-cni={{ kubernetescni_version }}-00
     state: present
     update_cache: yes
 
+- name: Download cri-tools
+  get_url:
+    url: "{{ critools['v' + critools_version][item]['base_url'] }}/v{{ critools_version }}/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
+    mode: 0600
+    checksum: "sha256:{{ critools['v' + critools_version][item]['sha256'] }}"
+  with_items:
+    - critest
+    - crictl
+
+- name: Install cri-tools
+  unarchive:
+    src: "/tmp/{{ item }}-v{{ critools_version }}-linux-amd64.tar.gz"
+    dest: /usr/bin
+    remote_src: yes
+    mode: 0755
+    owner: root
+    group: root
+  with_items:
+    - critest
+    - crictl
 
 - name: Ensuring kubelet extra-args are present on machine
   template:
