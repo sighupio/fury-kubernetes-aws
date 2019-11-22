@@ -9,7 +9,7 @@ resource "aws_iam_policy" "main" {
 }
 
 resource "aws_iam_policy_attachment" "main" {
-  name       = "kubernetes_instance_attachment"
+  name       = "${var.name}-${var.env}-kubernetes-instance-attachment"
   roles      = ["${aws_iam_role.main.name}"]
   policy_arn = "${aws_iam_policy.main.arn}"
 }
@@ -20,7 +20,7 @@ resource "aws_iam_instance_profile" "main" {
 }
 
 resource "aws_iam_policy_attachment" "join" {
-  name       = "kubernetes_worker_join"
+  name       = "${var.name}-${var.env}-kubernetes-worker-join"
   roles      = ["${aws_iam_role.main.name}"]
   policy_arn = "${var.join-policy-arn}"
 }
