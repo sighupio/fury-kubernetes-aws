@@ -43,6 +43,11 @@ resource "aws_autoscaling_group" "main" {
       value               = "${var.name}-${var.env}"
       propagate_at_launch = "true"
     },
+    {
+      key                 = "KubernetesClusterAndType"
+      value               = "${lookup(var.kube-workers[count.index], "kind")}-${var.name}-${var.env}"
+      propagate_at_launch = "true"
+    },
   ]
 
   lifecycle {
@@ -65,11 +70,11 @@ data "aws_instances" "main" {
 data "aws_autoscaling_groups" "infra" {
   filter {
     name   = "key"
-    values = ["Type"]
+    values = ["KubernetesClusterAndType"]
   }
 
   filter {
     name   = "value"
-    values = ["infra"]
+    values = ["infra-${var.name}-${var.env}"]
   }
 }
