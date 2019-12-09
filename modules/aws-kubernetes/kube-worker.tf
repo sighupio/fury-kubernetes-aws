@@ -26,6 +26,7 @@ resource "aws_autoscaling_group" "main" {
   max_size             = "${lookup(var.kube-workers[count.index], "count")}"
   min_size             = "${lookup(var.kube-workers[count.index], "count")}"
   launch_configuration = "${element(aws_launch_configuration.main.*.name, count.index)}"
+  termination_policies = ["OldestInstance"]
 
   tags = [
     {
