@@ -38,14 +38,13 @@ data "aws_acm_certificate" "internal" {
 }
 
 resource "aws_lb_listener" "k8s-nodes-https-internal" {
-  count             = "${length(var.kube-lb-internal-additional-domains) > 0 ? 1 : 0}"
   load_balancer_arn = "${aws_lb.internal-http.arn}"
   port              = "443"
   protocol          = "HTTPS"
 
   // https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html
   ssl_policy      = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn = "${element(data.aws_acm_certificate.internal.*.arn, 0)}"
+  certificate_arn = "${module.acm-certificate.aws-acm-certificate-arn}"
 
   default_action {
     type             = "forward"
