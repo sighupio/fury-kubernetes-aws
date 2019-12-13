@@ -8,8 +8,8 @@ on each node.
 
 ## Requirements
 
-- Kubernetes >= `1.0.10`
-- Kustomize >= `v1`
+- Kubernetes >= `1.8.0`
+- Kustomize >= `1.0.10`
 
 
 ## Image repository and tag
