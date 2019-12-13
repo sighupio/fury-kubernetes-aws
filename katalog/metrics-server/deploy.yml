@@ -14,6 +14,10 @@ spec:
         app: metrics-server
     spec:
       serviceAccountName: metrics-server
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
       containers:
       - name: metrics-server
         image: k8s.gcr.io/metrics-server-amd64:v0.3.6
@@ -22,11 +26,12 @@ spec:
         - --kubelet-insecure-tls
         - --kubelet-preferred-address-types=InternalIP
         - --metric-resolution=30s
+        - --secure-port=8443
         - --tls-cert-file=/certs/tls.crt
         - --tls-private-key-file=/certs/tls.key
         ports:
         - name: https
-          containerPort: 443
+          containerPort: 8443
         livenessProbe:
           httpGet:
             scheme: HTTPS
@@ -46,13 +51,20 @@ spec:
           limits:
             cpu: 100m
             memory: 100Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         volumeMounts:
         - name: certs
           mountPath: /certs
+        - name: tmp
+          mountPath: /tmp
       volumes:
       - name: certs
         secret:
           secretName: metrics-server-tls
+      - name: tmp
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
