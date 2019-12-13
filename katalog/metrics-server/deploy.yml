@@ -20,7 +20,7 @@ spec:
         fsGroup: 2000
       containers:
       - name: metrics-server
-        image: k8s.gcr.io/metrics-server-amd64:v0.3.6
+        image: k8s.gcr.io/metrics-server-amd64
         imagePullPolicy: Always
         args:
         - --kubelet-insecure-tls
