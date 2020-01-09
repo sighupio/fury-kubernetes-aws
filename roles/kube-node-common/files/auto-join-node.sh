@@ -44,7 +44,7 @@ n=0
 fail_join=1
 me=`basename "$0"`
 
-MAX_ATTEMPTS=50
+MAX_ATTEMPTS=200
 
 SLEEP_MILLISECS=1000
 
