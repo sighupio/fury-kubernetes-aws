@@ -1,3 +1,3 @@
-output "aws-acm-certificate-arn" {
-  value = "${aws_acm_certificate.main.arn}"
+output "arn" {
+  value = "${aws_acm_certificate_validation.main.certificate_arn}"
 }

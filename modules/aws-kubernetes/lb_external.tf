@@ -45,14 +45,22 @@ resource "aws_lb_listener" "k8s-nodes-http" {
   }
 }
 
+data "aws_acm_certificate" "main" {
+  count       = "${length(var.kube-lb-external-domains)}"
+  domain      = "${element(var.kube-lb-external-domains, count.index)}"
+  statuses    = ["ISSUED","PENDING_VALIDATION"]
+  most_recent = true
+}
+
 resource "aws_lb_listener" "k8s-nodes-https" {
+  count             = "${length(var.kube-lb-external-domains) > 0 ? 1 : 0}"
   load_balancer_arn = "${aws_lb.external.arn}"
   port              = "443"
   protocol          = "HTTPS"
 
   // https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html
   ssl_policy      = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn = "${module.acm-certificate.aws-acm-certificate-arn}"
+  certificate_arn = "${element(data.aws_acm_certificate.main.*.arn, 0)}"
 
   default_action {
     type             = "forward"
