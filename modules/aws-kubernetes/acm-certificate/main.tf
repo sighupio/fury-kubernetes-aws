@@ -17,7 +17,7 @@ resource "aws_route53_record" "main" {
   zone_id                           = "${var.public_hosted_zone_id}"
   records                           = ["${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_value")}"]
   ttl                               = "${var.validation_ttl}"
-  allow_validation_record_overwrite = "${var.aws_acm_certificate_validation}"
+  allow_validation_record_overwrite = "${var.allow_validation_record_overwrite}"
 
   lifecycle {
     create_before_destroy = true

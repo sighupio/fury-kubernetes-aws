@@ -15,6 +15,14 @@ variable "public_hosted_zone_id" {
 }
 
 variable "allow_validation_record_overwrite" {
-  type        = "bool"
+  type        = "string"
   description = "allow record overwrite"
 }
+
+
+variable "validation_ttl" {
+  type = "string"
+  description = "DNS Record TTL"
+  default = "600"
+}
+
