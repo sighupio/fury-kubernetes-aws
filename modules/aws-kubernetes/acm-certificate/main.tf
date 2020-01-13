@@ -14,7 +14,7 @@ resource "aws_route53_record" "main" {
   depends_on                        = ["aws_acm_certificate.main"]
   name                              = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_name")}"
   type                              = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_type")}"
-  zone_id                           = "${var.acm_zone_id}"
+  zone_id                           = "${var.public_hosted_zone_id}"
   records                           = ["${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_value")}"]
   ttl                               = "${var.validation_ttl}"
   allow_validation_record_overwrite = "${var.aws_acm_certificate_validation}"
