@@ -220,14 +220,12 @@ variable "acms_config_list" {
 # acms_config_list = [
 #   {
 #     acm_domain_name                    = "pippo.it"
-#     public_hosted_zone_id              = "${var.public_hosted_zone1.id}"
 #     sans_with_same_domain              = "*.pippo.it,paperino.pippo.it"
 #     validation_ttl                     = 60
 #     allow_validation_record_overwrite  = true
 #   },
 #   {
 #     acm_domain_name                    = "pluto.it"
-#     public_hosted_zone_id              = "${var.public_hosted_zone1.id}"
 #     sans_with_same_domain              = "*.pluto.it,paperino.pluto.it"
 #     validation_ttl                     = 60
 #     allow_validation_record_overwrite  = true

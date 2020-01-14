@@ -9,11 +9,6 @@ variable "sans_with_same_domain" {
   default     = []
 }
 
-variable "public_hosted_zone_id" {
-  type        = "string"
-  description = "The AWS hosted zone id to be referenced by the records"
-}
-
 variable "allow_validation_record_overwrite" {
   type        = "string"
   description = "allow record overwrite"
