@@ -3,3 +3,4 @@
 *.backup
 packer/ami.json
 .envrc
+.idea/
