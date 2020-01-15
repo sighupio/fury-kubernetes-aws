@@ -23,7 +23,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_rds_cluster" "main" {
-  cluster_identifier      = "${var.name}-${var.env}-aurora"
+  cluster_identifier      = "${var.name}-${var.env}-${var.suffix}"
   vpc_security_group_ids  = ["${aws_security_group.main.id}"]
   db_subnet_group_name    = "${aws_db_subnet_group.main.name}"
   engine                  = "${var.rds-engine}"                #"aurora"

@@ -8,6 +8,12 @@ variable "env" {
   description = "RDS cluster environment"
 }
 
+
+variable "suffix" {
+  type        = "string"
+  description = "RDS cluster suffix on cluster identifier"
+}
+
 variable "region" {
   type        = "string"
   default     = "eu-west-1"
