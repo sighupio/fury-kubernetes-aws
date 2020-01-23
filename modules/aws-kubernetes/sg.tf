@@ -145,6 +145,24 @@ resource "aws_security_group_rule" "k8s-master-ssh" {
   security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
 
+resource "aws_security_group_rule" "k8s-master-BGP" {
+  type              = "ingress"
+  from_port         = 179
+  to_port           = 179
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
+resource "aws_security_group_rule" "k8s-master-IPP" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = 94
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
 resource "aws_security_group_rule" "k8s-master-apiserver" {
   type              = "ingress"
   from_port         = 6443
