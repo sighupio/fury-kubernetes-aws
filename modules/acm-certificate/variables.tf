@@ -14,10 +14,13 @@ variable "allow_validation_record_overwrite" {
   description = "allow record overwrite"
 }
 
-
-variable "validation_ttl" {
-  type = "string"
-  description = "DNS Record TTL"
-  default = "600"
+variable "zone_id" {
+  type        = "string"
+  description = "public zone in which create validation dns entries"
 }
 
+variable "validation_ttl" {
+  type        = "string"
+  description = "DNS Record TTL"
+  default     = "600"
+}

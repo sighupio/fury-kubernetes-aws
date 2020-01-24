@@ -3,26 +3,27 @@ resource "aws_acm_certificate" "main" {
   domain_name               = "${var.domain_name}"
   validation_method         = "DNS"
   subject_alternative_names = "${var.sans_with_same_domain}"
-  lifecycle  {
+
+  lifecycle {
     create_before_destroy = true
   }
 }
 
 data "aws_route53_zone" "selected" {
-  name         = "${var.domain_name}."
+  zone_id      = "${var.zone_id}"
   private_zone = false
 }
 
 ## acm certificate records for validation
 resource "aws_route53_record" "main" {
-  count                             = "${lenght(aws_acm_certificate.main.domain_validation_options)}"
-  depends_on                        = ["aws_acm_certificate.main"]
-  name                              = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_name")}"
-  type                              = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_type")}"
-  zone_id                           = "${data.aws_route53_zone.selected.zone_id}"
-  records                           = ["${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_value")}"]
-  ttl                               = "${var.validation_ttl}"
-  allow_validation_record_overwrite = "${var.allow_validation_record_overwrite}"
+  depends_on      = ["aws_acm_certificate.main"]
+  count           = "${length(var.sans_with_same_domain) + 1}"
+  name            = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_name")}"
+  type            = "${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_type")}"
+  zone_id         = "${data.aws_route53_zone.selected.zone_id}"
+  records         = ["${lookup(aws_acm_certificate.main.domain_validation_options[count.index], "resource_record_value")}"]
+  ttl             = "${var.validation_ttl}"
+  allow_overwrite = "${var.allow_validation_record_overwrite}"
 
   lifecycle {
     create_before_destroy = true
@@ -33,7 +34,7 @@ resource "aws_route53_record" "main" {
 resource "aws_acm_certificate_validation" "main" {
   depends_on              = ["aws_route53_record.main", "aws_acm_certificate.main"]
   certificate_arn         = "${aws_acm_certificate.main.arn}"
-  validation_record_fqdns = ["${aws_route53_record.main.fqdn}"]
+  validation_record_fqdns = ["${aws_route53_record.main.*.fqdn}"]
 
   lifecycle {
     create_before_destroy = true
