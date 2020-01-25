@@ -5,7 +5,6 @@ source /cloud-init-report-alert.sh
 MAX_RETRIES=100
 MAX_TIMEOUT=1800
 
-
 function get_random_number() {
     local start=$1
     local end=$2
@@ -74,15 +73,18 @@ S3_BUCKET_NAME=$1
 JOIN_TOKEN_URL="s3://${S3_BUCKET_NAME}/join/join.sh"
 ALERT_MANAGER_HOSTNAME=$2
 
-n=0
 fail_join=1
 me=`basename "$0"`
 
-MAX_ATTEMPTS=200
-
-SLEEP_MILLISECS=1000
-
-join_command=$(join $JOIN_TOKEN_URL && fail_join=0 && break)
+join_command=$(join $JOIN_TOKEN_URL && fail_join=0)
 
 run_with_exponential_backoff $join_command || notify $ALERT_MANAGER_HOSTNAME "warning" "Cloud-init script is failing. /$me causes this warning"
-echo "fail all attempts to join cluster"; exit $fail_join
+
+if [ $fail_join -eq 0 ]
+then
+    echo "joined node $(hostname -f) successfully"
+    exit $fail_join
+else
+    echo "fail all attempts to join cluster"
+    exit $fail_join
+fi
