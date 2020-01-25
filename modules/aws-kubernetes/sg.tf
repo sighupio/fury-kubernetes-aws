@@ -18,6 +18,24 @@ resource "aws_security_group_rule" "k8s-node-ssh" {
   security_group_id = "${aws_security_group.kubernetes-nodes.id}"
 }
 
+resource "aws_security_group_rule" "k8s-node-BGP" {
+  type              = "ingress"
+  from_port         = 179
+  to_port           = 179
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-nodes.id}"
+}
+
+resource "aws_security_group_rule" "k8s-node-IPP" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = 94
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-nodes.id}"
+}
+
 resource "aws_security_group_rule" "k8s-node-apiserver" {
   type              = "ingress"
   from_port         = 10250
@@ -123,6 +141,24 @@ resource "aws_security_group_rule" "k8s-master-ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
+resource "aws_security_group_rule" "k8s-master-BGP" {
+  type              = "ingress"
+  from_port         = 179
+  to_port           = 179
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.kubernetes-master.id}"
+}
+
+resource "aws_security_group_rule" "k8s-master-IPP" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = 94
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.kubernetes-master.id}"
 }
