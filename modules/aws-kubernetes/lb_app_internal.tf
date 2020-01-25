@@ -2,7 +2,7 @@ resource "aws_lb" "internal-http" {
   name                             = "${var.name}-${var.env}-int-http"
   internal                         = true
   load_balancer_type               = "application"
-  subnets                          = ["${flatten(data.aws_subnet.public.*.id)}"]
+  subnets                          = ["${var.kube-public-subnets}"]
   security_groups                  = ["${aws_security_group.k8s-nodes.id}"]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = false
@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "k8s-nodes-internal" {
   name        = "${var.name}-${var.env}-k8s-nodes-int"
   port        = 32080
   protocol    = "HTTP"
-  vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
   target_type = "instance"
 
   health_check {

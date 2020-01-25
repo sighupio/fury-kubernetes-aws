@@ -21,7 +21,8 @@ resource "aws_launch_configuration" "main" {
 resource "aws_autoscaling_group" "main" {
   count                = "${length(var.kube-workers)}"
   name                 = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers[count.index], "kind")}-asg"
-  vpc_zone_identifier  = ["${flatten(data.aws_subnet.private.*.id)}"]
+  vpc_zone_identifier  = ["${var.kube-private-subnets}"]
+
   desired_capacity     = "${lookup(var.kube-workers[count.index], "count")}"
   max_size             = "${lookup(var.kube-workers[count.index], "count")}"
   min_size             = "${lookup(var.kube-workers[count.index], "count")}"

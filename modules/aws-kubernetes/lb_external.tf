@@ -15,7 +15,7 @@ resource "aws_lb" "external" {
   name                             = "${var.name}-${var.env}-external"
   internal                         = false
   load_balancer_type               = "application"
-  subnets                          = ["${flatten(data.aws_subnet.public.*.id)}"]
+  subnets                          = ["${var.kube-public-subnets}"]
   security_groups                  = ["${aws_security_group.k8s-nodes.id}"]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = false
@@ -78,7 +78,7 @@ resource "aws_lb_target_group" "k8s-nodes" {
   name        = "${var.name}-${var.env}-k8s-nodes"
   port        = 31080
   protocol    = "HTTP"
-  vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
   target_type = "instance"
 
   health_check {
@@ -99,7 +99,7 @@ resource "aws_autoscaling_attachment" "k8s-nodes" {
 
 resource "aws_security_group" "k8s-nodes" {
   name   = "${var.name}-${var.env}-external-lb"
-  vpc_id = "${data.aws_subnet.public.0.vpc_id}"
+  vpc_id = "${var.kube-vpc-id}"
 
   tags {
     Name = "${var.name}-${var.env}-external-lb"

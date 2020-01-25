@@ -2,7 +2,7 @@ resource "aws_lb" "internal" {
   name                             = "${var.name}-${var.env}-int"
   internal                         = true
   load_balancer_type               = "network"
-  subnets                          = ["${flatten(data.aws_subnet.public.*.id)}"]
+  subnets                          = ["${var.kube-private-subnets}"]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = false
   idle_timeout                     = 400
@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "k8s-master" {
   name        = "${var.name}-${var.env}-k8s-master"
   port        = 6443
   protocol    = "TCP"
-  vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
   target_type = "ip"
 
   health_check {
@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "internal-ingress" {
   name        = "${var.name}-${var.env}-int-ingress"
   port        = 32080
   protocol    = "TCP"
-  vpc_id      = "${data.aws_subnet.public.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
   target_type = "instance"
 
   health_check {

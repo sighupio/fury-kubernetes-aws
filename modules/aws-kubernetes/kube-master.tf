@@ -3,7 +3,7 @@ resource "aws_instance" "k8s-master" {
   ami                    = "${data.aws_ami.master.id}"
   instance_type          = "${var.kube-master-type}"
   user_data              = "${data.template_cloudinit_config.config_master.rendered}"
-  subnet_id              = "${element(data.aws_subnet.private.*.id, count.index)}"
+  subnet_id              = "${element(var.kube-private-subnets, count.index)}"
   iam_instance_profile   = "${aws_iam_instance_profile.main.name}"
   vpc_security_group_ids = ["${aws_security_group.kubernetes-master.id}"]
 

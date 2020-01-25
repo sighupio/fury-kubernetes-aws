@@ -1,7 +1,7 @@
 resource "aws_security_group" "kubernetes-nodes" {
   name        = "k8s-nodes-${var.name}-${var.env}"
   description = "Kubernetes nodes Security Group"
-  vpc_id      = "${data.aws_subnet.private.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
 
   tags {
     Name = "k8s-nodes-${var.name}-${var.env}"
@@ -94,7 +94,7 @@ resource "aws_security_group_rule" "k8s-nodes-sg-rules" {
 resource "aws_security_group" "kubernetes-master" {
   name        = "k8s-master-${var.name}-${var.env}"
   description = "Kubernetes master Security Group"
-  vpc_id      = "${data.aws_subnet.private.0.vpc_id}"
+  vpc_id      = "${var.kube-vpc-id}"
 
   tags {
     Name = "k8s-master-${var.name}-${var.env}"

@@ -21,7 +21,7 @@ ansible_ssh_private_key_file='${var.ssh-private-key}'
 ansible_python_interpreter=python3
 
 [bastion:vars]
-dns_server=${cidrhost(data.aws_vpc.main.cidr_block, 2)}
+dns_server=${cidrhost(var.kube-vpc-cidr, 2)}
 
 [gated:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -o StrictHostKeyChecking=no -W %h:%p -q ${var.ssh-private-key != "" ? "-i" : ""} ${var.ssh-private-key} ubuntu@${var.kube-bastions[0]}"'
@@ -44,7 +44,7 @@ output "external-lb-arn" {
 }
 
 data "template_file" "bastion" {
-  count = "${length(var.kube-bastions)}"
+  count = "${var.kube-bastions-count}"
 
   template = "bastion-$${index}"
 

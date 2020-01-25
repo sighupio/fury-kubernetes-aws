@@ -113,6 +113,16 @@ variable kube-workers-security-group {
 #   }
 # ]
 
+variable kube-vpc-id {
+  type        = "string"
+  description = "VPC id"
+}
+
+variable kube-vpc-cidr {
+  type        = "string"
+  description = "VPC cidr"
+}
+
 variable kube-private-subnets {
   type        = "list"
   description = "List of AWS private subnet IDs"
@@ -121,6 +131,12 @@ variable kube-private-subnets {
 variable kube-public-subnets {
   type        = "list"
   description = "List of AWS public subnet IDs"
+}
+
+
+variable kube-bastions-count {
+  type        = "string"
+  description = "Number of bastions"
 }
 
 variable kube-bastions {
@@ -190,19 +206,19 @@ data "aws_ami" "worker" {
   }
 }
 
-data "aws_subnet" "private" {
-  count = "${length(var.kube-private-subnets)}"
-  id    = "${element(var.kube-private-subnets, count.index)}"
-}
+#data "aws_subnet" "private" {
+#  count = "${length(var.kube-private-subnets)}"
+#  id    = "${element(var.kube-private-subnets, count.index)}"
+#}
 
-data "aws_subnet" "public" {
-  count = "${length(var.kube-public-subnets)}"
-  id    = "${element(var.kube-public-subnets, count.index)}"
-}
+#data "aws_subnet" "public" {
+#  count = "${length(var.kube-public-subnets)}"
+#  id    = "${element(var.kube-public-subnets, count.index)}"
+#}
 
-data "aws_vpc" "main" {
-  id = "${data.aws_subnet.private.0.vpc_id}"
-}
+#data "aws_vpc" "main" {
+#  id = "${data.aws_subnet.private.0.vpc_id}"
+#}
 
 data "aws_route53_zone" "main" {
   zone_id = "${var.kube-domain}"
