@@ -90,7 +90,7 @@ provider "aws" {
 
 variable "vpc_id" {
   type = "string"
-  default = "VPC id"
+  description = "VPC id"
 }
 
 variable "subnets_availability_zone" {
