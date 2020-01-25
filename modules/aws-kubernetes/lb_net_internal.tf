@@ -2,7 +2,7 @@ resource "aws_lb" "internal" {
   name                             = "${var.name}-${var.env}-int"
   internal                         = true
   load_balancer_type               = "network"
-  subnets                          = ["${var.kube-private-subnets}"]
+  subnets                          = ["${var.kube-public-subnets}"]
   enable_deletion_protection       = false
   enable_cross_zone_load_balancing = false
   idle_timeout                     = 400
