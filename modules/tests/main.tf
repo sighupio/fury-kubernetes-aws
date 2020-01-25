@@ -206,6 +206,7 @@ module "test-rds" {
     },
   ]
 
-  rds-port = 5432
-  subnets  = "${module.test-aws-vpc.private_subnets}"
+  rds-port                  = 5432
+  subnets                   = "${module.test-aws-vpc.private_subnets}"
+  subnets_availability_zone = "${module.test-aws-vpc.private_subnets_avaliability_zone}"
 }

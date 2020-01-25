@@ -2,7 +2,7 @@ resource "aws_rds_cluster" "main" {
   cluster_identifier              = "${var.name}-${var.env}-rds"
   engine                          = "${var.rds-engine}"
   engine_version                  = "${var.rds-engine-version}"
-  availability_zones              = ["${data.aws_subnet.main.*.availability_zone}"]
+  availability_zones              = ["${var.subnets_availability_zone}"]
   master_username                 = "${var.rds-user}"
   master_password                 = "${var.rds-password}"
   backup_retention_period         = "${var.rds-backup-retention}"
@@ -39,7 +39,7 @@ resource "aws_rds_cluster_instance" "main" {
   instance_class       = "${var.rds-nodes-type}"
   publicly_accessible  = false
   db_subnet_group_name = "${aws_db_subnet_group.main.name}"
-  availability_zone    = "${element(data.aws_subnet.main.*.availability_zone, count.index % length(var.subnets))}"
+  availability_zone    = "${element(var.subnets_availability_zone, count.index % length(var.subnets))}"
   engine               = "${var.rds-engine}"
   engine_version       = "${var.rds-engine-version}"
 }
@@ -51,7 +51,7 @@ resource "aws_db_subnet_group" "main" {
 
 resource "aws_security_group" "main" {
   name_prefix = "${var.name}-${var.env}-rds"
-  vpc_id      = "${data.aws_subnet.main.0.vpc_id}"
+  vpc_id      = "${var.vpc_id}"
 
   ingress {
     from_port   = "${var.rds-port}"

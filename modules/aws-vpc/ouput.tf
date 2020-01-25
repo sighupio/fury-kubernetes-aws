@@ -6,8 +6,16 @@ output "vpc_cidr" {
   value = "${aws_vpc.main.cidr_block}"
 }
 
+output "public_subnets_avaliability_zone" {
+  value = "${flatten(aws_subnet.public.*.availability_zone)}"
+}
+
 output "public_subnets" {
   value = "${flatten(aws_subnet.public.*.id)}"
+}
+
+output "private_subnets_avaliability_zone" {
+  value = "${flatten(aws_subnet.private.*.availability_zone)}"
 }
 
 output "private_subnets" {

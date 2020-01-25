@@ -83,7 +83,18 @@ provider "aws" {
   region = "${var.region}"
 }
 
-data "aws_subnet" "main" {
-  count = "${length(var.subnets)}"
-  id    = "${element(var.subnets, count.index)}"
+#data "aws_subnet" "main" {
+#  count = "${length(var.subnets)}"
+#  id    = "${element(var.subnets, count.index)}"
+#}
+
+variable "vpc_id" {
+  type = "string"
+  default = "VPC id"
 }
+
+variable "subnets_availability_zone" {
+  type = "list"
+  default = []
+}
+
