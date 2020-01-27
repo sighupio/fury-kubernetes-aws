@@ -10,6 +10,7 @@ on each node.
 
 - Kubernetes >= `1.8.0`
 - Kustomize >= `1.0.10`
+- cert-manager < 0.11.0
 
 
 ## Image repository and tag
