@@ -34,7 +34,7 @@ variable "region" {
 
 variable "internal-zone" {
   type        = "string"
-  default     = "sighup.io"
+  default     = "staging.k8s.sighup.io"
   description = "Domain name for internal services"
 }
 
