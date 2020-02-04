@@ -6,6 +6,7 @@ resource "aws_instance" "k8s-master" {
   subnet_id              = "${element(data.aws_subnet.private.*.id, count.index)}"
   iam_instance_profile   = "${aws_iam_instance_profile.main.name}"
   vpc_security_group_ids = ["${aws_security_group.kubernetes-master.id}"]
+  source_dest_check      = false
 
   root_block_device {
     volume_type           = "gp2"
