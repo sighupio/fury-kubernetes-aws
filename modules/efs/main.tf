@@ -1,18 +1,3 @@
-resource "aws_efs_file_system" "efs" {
-  creation_token = "${var.name}-${var.env}-efs"
-  tags {
-    Name = "${var.name}-${var.env}-efs"
-  }
-}
-
-
-resource "aws_efs_mount_target" "az_efs"{
-  count = "${length(var.subnets)}"
-  file_system_id = "${aws_efs_file_system.efs.id}"
-  subnet_id      = "${element(var.subnets,count.index)}"
-  security_groups = ["${aws_security_group.efs.id}"]
-}
-
 resource "aws_security_group" "efs" {
   name = "${var.name}-${var.env}-efs"
 
@@ -28,14 +13,32 @@ resource "aws_security_group" "efs" {
   }
 }
 
-# Security group Rules
 
-resource "aws_security_group_rule" "allow_intracluster-efs" {
+
+resource "aws_security_group_rule" "ingress_sg_efs" {
   type            = "ingress"
   from_port       = 0
   to_port         = 0
   protocol        = "-1"
   cidr_blocks     = ["${var.allowed_cidr}"]
-  description     = "efs access"
+  description     = "${var.name} ${var.env} efs access"
   security_group_id = "${aws_security_group.efs.id}"
 }
+
+
+
+resource "aws_efs_file_system" "efs" {
+  creation_token = "${var.name}-${var.env}-efs"
+  tags {
+    Name = "${var.name}-${var.env}-efs"
+  }
+}
+
+
+resource "aws_efs_mount_target" "az_efs"{
+  count = "${length(var.subnets)}"
+  file_system_id = "${aws_efs_file_system.efs.id}"
+  subnet_id      = "${element(var.subnets,count.index)}"
+  security_groups = ["${aws_security_group.efs.id}"]
+}
+
