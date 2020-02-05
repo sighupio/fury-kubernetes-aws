@@ -17,7 +17,7 @@ module "test-aws-vpc" {
   env           = "staging"
   vpc-cidr      = "10.100.0.0/16"
   region        = "${var.aws_region}"
-  internal-zone = "sighup.io"
+  internal-zone = "staging.k8s.example.com"
 
   ssh-public-keys = [
     "${file("fixtures/terraform.pub")}",
