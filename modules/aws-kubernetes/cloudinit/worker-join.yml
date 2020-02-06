@@ -15,24 +15,10 @@ write_files:
       KUBELET_EXTRA_ARGS='--cloud-provider=aws --node-labels=node-kind.sighup.io/${kind}="" --node-labels=node-role.kubernetes.io/${kind}=""'
     path: /etc/default/kubelet
     permissions: '0644'
-  - content: |
-      [Unit]
-      Description=Disable EC2 source/dest check
-      Requires=docker.service
-      After=docker.service
-      
-      [Service]
-      Type=oneshot
-      RemainAfterExit=yes
-      ExecStart=/usr/bin/docker run --net=host --rm rubenv/ec2-disable-source-dest
-      
-      [Install]
-      WantedBy=multi-user.target
-    path: /lib/systemd/system/ec2-disable-source-dest.service
-    permissions: '0644'
 runcmd:
-- systemctl daemon-reload
-- systemctl enable ec2-disable-source-dest.service
-- systemctl start --no-block ec2-disable-source-dest.service
 - /cloud-init-report.sh ${alertmanager_hostname} &>/dev/null &
+- AWS_AZ="$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)"
+- AWS_REGION="$(echo $AWS_AZ | sed 's/.$//')"
+- INSTANCE_ID="$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
+- aws ec2 modify-instance-attribute --no-source-dest-check --instance-id ${INSTANCE_ID} --region ${AWS_REGION}
 - /auto-join-node.sh ${s3_bucket_name} ${alertmanager_hostname}
