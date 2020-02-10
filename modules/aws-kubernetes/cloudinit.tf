@@ -20,10 +20,10 @@ data "template_file" "cloud-init-workers" {
   template = "${file("${path.module}/cloudinit/worker-join.yml")}"
 
   vars {
-    s3_bucket_name        = "${var.s3-bucket-name}"
     kind                  = "${lookup(var.kube-workers[count.index], "kind")}"
     alertmanager_hostname = "${var.alertmanager-hostname}"
     ssh-authorized-keys   = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
+    furyagent             = "${data.template_file.furyagent.rendered}"
   }
 }
 
@@ -45,5 +45,15 @@ data "template_cloudinit_config" "config_worker" {
     filename     = "workers-init.cfg"
     content_type = "text/cloud-config"
     content      = "${element(data.template_file.cloud-init-workers.*.rendered, count.index)}"
+  }
+}
+
+data "template_file" "furyagent" {
+  template = "${file("${path.module}/worker-furyagent/furyagent.yml.tmpl")}"
+  vars {
+    aws_access_key = "${aws_iam_access_key.furyagent_worker.id}"
+    aws_secret_key = "${aws_iam_access_key.furyagent_worker.secret}"
+    s3_bucket_name = "${var.s3-bucket-name}"
+    s3_region = "${var.region}"
   }
 }

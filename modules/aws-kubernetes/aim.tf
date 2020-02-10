@@ -24,3 +24,18 @@ resource "aws_iam_policy_attachment" "join" {
   roles      = ["${aws_iam_role.main.name}"]
   policy_arn = "${var.join-policy-arn}"
 }
+
+resource "aws_iam_user" "furyagent_worker" {
+  name = "${var.name}-${var.env}-furyagent-worker"
+  path = "/"
+}
+
+resource "aws_iam_policy_attachment" "furyagent_worker" {
+  name       = "${var.name}-${var.env}-furyagent-worker"
+  users      = ["${aws_iam_user.furyagent_worker.name}"]
+  policy_arn = "${var.join-policy-arn}"
+}
+
+resource "aws_iam_access_key" "furyagent_worker" {
+  user = "${aws_iam_user.furyagent_worker.name}"
+}
