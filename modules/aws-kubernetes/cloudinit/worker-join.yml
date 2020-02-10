@@ -16,7 +16,7 @@ write_files:
     path: /etc/default/kubelet
     permissions: '0644'
   - content: |
-      ${furyagent}
+${furyagent}
     path: /etc/default/furyagent.yml
     permissions: '0644'
 runcmd:
