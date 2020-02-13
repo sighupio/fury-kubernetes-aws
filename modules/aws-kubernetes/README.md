@@ -1,5 +1,5 @@
 
-
+```
 module "kube-sighup" {
     source = "../vendor/modules/aws-single-master"
     cluster_name = "flyer-tech-cluster"
@@ -20,3 +20,4 @@ module "kube-sighup" {
     ssh_private_key = "../secrets/terraform"
     default_ubuntu_ami = "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20180912"
 }
+```
