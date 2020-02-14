@@ -1,5 +1,8 @@
 ---
 
+- name: Installing node packages
+  include_tasks: "packages.yml"
+
 - name: Installing AWS dependencies
   include_tasks: "aws.yml"
 
