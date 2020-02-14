@@ -3,6 +3,6 @@
 - name: Installing node packages
   apt:
     name:
-      - nfscommon
+      - nfs-common
     state: latest
     update_cache: yes
