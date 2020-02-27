@@ -2,9 +2,9 @@
 
 [![Build Status](http://ci.sighup.io/api/badges/sighupio/fury-kubernetes-aws/status.svg)](http://ci.sighup.io/sighupio/fury-kubernetes-aws)
 
-Fury Kubernetes distribution uses custom AMI's based on Ubuntu to run in a proper way.
+Fury Kubernetes Distribution uses custom AMI's based on Ubuntu to run in a proper and consistent way.
 
-## Ubuntu based
+## Base image
 
 All the AMI's are based on LTS Ubuntu version, currently 18.04.
 
@@ -14,11 +14,11 @@ Fury distributes three different AMI types: *Master*, *Node* and *Bastion*.
 
 ### Master
 
-Contains all the necessary configuration to make it working with the specific kubernetes version.
+Contains all the necessary configuration and packages to make it work with a specific Kubernetes version.
 
 ### Node
 
-Contains all the necessary configuration to make it working with the specific kubernetes version. Auto-join feature is active in this AMI.
+Contains all the necessary configuration and packages to make it work with a specific Kubernetes version. Auto-join feature is active in this AMI.
 
 ### Bastion
 
