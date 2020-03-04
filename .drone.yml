@@ -4,79 +4,79 @@ name: packer
 type: docker
 
 steps:
-- name: terraform
-  image: hashicorp/terraform:0.12.12
-  commands:
-    - cd packer/terraform
-    - terraform init
-    - terraform apply --auto-approve --var="fury-version=1.16.2-1"
-    - terraform output amis > /shared/ami-0.json
-    - terraform apply --auto-approve --var="fury-version=1.15.5-1"
-    - terraform output amis > /shared/ami-1.json
-    - terraform apply --auto-approve --var="fury-version=1.14.8-1"
-    - terraform output amis > /shared/ami-2.json
-  volumes:
-  - name: shared
-    path: /shared
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: aws_access_key_id
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: aws_secret_access_key
+  - name: terraform
+    image: hashicorp/terraform:0.12.12
+    commands:
+      - cd packer/terraform
+      - terraform init
+      - terraform apply --auto-approve --var="fury-version=1.16.2-1"
+      - terraform output amis > /shared/ami-0.json
+      - terraform apply --auto-approve --var="fury-version=1.15.5-1"
+      - terraform output amis > /shared/ami-1.json
+      - terraform apply --auto-approve --var="fury-version=1.14.10-1"
+      - terraform output amis > /shared/ami-2.json
+    volumes:
+      - name: shared
+        path: /shared
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
 
-- name: packer-0
-  image: quay.io/sighup/packer:2.8.5_10_1.4.4
-  commands:
-    - cd packer
-    - packer build /shared/ami-0.json
-  volumes:
-  - name: shared
-    path: /shared
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: aws_access_key_id
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: aws_secret_access_key
-  depends_on:
-  - terraform
+  - name: packer-0
+    image: quay.io/sighup/packer:2.8.5_10_1.4.4
+    commands:
+      - cd packer
+      - packer build /shared/ami-0.json
+    volumes:
+      - name: shared
+        path: /shared
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+    depends_on:
+      - terraform
 
-- name: packer-1
-  image: quay.io/sighup/packer:2.8.5_10_1.4.4
-  commands:
-    - cd packer
-    - packer build /shared/ami-1.json
-  volumes:
-  - name: shared
-    path: /shared
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: aws_access_key_id
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: aws_secret_access_key
-  depends_on:
-  - terraform
+  - name: packer-1
+    image: quay.io/sighup/packer:2.8.5_10_1.4.4
+    commands:
+      - cd packer
+      - packer build /shared/ami-1.json
+    volumes:
+      - name: shared
+        path: /shared
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+    depends_on:
+      - terraform
 
-- name: packer-2
-  image: quay.io/sighup/packer:2.8.5_10_1.4.4
-  commands:
-    - cd packer
-    - packer build /shared/ami-2.json
-  volumes:
-  - name: shared
-    path: /shared
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: aws_access_key_id
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: aws_secret_access_key
-  depends_on:
-  - terraform
+  - name: packer-2
+    image: quay.io/sighup/packer:2.8.5_10_1.4.4
+    commands:
+      - cd packer
+      - packer build /shared/ami-2.json
+    volumes:
+      - name: shared
+        path: /shared
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+    depends_on:
+      - terraform
 
 volumes:
-- name: shared
-  temp: {}
+  - name: shared
+    temp: {}
 
 trigger:
   ref:
-  - refs/heads/master
-  - refs/tags/*
+    - refs/heads/master
+    - refs/tags/*
