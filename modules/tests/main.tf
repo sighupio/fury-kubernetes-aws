@@ -37,7 +37,7 @@ module "test-aws-kubernetes" {
   name                  = "omega"
   env                   = "staging"
   kube-master-ami-owner = "363601582189"
-  kube-master-ami       = "KFD-Ubuntu-Master-1.15.5-2-1575471112"
+  kube-master-ami       = "KFD-Ubuntu-Master-1.15.5-1-1582820289"
   kube-master-count     = 3
   kube-master-type      = "t3.small"
   kube-private-subnets  = "${module.test-aws-vpc.private_subnets}"
@@ -89,19 +89,33 @@ module "test-aws-kubernetes" {
       kind     = "infra"
       count    = 2
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-1575471113"
+      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
     },
     {
       kind     = "production"
       count    = 2
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-1575471113"
+      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
     },
     {
       kind     = "staging"
-      count    = 1
+      min      = 0
+      desired  = 4
+      max      = 7
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-2-1575471113"
+      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
+    },
+  ]
+
+  kube-workers-spot = [
+    {
+      kind           = "job"
+      min            = 0
+      desired        = 0
+      max            = 1
+      type           = "t3.small"
+      type_secondary = "t3a.small"
+      kube-ami       = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
     },
   ]
 

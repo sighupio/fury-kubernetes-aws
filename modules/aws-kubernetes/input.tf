@@ -55,11 +55,36 @@ variable kube-workers {
 #   },
 #   {
 #     kind = "production"
+#     min = 2
+#     desired = 2
+#     max = 2
+#     type = "c5.large"
+#     kube-ami= "KFD-Ubuntu-Worker-1571399626"
+#   },
+# ]
+
+variable kube-workers-spot {
+  type        = "list"
+  description = "List of maps holding definition of Kubernetes workers spot"
+}
+
+# kube-workers-spot = [
+#   {
+#     kind = "infra"
+#     min = 2
+#     desired = 2
+#     max = 2
+#     type = "m5.large"
+#     kube-ami= "KFD-Ubuntu-Infra-1571399626"
+#   },
+#   {
+#     kind = "production"
 #     count = 3
 #     type = "c5.large"
 #     kube-ami= "KFD-Ubuntu-Worker-1571399626"
 #   },
 # ]
+
 
 variable "kube-workers-ami-owner" {
   type = "string"
@@ -197,6 +222,17 @@ data "aws_ami" "worker" {
   filter {
     name   = "name"
     values = ["${lookup(var.kube-workers[count.index], "kube-ami")}"]
+  }
+}
+
+data "aws_ami" "spot" {
+  count       = "${length(var.kube-workers-spot)}"
+  most_recent = true
+  owners = ["${var.kube-workers-ami-owner}"]
+
+  filter {
+    name   = "name"
+    values = ["${lookup(var.kube-workers-spot[count.index], "kube-ami")}"]
   }
 }
 

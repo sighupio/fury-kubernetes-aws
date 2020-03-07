@@ -22,9 +22,9 @@ resource "aws_autoscaling_group" "main" {
   count                = "${length(var.kube-workers)}"
   name                 = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers[count.index], "kind")}-asg"
   vpc_zone_identifier  = ["${flatten(data.aws_subnet.private.*.id)}"]
-  desired_capacity     = "${lookup(var.kube-workers[count.index], "count")}"
-  max_size             = "${lookup(var.kube-workers[count.index], "count")}"
-  min_size             = "${lookup(var.kube-workers[count.index], "count")}"
+  desired_capacity     = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "desired","")}"
+  max_size             = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "max","")}"
+  min_size             = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "min","")}"
   launch_configuration = "${element(aws_launch_configuration.main.*.name, count.index)}"
   termination_policies = ["OldestInstance"]
 
@@ -49,12 +49,19 @@ resource "aws_autoscaling_group" "main" {
       value               = "${lookup(var.kube-workers[count.index], "kind")}-${var.name}-${var.env}"
       propagate_at_launch = "true"
     },
+    {
+      key                 = "k8s.io/cluster-autoscaler/node-template/label/node-kind.sighup.io/${lookup(var.kube-workers[count.index], "kind")}"
+      value               = ""
+      propagate_at_launch = "true"
+    },
   ]
 
   lifecycle {
     create_before_destroy = true
   }
 }
+
+
 
 data "aws_instances" "main" {
   count = "${length(var.kube-workers)}"

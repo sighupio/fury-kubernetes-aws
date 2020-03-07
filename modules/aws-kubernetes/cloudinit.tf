@@ -57,3 +57,29 @@ data "template_file" "furyagent" {
     s3_region = "${var.region}"
   }
 }
+
+
+
+data "template_file" "cloud-init-spot" {
+  count    = "${length(var.kube-workers-spot)}"
+  template = "${file("${path.module}/cloudinit/worker-join.yml")}"
+
+  vars {
+    kind                  = "${lookup(var.kube-workers-spot[count.index], "kind")}"
+    alertmanager_hostname = "${var.alertmanager-hostname}"
+    ssh-authorized-keys   = "${indent(2, join("\n", "${data.template_file.ssh_keys.*.rendered}"))}"
+    furyagent             = "${data.template_file.furyagent.rendered}"
+  }
+}
+
+
+data "template_cloudinit_config" "config_spot" {
+  count = "${length(var.kube-workers-spot)}"
+  gzip  = false
+
+  part {
+    filename     = "workers-init.cfg"
+    content_type = "text/cloud-config"
+    content      = "${element(data.template_file.cloud-init-spot.*.rendered, count.index)}"
+  }
+}
