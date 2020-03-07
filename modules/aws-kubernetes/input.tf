@@ -61,10 +61,22 @@ variable kube-workers {
 #   },
 # ]
 
+variable "kube-workers-ami-owner" {
+  type = "string"
+  default = "363601582189"
+  description = "Kubernetes workers AMI Owner"
+}
+
 variable kube-master-ami {
   type        = "string"
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
   description = "Kubernetes nodes AMI"
+}
+
+variable "kube-master-ami-owner" {
+  type = "string"
+  default = "099720109477"
+  description = "Kubernetes nodes AMI Owner"
 }
 
 variable kube-lb-internal-domains {
@@ -149,10 +161,6 @@ variable ssh-private-key {
   description = "Path to own private key to access machines"
 }
 
-provider aws {
-  region = "${var.region}"
-}
-
 variable ecr-repositories {
   type        = "list"
   description = "List of docker image repositories to create"
@@ -173,6 +181,7 @@ variable "alertmanager-hostname" {
 
 data "aws_ami" "master" {
   most_recent = true
+  owners = ["${var.kube-master-ami-owner}"]
 
   filter {
     name   = "name"
@@ -183,6 +192,7 @@ data "aws_ami" "master" {
 data "aws_ami" "worker" {
   count       = "${length(var.kube-workers)}"
   most_recent = true
+  owners = ["${var.kube-workers-ami-owner}"]
 
   filter {
     name   = "name"
