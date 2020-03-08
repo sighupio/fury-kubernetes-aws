@@ -31,8 +31,8 @@ resource "aws_autoscaling_group" "spot" {
   mixed_instances_policy {
     launch_template {
       launch_template_specification {
-        launch_template_id         = "${join("", aws_launch_template.spot.*.id)}"
-        version    = "${aws_launch_template.spot.latest_version}"
+        launch_template_id         = "${element(aws_launch_template.spot.*.id,count.index)}"
+        version    = "${element(aws_launch_template.spot.*.latest_version,count.index)}"
       }
       override {
         instance_type = "${lookup(var.kube-workers-spot[count.index], "type")}"
