@@ -79,10 +79,6 @@ variable "subnets" {
   description = "List of AWS subnet IDs"
 }
 
-provider "aws" {
-  region = "${var.region}"
-}
-
 data "aws_subnet" "main" {
   count = "${length(var.subnets)}"
   id    = "${element(var.subnets, count.index)}"
