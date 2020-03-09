@@ -1,16 +1,16 @@
 resource "aws_launch_template" "spot" {
-  count                = "${length(var.kube-workers-spot)}"
-  name_prefix          = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers-spot[count.index], "kind")}-nodes"
-  image_id             = "${element(data.aws_ami.spot.*.id, count.index)}"
-  instance_type        = "${lookup(var.kube-workers-spot[count.index], "type")}"
-  user_data            = "${element(data.template_cloudinit_config.config_spot.*.rendered, count.index)}"
+  count         = "${length(var.kube-workers-spot)}"
+  name_prefix   = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers-spot[count.index], "kind")}-nodes"
+  image_id      = "${element(data.aws_ami.spot.*.id, count.index)}"
+  instance_type = "${lookup(var.kube-workers-spot[count.index], "type")}"
+  user_data     = "${element(data.template_cloudinit_config.config_spot.*.rendered, count.index)}"
 
   iam_instance_profile {
     name = "${aws_iam_instance_profile.main.name}"
   }
 
   network_interfaces {
-    security_groups             = ["${aws_security_group.kubernetes-nodes.id}"]
+    security_groups = ["${aws_security_group.kubernetes-nodes.id}"]
   }
 
   lifecycle {
@@ -27,13 +27,13 @@ resource "aws_autoscaling_group" "spot" {
   min_size             = "${lookup(var.kube-workers-spot[count.index], "count","") != "" ? lookup(var.kube-workers-spot[count.index], "count","") : lookup(var.kube-workers-spot[count.index], "min","")}"
   termination_policies = ["OldestInstance"]
 
-
   mixed_instances_policy {
     launch_template {
       launch_template_specification {
-        launch_template_id         = "${element(aws_launch_template.spot.*.id,count.index)}"
-        version    = "${element(aws_launch_template.spot.*.latest_version,count.index)}"
+        launch_template_id = "${element(aws_launch_template.spot.*.id,count.index)}"
+        version            = "${element(aws_launch_template.spot.*.latest_version,count.index)}"
       }
+
       override {
         instance_type = "${lookup(var.kube-workers-spot[count.index], "type")}"
       }
@@ -42,8 +42,9 @@ resource "aws_autoscaling_group" "spot" {
         instance_type = "${lookup(var.kube-workers-spot[count.index], "type_secondary")}"
       }
     }
-    instances_distribution{
-      on_demand_base_capacity = "0"
+
+    instances_distribution {
+      on_demand_base_capacity                  = "0"
       on_demand_percentage_above_base_capacity = "0"
     }
   }
@@ -70,11 +71,10 @@ resource "aws_autoscaling_group" "spot" {
       propagate_at_launch = "true"
     },
     {
-      key                 = "k8s.io/cluster-autoscaler/node-template/label/node-kind.sighup.io/${lookup(var.kube-workers-spot[count.index], "kind")}"
+      key                 = "k8s.io/cluster-autoscaler/node-template/label/${var.node-role-tag-cluster-autoscaler}/${lookup(var.kube-workers-spot[count.index], "kind")}"
       value               = ""
       propagate_at_launch = "true"
     },
-
   ]
 
   lifecycle {

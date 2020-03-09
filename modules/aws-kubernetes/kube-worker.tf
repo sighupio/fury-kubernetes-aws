@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "main" {
       propagate_at_launch = "true"
     },
     {
-      key                 = "k8s.io/cluster-autoscaler/node-template/label/node-kind.sighup.io/${lookup(var.kube-workers[count.index], "kind")}"
+      key                 = "k8s.io/cluster-autoscaler/node-template/label/${var.node-role-tag-cluster-autoscaler}/${lookup(var.kube-workers[count.index], "kind")}"
       value               = ""
       propagate_at_launch = "true"
     },
@@ -60,8 +60,6 @@ resource "aws_autoscaling_group" "main" {
     create_before_destroy = true
   }
 }
-
-
 
 data "aws_instances" "main" {
   count = "${length(var.kube-workers)}"

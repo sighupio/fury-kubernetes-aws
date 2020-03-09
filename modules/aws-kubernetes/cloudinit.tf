@@ -50,15 +50,14 @@ data "template_cloudinit_config" "config_worker" {
 
 data "template_file" "furyagent" {
   template = "${file("${path.module}/worker-furyagent/furyagent.yml.tmpl")}"
+
   vars {
     aws_access_key = "${aws_iam_access_key.furyagent_worker.id}"
     aws_secret_key = "${aws_iam_access_key.furyagent_worker.secret}"
     s3_bucket_name = "${var.s3-bucket-name}"
-    s3_region = "${var.region}"
+    s3_region      = "${var.region}"
   }
 }
-
-
 
 data "template_file" "cloud-init-spot" {
   count    = "${length(var.kube-workers-spot)}"
@@ -71,7 +70,6 @@ data "template_file" "cloud-init-spot" {
     furyagent             = "${data.template_file.furyagent.rendered}"
   }
 }
-
 
 data "template_cloudinit_config" "config_spot" {
   count = "${length(var.kube-workers-spot)}"

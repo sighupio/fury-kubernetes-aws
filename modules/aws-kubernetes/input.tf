@@ -85,10 +85,9 @@ variable kube-workers-spot {
 #   },
 # ]
 
-
 variable "kube-workers-ami-owner" {
-  type = "string"
-  default = "363601582189"
+  type        = "string"
+  default     = "363601582189"
   description = "Kubernetes workers AMI Owner"
 }
 
@@ -99,8 +98,8 @@ variable kube-master-ami {
 }
 
 variable "kube-master-ami-owner" {
-  type = "string"
-  default = "099720109477"
+  type        = "string"
+  default     = "099720109477"
   description = "Kubernetes nodes AMI Owner"
 }
 
@@ -206,7 +205,7 @@ variable "alertmanager-hostname" {
 
 data "aws_ami" "master" {
   most_recent = true
-  owners = ["${var.kube-master-ami-owner}"]
+  owners      = ["${var.kube-master-ami-owner}"]
 
   filter {
     name   = "name"
@@ -217,7 +216,7 @@ data "aws_ami" "master" {
 data "aws_ami" "worker" {
   count       = "${length(var.kube-workers)}"
   most_recent = true
-  owners = ["${var.kube-workers-ami-owner}"]
+  owners      = ["${var.kube-workers-ami-owner}"]
 
   filter {
     name   = "name"
@@ -228,7 +227,7 @@ data "aws_ami" "worker" {
 data "aws_ami" "spot" {
   count       = "${length(var.kube-workers-spot)}"
   most_recent = true
-  owners = ["${var.kube-workers-ami-owner}"]
+  owners      = ["${var.kube-workers-ami-owner}"]
 
   filter {
     name   = "name"
@@ -257,4 +256,11 @@ data "aws_route53_zone" "main" {
 data "aws_route53_zone" "additional" {
   count   = "${var.additional-domain == "" ? 0 : 1}"
   zone_id = "${var.additional-domain}"
+}
+
+#node-role.kubernetes.io
+
+variable "node-role-tag-cluster-autoscaler" {
+  default = "node-role.kubernetes.io"
+  type    = "string"
 }
