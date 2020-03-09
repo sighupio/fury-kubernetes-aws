@@ -22,9 +22,9 @@ resource "aws_autoscaling_group" "spot" {
   count                = "${length(var.kube-workers-spot)}"
   name                 = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers-spot[count.index], "kind")}-asg"
   vpc_zone_identifier  = ["${flatten(data.aws_subnet.private.*.id)}"]
-  desired_capacity     = "${lookup(var.kube-workers-spot[count.index], "count","") != "" ? lookup(var.kube-workers-spot[count.index], "count","") : lookup(var.kube-workers-spot[count.index], "desired","")}"
-  max_size             = "${lookup(var.kube-workers-spot[count.index], "count","") != "" ? lookup(var.kube-workers-spot[count.index], "count","") : lookup(var.kube-workers-spot[count.index], "max","")}"
-  min_size             = "${lookup(var.kube-workers-spot[count.index], "count","") != "" ? lookup(var.kube-workers-spot[count.index], "count","") : lookup(var.kube-workers-spot[count.index], "min","")}"
+  desired_capacity     = "${lookup(var.kube-workers-spot[count.index], "desired")}"
+  max_size             = "${lookup(var.kube-workers-spot[count.index], "max")}"
+  min_size             = "${lookup(var.kube-workers-spot[count.index], "min")}"
   termination_policies = ["OldestInstance"]
 
   mixed_instances_policy {

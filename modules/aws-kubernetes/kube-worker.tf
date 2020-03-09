@@ -22,9 +22,9 @@ resource "aws_autoscaling_group" "main" {
   count                = "${length(var.kube-workers)}"
   name                 = "${var.name}-${var.env}-k8s-${lookup(var.kube-workers[count.index], "kind")}-asg"
   vpc_zone_identifier  = ["${flatten(data.aws_subnet.private.*.id)}"]
-  desired_capacity     = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "desired","")}"
-  max_size             = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "max","")}"
-  min_size             = "${lookup(var.kube-workers[count.index], "count","") != "" ? lookup(var.kube-workers[count.index], "count","") : lookup(var.kube-workers[count.index], "min","")}"
+  desired_capacity     = "${lookup(var.kube-workers[count.index], "desired")}"
+  max_size             = "${lookup(var.kube-workers[count.index], "max")}"
+  min_size             = "${lookup(var.kube-workers[count.index], "min")}"
   launch_configuration = "${element(aws_launch_configuration.main.*.name, count.index)}"
   termination_policies = ["OldestInstance"]
 

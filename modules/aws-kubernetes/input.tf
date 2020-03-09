@@ -49,7 +49,9 @@ variable kube-workers {
 # kube-workers = [
 #   {
 #     kind = "infra"
-#     count = 2
+#     min = 3
+#     desired = 3
+#     max = 3
 #     type = "m5.large"
 #     kube-ami= "KFD-Ubuntu-Infra-1571399626"
 #   },
@@ -70,7 +72,7 @@ variable kube-workers-spot {
 
 # kube-workers-spot = [
 #   {
-#     kind = "infra"
+#     kind = "job"
 #     min = 2
 #     desired = 2
 #     max = 2
@@ -78,8 +80,10 @@ variable kube-workers-spot {
 #     kube-ami= "KFD-Ubuntu-Infra-1571399626"
 #   },
 #   {
-#     kind = "production"
-#     count = 3
+#     kind = "stateless"
+#     min = 2
+#     desired = 2
+#     max = 2
 #     type = "c5.large"
 #     kube-ami= "KFD-Ubuntu-Worker-1571399626"
 #   },
