@@ -9,11 +9,11 @@ steps:
     commands:
       - cd packer/terraform
       - terraform init
-      - terraform apply --auto-approve --var="fury-version=1.16.2-1"
+      - terraform apply --auto-approve --var="fury-version=1.16.2-3"
       - terraform output amis > /shared/ami-0.json
-      - terraform apply --auto-approve --var="fury-version=1.15.5-1"
+      - terraform apply --auto-approve --var="fury-version=1.15.5-3"
       - terraform output amis > /shared/ami-1.json
-      - terraform apply --auto-approve --var="fury-version=1.14.10-1"
+      - terraform apply --auto-approve --var="fury-version=1.14.10-3"
       - terraform output amis > /shared/ami-2.json
     volumes:
       - name: shared

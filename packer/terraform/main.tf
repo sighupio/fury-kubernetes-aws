@@ -55,7 +55,7 @@ variable "user" {
 }
 
 variable "fury-version" {
-  default = "1.15.5-1"
+  default = "1.15.5-3"
 }
 
 locals {
