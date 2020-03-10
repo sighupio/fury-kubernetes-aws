@@ -14,14 +14,16 @@ resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.main.id}"
   count  = "${var.az-count}"
 
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${element(aws_nat_gateway.main.*.id,count.index)}"
-  }
-
   tags {
     Name = "private-${var.name}-${var.env}-${count.index+1}"
   }
+}
+
+resource "aws_route" "private" {
+  count                  = "${var.az-count}"
+  route_table_id         = "${element(aws_route_table.private.*.id,count.index)}"
+  nat_gateway_id         = "${element(aws_nat_gateway.main.*.id,count.index)}"
+  destination_cidr_block = "0.0.0.0/0"
 }
 
 resource "aws_route_table_association" "private" {
