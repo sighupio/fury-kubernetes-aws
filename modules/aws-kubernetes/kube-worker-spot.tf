@@ -51,6 +51,11 @@ resource "aws_autoscaling_group" "spot" {
 
   tags = [
     {
+      key                 = "Name"
+      value               = "kube-node-${var.name}-${var.env}-${lookup(var.kube-workers-spot[count.index], "kind")}-asg"
+      propagate_at_launch = "true"
+    },
+    {
       key                 = "Role"
       value               = "node"
       propagate_at_launch = "true"
