@@ -5,7 +5,7 @@ type: docker
 
 steps:
   - name: terraform
-    image: hashicorp/terraform:0.12.12
+    image: hashicorp/terraform:0.12.20
     commands:
       - cd packer/terraform
       - terraform init

@@ -1,7 +1,9 @@
 {
   "variables": {
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "kube-version" : "${kube-version}",
+    "critools_version" : "${critools_version}"
   },
   "builders": [
     ${builders}

@@ -4,6 +4,7 @@ terraform {
     key    = "fury-kubernetes-aws-feature-auto-join"
     region = "eu-west-1"
   }
+  required_version = "= 0.12.20"
 }
 
 variable "region" {
@@ -59,8 +60,8 @@ variable "fury-version" {
 }
 
 locals {
-  kube-version = "${substr(var.fury-version, 0, 6)}"
-  cri-tools-version = "${substr(local.kube-version, 0, 5)}0"
+  kube-version      = "${split("-", var.fury-version)[0]}"
+  cri-tools-version = "${join(".", slice(split(".", local.kube-version), 0, 2))}.0"
 }
 
 data "template_file" "builders" {
@@ -78,8 +79,8 @@ data "template_file" "provisioners" {
   count    = length(var.kinds)
   template = file("provisioners.tpl")
   vars = {
-    kind = var.kinds[count.index]
-    kube-version = local.kube-version
+    kind              = var.kinds[count.index]
+    kube-version      = local.kube-version
     cri-tools-version = local.cri-tools-version
   }
 }
@@ -87,9 +88,11 @@ data "template_file" "provisioners" {
 data "template_file" "amis" {
   template = file("amis.tpl")
   vars = {
-    provisioners = join(", ", data.template_file.provisioners.*.rendered)
-    builders     = join(", ", data.template_file.builders.*.rendered)
-    user         = var.user
+    provisioners     = join(", ", data.template_file.provisioners.*.rendered)
+    builders         = join(", ", data.template_file.builders.*.rendered)
+    user             = var.user
+    kube-version     = local.kube-version
+    critools_version = local.cri-tools-version
   }
 }
 
