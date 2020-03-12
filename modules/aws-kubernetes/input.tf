@@ -268,3 +268,8 @@ variable "node-role-tag-cluster-autoscaler" {
   default = "node-role.kubernetes.io"
   type    = "string"
 }
+
+variable "ecr-additional-pull-account-id" {
+  default = ""
+  type    = "string"
+}
