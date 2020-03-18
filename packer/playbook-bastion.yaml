@@ -1,7 +1,0 @@
-- name: Installing furyagent
-  hosts: all
-  become: true
-  vars:
-    furyagent_uri: https://github.com/sighupio/furyagent/releases/latest/download/furyagent-linux-amd64
-  roles:
-    - ../../roles/furyagent
