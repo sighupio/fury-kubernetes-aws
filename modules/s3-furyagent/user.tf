@@ -5,12 +5,12 @@ resource "aws_iam_user" "main" {
 
 resource "aws_iam_policy_attachment" "main" {
   name       = "${var.cluster_name}-${var.environment}-furyagent-backup"
-  users      = ["${aws_iam_user.main.name}"]
-  policy_arn = "${aws_iam_policy.main.arn}"
+  users      = [aws_iam_user.main.name]
+  policy_arn = aws_iam_policy.main.arn
 }
 
 resource "aws_iam_access_key" "main" {
-  user = "${aws_iam_user.main.name}"
+  user = aws_iam_user.main.name
 }
 
 resource "aws_iam_policy" "main" {
