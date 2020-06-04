@@ -10,17 +10,17 @@ EOF
 }
 
 output "furyagent_ansible_secrets" {
-  value = "${local.furyagent_ansible_secrets}"
+  value = local.furyagent_ansible_secrets
 }
 
 output "bucket_username" {
-  value = "${aws_iam_user.main.name}"
+  value = aws_iam_user.main.name
 }
 
 output "bucket_policy" {
-  value = "${aws_iam_policy.main.arn}"
+  value = aws_iam_policy.main.arn
 }
 
 output "bucket_policy_join" {
-  value = "${aws_iam_policy.join.arn}"
+  value = aws_iam_policy.join.arn
 }
