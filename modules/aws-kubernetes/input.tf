@@ -1,48 +1,51 @@
-variable name {
-  type        = "string"
+variable "name" {
+  type        = string
   description = "Cluster name"
 }
 
-variable env {
-  type        = "string"
+variable "env" {
+  type        = string
   description = "Cluster environment"
 }
 
-variable region {
-  type        = "string"
+variable "region" {
+  type        = string
   default     = "eu-west-1"
   description = "AWS region"
 }
 
-variable kube-master-count {
-  type        = "string"
+variable "kube-master-count" {
+  type        = string
   default     = 1
   description = "Number of Kubernetes master nodes"
 }
 
-variable kube-master-type {
-  type        = "string"
+variable "kube-master-type" {
+  type        = string
   default     = "t3.medium"
   description = "Kubernetes master nodes EC2 instance type"
 }
 
-variable kube-master-volumes {
-  type        = "list"
+variable "kube-master-volumes" {
+  type = list(object({
+    size        = number
+    type        = string
+    iops        = number
+    device_name = string
+  }))
   default     = []
   description = "Kubernetes master nodes volumes"
 }
 
-# kube-master-volumes = [
-#   {
-#     size = 10,
-#     type = gp2,
-#     iops = ...,
-#     device_name = /dev/sdf
-#   }
-# ]
-
-variable kube-workers {
-  type        = "list"
+variable "kube-workers" {
+  type = list(object({
+    kind     = string
+    min      = number
+    desired  = number
+    max      = number
+    type     = string
+    kube-ami = string
+  }))
   description = "List of maps holding definition of Kubernetes workers"
 }
 
@@ -65,8 +68,16 @@ variable kube-workers {
 #   },
 # ]
 
-variable kube-workers-spot {
-  type        = "list"
+variable "kube-workers-spot" {
+  type = list(object({
+    kind           = string
+    min            = number
+    desired        = number
+    max            = number
+    type           = string
+    type_secondary = string
+    kube-ami       = string
+  }))
   description = "List of maps holding definition of Kubernetes workers spot"
 }
 
@@ -90,55 +101,67 @@ variable kube-workers-spot {
 # ]
 
 variable "kube-workers-ami-owner" {
-  type        = "string"
+  type        = string
   default     = "363601582189"
   description = "Kubernetes workers AMI Owner"
 }
 
-variable kube-master-ami {
-  type        = "string"
+variable "kube-master-ami" {
+  type        = string
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
   description = "Kubernetes nodes AMI"
 }
 
 variable "kube-master-ami-owner" {
-  type        = "string"
+  type        = string
   default     = "099720109477"
   description = "Kubernetes nodes AMI Owner"
 }
 
-variable kube-lb-internal-domains {
-  type        = "list"
+variable "kube-lb-internal-domains" {
+  type        = list(string)
   default     = []
   description = "List of domains to be created for internal loadbalancer on Kubernetes DNS zone"
 }
 
-variable kube-lb-internal-additional-domains {
-  type        = "list"
+variable "kube-lb-internal-additional-domains" {
+  type        = list(string)
   default     = []
   description = "List of domains to be created for internal loadbalancer on additional DNS zone"
 }
 
-variable kube-lb-external-domains {
-  type        = "list"
+variable "kube-lb-external-domains" {
+  type        = list(string)
   default     = []
   description = "List of domains for TLS termination on external loadbalancer"
 }
 
-variable kube-lb-external-enable-access-log {
-  type        = "string"
+variable "kube-lb-external-enable-access-log" {
+  type        = string
   default     = false
   description = "Enable access log on external load balancer"
 }
 
-variable kube-master-security-group {
-  type        = "list"
+variable "kube-master-security-group" {
+  type = list(object({
+    type        = string
+    to_port     = number
+    from_port   = number
+    protocol    = string
+    cidr_blocks = string
+  }))
   default     = []
   description = "Kubernetes master security group rules"
 }
 
-variable kube-workers-security-group {
-  type        = "list"
+variable "kube-workers-security-group" {
+  type = list(object({
+    type        = string
+    to_port     = number
+    from_port   = number
+    protocol    = string
+    cidr_blocks = string
+  }))
   default     = []
   description = "Kubernetes workers security group rules"
 }
@@ -153,52 +176,52 @@ variable kube-workers-security-group {
 #   }
 # ]
 
-variable kube-private-subnets {
-  type        = "list"
+variable "kube-private-subnets" {
+  type        = list(string)
   description = "List of AWS private subnet IDs"
 }
 
-variable kube-public-subnets {
-  type        = "list"
+variable "kube-public-subnets" {
+  type        = list(string)
   description = "List of AWS public subnet IDs"
 }
 
-variable kube-bastions {
-  type        = "list"
+variable "kube-bastions" {
+  type        = list(string)
   description = "List of bastion public IP addresses"
 }
 
-variable kube-domain {
-  type        = "string"
+variable "kube-domain" {
+  type        = string
   description = "Route53 Kubernetes zone ID"
 }
 
-variable additional-domain {
-  type        = "string"
+variable "additional-domain" {
+  type        = string
   default     = ""
   description = "Route53 additional zone ID"
 }
 
-variable ssh-public-keys {
-  type        = "list"
+variable "ssh-public-keys" {
+  type        = list(string)
   description = "List of public SSH keys authorized to connect to Kubernetes nodes"
 }
 
-variable ssh-private-key {
-  type        = "string"
+variable "ssh-private-key" {
+  type        = string
   description = "Path to own private key to access machines"
 }
 
-variable ecr-repositories {
-  type        = "list"
+variable "ecr-repositories" {
+  type        = list(string)
   description = "List of docker image repositories to create"
 }
 
-variable s3-bucket-name {
+variable "s3-bucket-name" {
   description = "furyagent auxiliary bucket name"
 }
 
-variable join-policy-arn {
+variable "join-policy-arn" {
   description = "policy granting access to kubeadm generated token to workers"
 }
 
@@ -209,67 +232,68 @@ variable "alertmanager-hostname" {
 
 data "aws_ami" "master" {
   most_recent = true
-  owners      = ["${var.kube-master-ami-owner}"]
+  owners      = [var.kube-master-ami-owner]
 
   filter {
     name   = "name"
-    values = ["${var.kube-master-ami}"]
+    values = [var.kube-master-ami]
   }
 }
 
 data "aws_ami" "worker" {
-  count       = "${length(var.kube-workers)}"
+  count       = length(var.kube-workers)
   most_recent = true
-  owners      = ["${var.kube-workers-ami-owner}"]
+  owners      = [var.kube-workers-ami-owner]
 
   filter {
     name   = "name"
-    values = ["${lookup(var.kube-workers[count.index], "kube-ami")}"]
+    values = [var.kube-workers[count.index]["kube-ami"]]
   }
 }
 
 data "aws_ami" "spot" {
-  count       = "${length(var.kube-workers-spot)}"
+  count       = length(var.kube-workers-spot)
   most_recent = true
-  owners      = ["${var.kube-workers-ami-owner}"]
+  owners      = [var.kube-workers-ami-owner]
 
   filter {
     name   = "name"
-    values = ["${lookup(var.kube-workers-spot[count.index], "kube-ami")}"]
+    values = [var.kube-workers-spot[count.index]["kube-ami"]]
   }
 }
 
 data "aws_subnet" "private" {
-  count = "${length(var.kube-private-subnets)}"
-  id    = "${element(var.kube-private-subnets, count.index)}"
+  count = length(var.kube-private-subnets)
+  id    = element(var.kube-private-subnets, count.index)
 }
 
 data "aws_subnet" "public" {
-  count = "${length(var.kube-public-subnets)}"
-  id    = "${element(var.kube-public-subnets, count.index)}"
+  count = length(var.kube-public-subnets)
+  id    = element(var.kube-public-subnets, count.index)
 }
 
 data "aws_vpc" "main" {
-  id = "${data.aws_subnet.private.0.vpc_id}"
+  id = data.aws_subnet.private[0].vpc_id
 }
 
 data "aws_route53_zone" "main" {
-  zone_id = "${var.kube-domain}"
+  zone_id = var.kube-domain
 }
 
 data "aws_route53_zone" "additional" {
-  count   = "${var.additional-domain == "" ? 0 : 1}"
-  zone_id = "${var.additional-domain}"
+  count   = var.additional-domain == "" ? 0 : 1
+  zone_id = var.additional-domain
 }
 
 #node-role.kubernetes.io
 
 variable "node-role-tag-cluster-autoscaler" {
   default = "node-role.kubernetes.io"
-  type    = "string"
+  type    = string
 }
 
 variable "ecr-additional-pull-account-id" {
   default = ""
-  type    = "string"
+  type    = string
 }
+

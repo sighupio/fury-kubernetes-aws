@@ -1,6 +1,6 @@
 resource "aws_ecr_repository_policy" "main" {
-  count      = "${var.ecr-additional-pull-account-id != "" ? length(var.ecr-repositories) : 0}"
-  repository = "${element(aws_ecr_repository.main.*.name, count.index)}"
+  count      = var.ecr-additional-pull-account-id != "" ? length(var.ecr-repositories) : 0
+  repository = element(aws_ecr_repository.main.*.name, count.index)
 
   policy = <<EOF
 {
@@ -17,4 +17,6 @@ resource "aws_ecr_repository_policy" "main" {
   ]
 }
 EOF
+
 }
+

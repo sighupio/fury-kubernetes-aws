@@ -1,4 +1,5 @@
-data "aws_elb_service_account" "main" {}
+data "aws_elb_service_account" "main" {
+}
 
 data "aws_iam_policy_document" "main" {
   statement {
@@ -6,7 +7,7 @@ data "aws_iam_policy_document" "main" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${data.aws_elb_service_account.main.arn}"]
+      identifiers = [data.aws_elb_service_account.main.arn]
     }
 
     effect = "Allow"
@@ -22,11 +23,11 @@ data "aws_iam_policy_document" "main" {
 }
 
 resource "aws_s3_bucket" "main" {
-  count  = "${var.kube-lb-external-enable-access-log ? 1 : 0}"
+  count  = var.kube-lb-external-enable-access-log ? 1 : 0
   bucket = "${var.name}-${var.env}-external-lb-logs"
   acl    = "log-delivery-write"
-  policy = "${data.aws_iam_policy_document.main.json}"
-  region = "${var.region}"
+  policy = data.aws_iam_policy_document.main.json
+  region = var.region
 
   lifecycle_rule {
     id      = "${var.name}-${var.env}-external-lb-logs"
@@ -49,8 +50,9 @@ resource "aws_s3_bucket" "main" {
     }
   }
 
-  tags {
+  tags = {
     Name        = "${var.name}-${var.env}-external-lb-logs"
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
+
