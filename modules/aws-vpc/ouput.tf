@@ -29,3 +29,19 @@ output "bastion_public_ip" {
 output "main_internet_gateway" {
   value = aws_internet_gateway.main.id
 }
+
+output "route_table_public" {
+  value = aws_route_table.public.id
+}
+
+output "route_table_private" {
+  value = aws_route_table.private.*.id
+}
+
+output "vpn_security_group" {
+  value = aws_security_group.bastion.id
+}
+
+output "nat_gateway_ids" {
+  value = aws_nat_gateway.main.*.id
+}
