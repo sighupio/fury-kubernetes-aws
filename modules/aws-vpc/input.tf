@@ -1,83 +1,84 @@
 variable "vpc-cidr" {
-  type    = "string"
+  type    = string
   default = "10.10.0.0/16"
 }
 
 variable "az-count" {
-  type        = "string"
+  type        = number
   description = "Number of az to deploy the VPC in"
   default     = 3
 }
 
 variable "bastion-vpn-enable" {
-  type    = "string"
+  type    = bool
   default = true
 }
 
 variable "bastion-ssh-enable" {
-  type    = "string"
+  type    = bool
   default = true
 }
 
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "env" {
-  type = "string"
+  type = string
 }
 
 variable "region" {
-  type    = "string"
+  type    = string
   default = "eu-west-1"
 }
 
 variable "internal-zone" {
-  type        = "string"
+  type        = string
   description = "Domain name for internal services"
 }
 
 variable "additional-zone" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Additional domain name for internal services"
 }
 
 variable "bastion-instance-type" {
-  type    = "string"
+  type    = string
   default = "t3.small"
 }
 
 variable "bastion-count" {
-  type    = "string"
+  type    = number
   default = 2
 }
 
 variable "bastion-ami" {
-  type    = "string"
+  type    = string
   default = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
 }
 
 variable "ssh-public-keys" {
-  type        = "list"
+  type        = list(string)
   description = "List of public SSH keys authorized to connect to the bastions"
 }
 
 variable "bastion-ami-owner" {
-  type = "string"
-  default = "099720109477"
+  type        = string
+  default     = "099720109477"
   description = "Bastion nodes AMI Owner"
 }
 
-
 data "aws_ami" "main" {
   most_recent = true
-  owners = ["${var.bastion-ami-owner}"]
+  owners      = [var.bastion-ami-owner]
 
   filter {
     name   = "name"
-    values = ["${var.bastion-ami}"]
+    values = [var.bastion-ami]
   }
 }
 
-data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "available" {
+}
+
