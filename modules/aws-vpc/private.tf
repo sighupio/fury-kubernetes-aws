@@ -1,3 +1,10 @@
+locals {
+  private_subnet_tags = map(
+    "kubernetes.io/cluster/${var.name}-${var.env}", "shared",
+    "kubernetes.io/role/internal-elb", "1"
+  )
+}
+
 resource "aws_subnet" "private" {
   count                   = var.az-count
   availability_zone       = data.aws_availability_zones.available.names[count.index]
@@ -5,9 +12,12 @@ resource "aws_subnet" "private" {
   cidr_block              = cidrsubnet(var.vpc-cidr, 8, count.index + 10)
   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "private-${var.name}-${var.env}-${count.index}"
-  }
+  tags = merge(
+    local.private_subnet_tags,
+    map(
+      "Name", "private-${var.name}-${var.env}-${count.index}"
+    )
+  )
 }
 
 resource "aws_route_table" "private" {
