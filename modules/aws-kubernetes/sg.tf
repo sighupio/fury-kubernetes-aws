@@ -1,12 +1,21 @@
+locals {
+  sg_tags = map(
+    "kubernetes.io/cluster/${var.name}-${var.env}", "owned",
+  )
+}
+
 resource "aws_security_group" "kubernetes-nodes" {
   name        = "k8s-nodes-${var.name}-${var.env}"
   description = "Kubernetes nodes Security Group"
   vpc_id      = data.aws_subnet.private[0].vpc_id
 
-  tags = {
-    Name = "k8s-nodes-${var.name}-${var.env}"
-    Env  = var.env
-  }
+  tags = merge(
+    local.sg_tags,
+    map(
+      "Name", "k8s-nodes-${var.name}-${var.env}",
+      "Env", "${var.env}",
+    )
+  )
 }
 
 resource "aws_security_group_rule" "k8s-node-ssh" {
