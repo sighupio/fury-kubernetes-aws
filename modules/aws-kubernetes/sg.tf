@@ -63,15 +63,6 @@ resource "aws_security_group_rule" "k8s-node-nginx-ingress" {
   security_group_id = aws_security_group.kubernetes-nodes.id
 }
 
-resource "aws_security_group_rule" "k8s-node-weave-net" {
-  type              = "ingress"
-  from_port         = 6781
-  to_port           = 6783
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.kubernetes-nodes.id
-}
-
 resource "aws_security_group_rule" "k8s-node-node-exporter" {
   type              = "ingress"
   from_port         = 9100
@@ -193,15 +184,6 @@ resource "aws_security_group_rule" "k8s-master-etcd-metrics" {
   type              = "ingress"
   from_port         = 2378
   to_port           = 2378
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.kubernetes-master.id
-}
-
-resource "aws_security_group_rule" "k8s-master-weave-net" {
-  type              = "ingress"
-  from_port         = 6781
-  to_port           = 6783
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.kubernetes-master.id
