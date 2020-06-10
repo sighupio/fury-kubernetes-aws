@@ -52,6 +52,7 @@ etcd_initial_cluster='${join(
 )}'
 control_plane_endpoint=${aws_route53_record.control-plane.fqdn}
 dns_zone=${join(".", compact(split(".", data.aws_route53_zone.main.name)))}
+env=${var.env}
 
 EOF
 
@@ -63,6 +64,26 @@ output "inventory" {
 
 output "external-lb-arn" {
   value = aws_lb.external.arn
+}
+
+output "external-lb-dns-name" {
+  value = aws_lb.external.dns_name
+}
+
+output "internal-lb-arn" {
+  value = aws_lb.internal-http.arn
+}
+
+output "internal-lb-dns-name" {
+  value = aws_lb.internal-http.dns_name
+}
+
+output "masters-security-group" {
+  value = "${aws_security_group.kubernetes-master.id}"
+}
+
+output "nodes-security-group" {
+  value = "${aws_security_group.kubernetes-nodes.id}"
 }
 
 data "template_file" "bastion" {
