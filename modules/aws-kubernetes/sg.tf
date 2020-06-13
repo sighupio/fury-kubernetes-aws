@@ -63,6 +63,15 @@ resource "aws_security_group_rule" "k8s-node-nginx-ingress" {
   security_group_id = aws_security_group.kubernetes-nodes.id
 }
 
+resource "aws_security_group_rule" "k8s-node-calico-metrics" {
+  type              = "ingress"
+  from_port         = 9091
+  to_port           = 9091
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.kubernetes-nodes.id
+}
+
 resource "aws_security_group_rule" "k8s-node-node-exporter" {
   type              = "ingress"
   from_port         = 9100
@@ -118,21 +127,6 @@ resource "aws_security_group" "kubernetes-master" {
     Name = "k8s-master-${var.name}-${var.env}"
     Env  = var.env
   }
-  #  //sg for  kubernetes
-  #  ingress {
-  #    from_port   = 31000
-  #    to_port     = 31000
-  #    protocol    = "tcp"
-  #    cidr_blocks = ["0.0.0.0/0"]
-  #  }
-
-  #  //sg for kubernetes
-  #  ingress {
-  #    from_port   = 32000
-  #    to_port     = 32000
-  #    protocol    = "tcp"
-  #    cidr_blocks = ["0.0.0.0/0"]
-  #  }
 }
 
 resource "aws_security_group_rule" "k8s-master-ssh" {
@@ -212,6 +206,15 @@ resource "aws_security_group_rule" "k8s-master-node-exporter" {
   type              = "ingress"
   from_port         = 9100
   to_port           = 9100
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.kubernetes-master.id
+}
+
+resource "aws_security_group_rule" "k8s-master-calico-metrics" {
+  type              = "ingress"
+  from_port         = 9091
+  to_port           = 9091
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.kubernetes-master.id
