@@ -78,6 +78,13 @@
   command: "furyagent configure openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
   when: furyagent_configure_openvpn
 
+- name: Configuring OpenVPN cron for furyagent
+  cron:
+    name: "Furyagent configure openvpn from s3"
+    minute: "*/5"
+    job: "/usr/local/bin/furyagent configure openvpn --config={{ furyagent_config_dir }}/{{ furyagent_config_name }} --overwrite=true"
+  when: furyagent_configure_openvpn
+
 - name: Configure Etcd backup every 15 minutes with furyagent
   cron:
     minute: "*/10"
