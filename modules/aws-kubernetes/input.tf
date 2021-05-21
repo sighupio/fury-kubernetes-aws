@@ -303,3 +303,7 @@ variable "ecr-additional-pull-account-id" {
   type    = string
 }
 
+variable "enable_weekday_workers_shutdown" {
+  default = false
+  type    = "string"
+}
