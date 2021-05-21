@@ -20,7 +20,8 @@ resource "aws_launch_template" "spot" {
   }
 
   network_interfaces {
-    security_groups = [aws_security_group.kubernetes-nodes.id]
+    security_groups       = [aws_security_group.kubernetes-nodes.id]
+    delete_on_termination = true
   }
 
   lifecycle {
