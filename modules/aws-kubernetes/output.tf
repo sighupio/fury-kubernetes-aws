@@ -73,11 +73,11 @@ output "internal-lb-dns-name" {
 }
 
 output "masters-security-group" {
-  value = "${aws_security_group.kubernetes-master.id}"
+  value = aws_security_group.kubernetes-master.id
 }
 
 output "nodes-security-group" {
-  value = "${aws_security_group.kubernetes-nodes.id}"
+  value = aws_security_group.kubernetes-nodes.id
 }
 
 data "template_file" "bastion" {

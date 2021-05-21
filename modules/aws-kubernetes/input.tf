@@ -287,14 +287,14 @@ data "aws_route53_zone" "main" {
 }
 
 variable "additional_private" {
-  type = "string"
+  type    = string
   default = "false"
 }
 
 data "aws_route53_zone" "additional" {
-  count   = var.additional-domain == "" ? 0 : 1
-  zone_id = var.additional-domain
-  private_zone = "${var.additional_private}"
+  count        = var.additional-domain == "" ? 0 : 1
+  zone_id      = var.additional-domain
+  private_zone = var.additional_private
 }
 
 #node-role.kubernetes.io
@@ -311,5 +311,5 @@ variable "ecr-additional-pull-account-id" {
 
 variable "enable_weekday_workers_shutdown" {
   default = false
-  type    = "string"
+  type    = string
 }

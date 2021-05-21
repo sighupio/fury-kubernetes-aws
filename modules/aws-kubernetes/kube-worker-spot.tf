@@ -102,11 +102,11 @@ resource "aws_autoscaling_group" "spot" {
 resource "aws_autoscaling_schedule" "spot_workers_morning_start" {
   count                  = var.enable_weekday_workers_shutdown ? length(var.kube-workers-spot) : 0
   scheduled_action_name  = "Morning-Start-Schedule"
-  min_size               = var.kube-workers-spot[count.index][min]
-  max_size               = var.kube-workers-spot[count.index][max]
-  desired_capacity       = var.kube-workers-spot[count.index][desired]
+  min_size               = var.kube-workers-spot[count.index]["min"]
+  max_size               = var.kube-workers-spot[count.index]["max"]
+  desired_capacity       = var.kube-workers-spot[count.index]["desired"]
   recurrence             = "0 5 * * 1-5"
-  autoscaling_group_name = "${element(aws_autoscaling_group.spot.*.name, count.index)}"
+  autoscaling_group_name = element(aws_autoscaling_group.spot.*.name, count.index)
 }
 
 resource "aws_autoscaling_schedule" "spot_workers_afternoon_stop" {
@@ -116,5 +116,5 @@ resource "aws_autoscaling_schedule" "spot_workers_afternoon_stop" {
   max_size               = 0
   desired_capacity       = 0
   recurrence             = "45 23 * * *"
-  autoscaling_group_name = "${element(aws_autoscaling_group.spot.*.name, count.index)}"
+  autoscaling_group_name = element(aws_autoscaling_group.spot.*.name, count.index)
 }

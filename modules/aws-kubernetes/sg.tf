@@ -13,7 +13,7 @@ resource "aws_security_group" "kubernetes-nodes" {
     local.sg_tags,
     map(
       "Name", "k8s-nodes-${var.name}-${var.env}",
-      "Env", "${var.env}",
+      "Env", var.env,
     )
   )
 }
