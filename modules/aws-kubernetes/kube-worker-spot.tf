@@ -8,6 +8,13 @@ resource "aws_launch_template" "spot" {
     count.index,
   )
 
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size = var.kube-workers-spot[count.index]["disk"]
+    }
+  }
+
   iam_instance_profile {
     name = aws_iam_instance_profile.main.name
   }

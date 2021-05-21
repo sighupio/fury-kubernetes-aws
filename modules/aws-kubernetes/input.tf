@@ -45,6 +45,7 @@ variable "kube-workers" {
     max      = number
     type     = string
     kube-ami = string
+    disk     = string
   }))
   description = "List of maps holding definition of Kubernetes workers"
 }
@@ -57,6 +58,7 @@ variable "kube-workers" {
 #     max = 3
 #     type = "m5.large"
 #     kube-ami= "KFD-Ubuntu-Infra-1571399626"
+#     disk = 80
 #   },
 #   {
 #     kind = "production"
@@ -64,7 +66,8 @@ variable "kube-workers" {
 #     desired = 2
 #     max = 2
 #     type = "c5.large"
-#     kube-ami= "KFD-Ubuntu-Worker-1571399626"
+#     kube-ami = "KFD-Ubuntu-Worker-1571399626"
+#     disk = 50
 #   },
 # ]
 
@@ -77,6 +80,7 @@ variable "kube-workers-spot" {
     type           = string
     type_secondary = string
     kube-ami       = string
+    disk           = string
   }))
   description = "List of maps holding definition of Kubernetes workers spot"
 }
@@ -89,6 +93,7 @@ variable "kube-workers-spot" {
 #     max = 2
 #     type = "m5.large"
 #     kube-ami= "KFD-Ubuntu-Infra-1571399626"
+#     disk = 80
 #   },
 #   {
 #     kind = "stateless"
@@ -97,6 +102,7 @@ variable "kube-workers-spot" {
 #     max = 2
 #     type = "c5.large"
 #     kube-ami= "KFD-Ubuntu-Worker-1571399626"
+#     disk = 50
 #   },
 # ]
 
