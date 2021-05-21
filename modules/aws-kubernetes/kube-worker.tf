@@ -70,18 +70,6 @@ resource "aws_autoscaling_group" "main" {
   }
 }
 
-data "aws_instances" "main" {
-  count = length(var.kube-workers)
-
-  filter {
-    name   = "tag:aws:autoscaling:groupName"
-    values = [element(aws_autoscaling_group.main.*.id, count.index)]
-  }
-
-  instance_state_names = ["running"]
-  depends_on           = [aws_autoscaling_group.main]
-}
-
 data "aws_autoscaling_groups" "infra" {
   filter {
     name   = "key"

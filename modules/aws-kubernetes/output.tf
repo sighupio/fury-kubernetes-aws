@@ -20,14 +20,8 @@ ${join(
   ),
   )}
 
-${join("\n", data.template_file.k8s-worker-node.*.rendered)}
-
 [gated:children]
 master
-${join("\n", data.template_file.k8s-worker-kind.*.rendered)}
-
-[nodes:children]
-${join("\n", data.template_file.k8s-worker-kind.*.rendered)}
 
 [all:vars]
 ansible_user=ubuntu
@@ -103,30 +97,6 @@ data "template_file" "k8s-master" {
 
   vars = {
     index = count.index
-  }
-}
-
-data "template_file" "k8s-worker-kind" {
-  count    = length(var.kube-workers)
-  template = "$${kind}"
-
-  vars = {
-    kind = var.kube-workers[count.index]["kind"]
-  }
-}
-
-data "template_file" "k8s-worker-node" {
-  count = length(data.aws_instances.main)
-
-  template = <<EOF
-[$${kind}]
-$${nodes}
-EOF
-
-
-  vars = {
-    kind  = var.kube-workers[count.index]["kind"]
-    nodes = join("\n", data.aws_instances.main[count.index].private_ips)
   }
 }
 
