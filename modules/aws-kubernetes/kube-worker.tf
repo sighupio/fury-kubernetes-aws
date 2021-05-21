@@ -94,3 +94,22 @@ data "aws_autoscaling_groups" "infra" {
   }
 }
 
+resource "aws_autoscaling_schedule" "workers_morning_start" {
+  count                  = var.enable_weekday_workers_shutdown ? length(var.kube-workers) : 0
+  scheduled_action_name  = "Morning-Start-Schedule"
+  min_size               = var.kube-workers[count.index][min]
+  max_size               = var.kube-workers[count.index][max]
+  desired_capacity       = var.kube-workers[count.index][desired]
+  recurrence             = "0 5 * * 1-5"
+  autoscaling_group_name = "${element(aws_autoscaling_group.main.*.name, count.index)}"
+}
+
+resource "aws_autoscaling_schedule" "workers_afternoon_stop" {
+  count                  = var.enable_weekday_workers_shutdown ? length(var.kube-workers-spot) : 0
+  scheduled_action_name  = "Afternoon-Stop-Schedule"
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = "45 23 * * *"
+  autoscaling_group_name = "${element(aws_autoscaling_group.main.*.name, count.index)}"
+}
