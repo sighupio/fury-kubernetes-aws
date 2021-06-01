@@ -1,0 +1,21 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: aws-node-termination-handler
+  namespace: kube-system
+  labels:
+    k8s-app: aws-node-termination-handler
+spec:
+  jobLabel: aws-node-termination-handler
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  podMetricsEndpoints:
+    - interval: 30s
+      path: /metrics
+      port: http-metrics
+  sampleLimit: 5000
+  selector:
+    matchLabels:
+      app: aws-node-termination-handler

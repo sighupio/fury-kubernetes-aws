@@ -1,0 +1,7 @@
+varReference:
+  - path: data
+    kind: ConfigMap
+  - kind: DaemonSet
+    path: spec/template/spec/nodeSelector
+  - kind: DaemonSet
+    path: spec/template/spec/tolerations[]/value
