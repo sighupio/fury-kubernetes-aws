@@ -1,6 +1,6 @@
 provider "aws" {
-  region  = "${var.aws_region}"
-  version = "2.46.0"
+  region  = var.aws_region
+  version = "3.30.0"
 }
 
 variable "aws_region" {
@@ -16,11 +16,11 @@ module "test-aws-vpc" {
   name          = "omega"
   env           = "staging"
   vpc-cidr      = "10.100.0.0/16"
-  region        = "${var.aws_region}"
+  region        = var.aws_region
   internal-zone = "staging.k8s.example.com"
 
   ssh-public-keys = [
-    "${file("fixtures/terraform.pub")}",
+    file("fixtures/terraform.pub"),
   ]
 }
 
@@ -28,8 +28,8 @@ module "test-aws-s3-furyagent" {
   source                = "../s3-furyagent"
   cluster_name          = "omega"
   environment           = "staging"
-  aws_region            = "${var.aws_region}"
-  furyagent_bucket_name = "${var.furyagent_bucket_name}"
+  aws_region            = var.aws_region
+  furyagent_bucket_name = var.furyagent_bucket_name
 }
 
 module "test-aws-kubernetes" {
@@ -37,15 +37,15 @@ module "test-aws-kubernetes" {
   name                  = "omega"
   env                   = "staging"
   kube-master-ami-owner = "363601582189"
-  kube-master-ami       = "KFD-Ubuntu-Master-1.15.5-1-1582820289"
+  kube-master-ami       = "KFD-Ubuntu-Master-1.15.5-2-1579779741"
   kube-master-count     = 3
   kube-master-type      = "t3.small"
-  kube-private-subnets  = "${module.test-aws-vpc.private_subnets}"
-  kube-public-subnets   = "${module.test-aws-vpc.public_subnets}"
-  kube-domain           = "${module.test-aws-vpc.domain_zone}"
-  kube-bastions         = "${module.test-aws-vpc.bastion_public_ip}"
-  s3-bucket-name        = "${var.furyagent_bucket_name}"
-  join-policy-arn       = "${module.test-aws-s3-furyagent.bucket_policy_join}"
+  kube-private-subnets  = module.test-aws-vpc.private_subnets
+  kube-public-subnets   = module.test-aws-vpc.public_subnets
+  kube-domain           = module.test-aws-vpc.domain_zone
+  kube-bastions         = module.test-aws-vpc.bastion_public_ip
+  s3-bucket-name        = var.furyagent_bucket_name
+  join-policy-arn       = module.test-aws-s3-furyagent.bucket_policy_join
   alertmanager-hostname = "alertmanager.development.fury.sighup.io"
 
   kube-lb-internal-domains = [
@@ -63,39 +63,26 @@ module "test-aws-kubernetes" {
 
   kube-lb-external-domains = []
 
-  kube-master-volumes = [
-    {
-      size        = 10
-      type        = "gp2"
-      iops        = 0
-      device_name = "/dev/sdf"
-    },
-    {
-      size        = 15
-      type        = "io1"
-      iops        = 100
-      device_name = "/dev/sdg"
-    },
-    {
-      size        = 10
-      type        = "standard"
-      iops        = 0
-      device_name = "/dev/sdh"
-    },
-  ]
+  kube-master-volumes = []
 
   kube-workers = [
     {
       kind     = "infra"
-      count    = 2
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
+      kube-ami = "KFD-Ubuntu-Master-1.15.5-2-1579779741"
+      disk = 80
+      min = 2
+      max = 2
+      desired = 2
     },
     {
       kind     = "production"
-      count    = 2
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
+      kube-ami = "KFD-Ubuntu-Master-1.15.5-2-1579779741"
+      disk = 80
+      min = 2
+      max = 2
+      desired = 2
     },
     {
       kind     = "staging"
@@ -103,7 +90,11 @@ module "test-aws-kubernetes" {
       desired  = 4
       max      = 7
       type     = "t3.small"
-      kube-ami = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
+      kube-ami = "KFD-Ubuntu-Master-1.15.5-2-1579779741"
+      disk = 80
+      min = 0
+      max = 5
+      desired = 2
     },
   ]
 
@@ -115,7 +106,8 @@ module "test-aws-kubernetes" {
       max            = 1
       type           = "t3.small"
       type_secondary = "t3a.small"
-      kube-ami       = "KFD-Ubuntu-Node-1.15.5-1-1582820290"
+      kube-ami       = "KFD-Ubuntu-Master-1.15.5-2-1579779741"
+      disk = 80
     },
   ]
 
@@ -170,7 +162,7 @@ module "test-aws-kubernetes" {
   ]
 
   ssh-public-keys = [
-    "${file("fixtures/terraform.pub")}",
+    file("fixtures/terraform.pub"),
   ]
 
   ssh-private-key = "fixitures/terraform"
