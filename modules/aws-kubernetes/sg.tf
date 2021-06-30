@@ -1,6 +1,8 @@
 locals {
-  sg_tags = map(
-    "kubernetes.io/cluster/${var.name}-${var.env}", "owned",
+  sg_tags = tomap(
+    {
+      "kubernetes.io/cluster/${var.name}-${var.env}" = "owned",
+    }
   )
 }
 
@@ -11,9 +13,11 @@ resource "aws_security_group" "kubernetes-nodes" {
 
   tags = merge(
     local.sg_tags,
-    map(
-      "Name", "k8s-nodes-${var.name}-${var.env}",
-      "Env", var.env,
+    tomap(
+      {
+        "Name" = "k8s-nodes-${var.name}-${var.env}",
+        "Env" = var.env,
+      }
     )
   )
 }
