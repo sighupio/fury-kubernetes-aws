@@ -49,22 +49,62 @@ variable kube-workers {
 # kube-workers = [
 #   {
 #     kind = "infra"
-#     count = 2
+#     min = 3
+#     desired = 3
+#     max = 3
 #     type = "m5.large"
 #     kube-ami= "KFD-Ubuntu-Infra-1571399626"
 #   },
 #   {
 #     kind = "production"
-#     count = 3
+#     min = 2
+#     desired = 2
+#     max = 2
 #     type = "c5.large"
 #     kube-ami= "KFD-Ubuntu-Worker-1571399626"
 #   },
 # ]
 
+variable kube-workers-spot {
+  type        = "list"
+  description = "List of maps holding definition of Kubernetes workers spot"
+}
+
+# kube-workers-spot = [
+#   {
+#     kind = "job"
+#     min = 2
+#     desired = 2
+#     max = 2
+#     type = "m5.large"
+#     kube-ami= "KFD-Ubuntu-Infra-1571399626"
+#   },
+#   {
+#     kind = "stateless"
+#     min = 2
+#     desired = 2
+#     max = 2
+#     type = "c5.large"
+#     kube-ami= "KFD-Ubuntu-Worker-1571399626"
+#   },
+# ]
+
+variable "kube-workers-ami-owner" {
+  type        = "string"
+  default     = "363601582189"
+  description = "Kubernetes workers AMI Owner"
+}
+
 variable kube-master-ami {
   type        = "string"
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"
   description = "Kubernetes nodes AMI"
+}
+
+variable "kube-master-ami-owner" {
+  type        = "string"
+  default     = "099720109477"
+  description = "Kubernetes nodes AMI Owner"
 }
 
 variable kube-lb-internal-domains {
@@ -149,10 +189,6 @@ variable ssh-private-key {
   description = "Path to own private key to access machines"
 }
 
-provider aws {
-  region = "${var.region}"
-}
-
 variable ecr-repositories {
   type        = "list"
   description = "List of docker image repositories to create"
@@ -173,6 +209,7 @@ variable "alertmanager-hostname" {
 
 data "aws_ami" "master" {
   most_recent = true
+  owners      = ["${var.kube-master-ami-owner}"]
 
   filter {
     name   = "name"
@@ -183,10 +220,22 @@ data "aws_ami" "master" {
 data "aws_ami" "worker" {
   count       = "${length(var.kube-workers)}"
   most_recent = true
+  owners      = ["${var.kube-workers-ami-owner}"]
 
   filter {
     name   = "name"
     values = ["${lookup(var.kube-workers[count.index], "kube-ami")}"]
+  }
+}
+
+data "aws_ami" "spot" {
+  count       = "${length(var.kube-workers-spot)}"
+  most_recent = true
+  owners      = ["${var.kube-workers-ami-owner}"]
+
+  filter {
+    name   = "name"
+    values = ["${lookup(var.kube-workers-spot[count.index], "kube-ami")}"]
   }
 }
 
@@ -213,3 +262,14 @@ data "aws_route53_zone" "additional" {
   zone_id = "${var.additional-domain}"
 }
 
+#node-role.kubernetes.io
+
+variable "node-role-tag-cluster-autoscaler" {
+  default = "node-role.kubernetes.io"
+  type    = "string"
+}
+
+variable "ecr-additional-pull-account-id" {
+  default = ""
+  type    = "string"
+}

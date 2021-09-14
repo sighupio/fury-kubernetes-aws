@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kube-system
+
+resources:
+  - daemonset.yml
+  - rbac.yml
+  - podmonitor.yml
+
+images:
+  - name: public.ecr.aws/aws-ec2/aws-node-termination-handler
+    newName: public.ecr.aws/aws-ec2/aws-node-termination-handler
+    newTag: v1.13.0

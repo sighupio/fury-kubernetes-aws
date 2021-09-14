@@ -37,6 +37,8 @@ clusterComponent:
 {% if furyagent_configure_openvpn %}
   openvpn:
     certDir: {{ furyagent_openvpn_certs_dir }}
-  openvpn-client:
-    targetDir: {{ secrets_path }}/users/openvpn
+    servers:
+{% for server in ansible_play_hosts_all %}
+      - {{ hostvars[server]['ansible_host'] }}
+{% endfor %}
 {% endif %}

@@ -34,7 +34,6 @@ variable "region" {
 
 variable "internal-zone" {
   type        = "string"
-  default     = "sighup.io"
   description = "Domain name for internal services"
 }
 
@@ -64,12 +63,16 @@ variable "ssh-public-keys" {
   description = "List of public SSH keys authorized to connect to the bastions"
 }
 
-provider "aws" {
-  region = "${var.region}"
+variable "bastion-ami-owner" {
+  type = "string"
+  default = "099720109477"
+  description = "Bastion nodes AMI Owner"
 }
+
 
 data "aws_ami" "main" {
   most_recent = true
+  owners = ["${var.bastion-ami-owner}"]
 
   filter {
     name   = "name"

@@ -1,0 +1,7 @@
+---
+
+- name: Installing node packages
+  apt:
+    name: "nfs-common"
+    state: latest
+    update_cache: yes

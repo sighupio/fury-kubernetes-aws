@@ -1,5 +1,8 @@
 ---
 
+- name: Installing node packages
+  include_tasks: "packages.yml"
+
 - name: Installing AWS dependencies
   include_tasks: "aws.yml"
 
@@ -11,6 +14,3 @@
 
 - name: Installing cloud-init-reporter feature
   include_tasks: "cloud-init-report.yml"
-
-- name: Installing auto-join feature
-  include_tasks: "auto-join.yml"
