@@ -7,6 +7,5 @@ helm template aws-node-termination-handler \
   --set enableRebalanceMonitoring="true" \
   --set enableScheduledEventDraining="false" \
   --set enablePrometheusServer="true" \
-  --set webhookURLSecretName="pippo" \
   --set podMonitor.create="true" \
   eks/aws-node-termination-handler

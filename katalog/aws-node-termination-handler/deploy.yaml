@@ -203,11 +203,6 @@ spec:
               value: "120"
             - name: EMIT_KUBERNETES_EVENTS
               value: "false"
-            - name: WEBHOOK_URL
-              valueFrom:
-                secretKeyRef:
-                  name: pippo
-                  key: webhookurl
             - name: ENABLE_SPOT_INTERRUPTION_DRAINING
               value: "true"
             - name: ENABLE_SCHEDULED_EVENT_DRAINING
