@@ -2,3 +2,12 @@ resources:
   - rbac.yml
   - sa.yml
   - deployment.yml
+ 
+ configMapGenerator:
+  - name: cluster-autoscaler-dashboard
+    namespace: monitoring
+    files:
+      - cluster-autoscaler.json
+    options:
+      labels:
+        grafana-sighup-dashboard: custom
