@@ -5,7 +5,7 @@ resources:
  
  configMapGenerator:
   - name: cluster-autoscaler-dashboard
-    namespace: monitoring
+    namespace: kube-system
     files:
       - cluster-autoscaler.json
     options:
