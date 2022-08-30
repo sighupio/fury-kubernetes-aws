@@ -1,0 +1,24 @@
+/**
+ * Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+
+output "ebs_csi_driver_patches" {
+  description = "cluster-autoscaler Kubernetes resources patches"
+  value       = <<EOT
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    eks.amazonaws.com/role-arn: ${module.aws_ebs_csi_driver_iam_assumable_role.this_iam_role_arn}
+  name: TODO
+  namespace: kube-system
+EOT
+}
+
+output "cluster_autoscaler_iam_role" {
+  description = "ebs-csi-driver IAM role"
+  value       = module.aws_ebs_csi_driver_iam_assumable_role.this_iam_role_arn
+}
