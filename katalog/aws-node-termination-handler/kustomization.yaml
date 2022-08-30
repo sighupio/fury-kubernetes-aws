@@ -5,11 +5,9 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - daemonset.yml
-  - rbac.yml
-  - podmonitor.yml
+  - deploy.yaml
 
 images:
   - name: public.ecr.aws/aws-ec2/aws-node-termination-handler
     newName: public.ecr.aws/aws-ec2/aws-node-termination-handler
-    newTag: v1.13.0
+    newTag: v1.16.2
