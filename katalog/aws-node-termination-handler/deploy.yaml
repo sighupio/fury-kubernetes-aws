@@ -154,7 +154,7 @@ spec:
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
-          image: public.ecr.aws/aws-ec2/aws-node-termination-handler
+          image: aws-node-termination-handler
           imagePullPolicy: IfNotPresent
           env:
             - name: NODE_NAME

@@ -8,6 +8,6 @@ resources:
   - deploy.yaml
 
 images:
-  - name: public.ecr.aws/aws-ec2/aws-node-termination-handler
-    newName: public.ecr.aws/aws-ec2/aws-node-termination-handler
-    newTag: v1.16.2
+  - name: aws-node-termination-handler
+    newName: registry.sighup.io/fury/aws-ec2/aws-node-termination-handler
+    newTag: v1.17.1
