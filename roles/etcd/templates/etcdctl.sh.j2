@@ -1,6 +1,0 @@
-export ETCDCTL_API=3
-export ETCDCTL_CACERT={{ etcd_certs_dir }}/etcd/ca.crt
-export ETCDCTL_CERT={{ etcd_certs_dir }}/apiserver-etcd-client.crt
-export ETCDCTL_KEY={{ etcd_certs_dir }}/apiserver-etcd-client.key
-export ETCDCTL_DIAL_TIMEOUT=3s
-export ETCDCTL_ENDPOINTS=https://{{ etcd_client_address }}:2379
