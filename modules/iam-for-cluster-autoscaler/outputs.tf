@@ -18,7 +18,7 @@ metadata:
 EOT
 }
 
-output "cluster_autoscaler_iam_role" {
+output "cluster_autoscaler_iam_role_arn" {
   description = "cluster-autoscaler IAM role"
   value       = module.cluster_autoscaler_iam_assumable_role.this_iam_role_arn
 }

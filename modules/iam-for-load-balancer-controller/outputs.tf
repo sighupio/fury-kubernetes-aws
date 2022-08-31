@@ -18,7 +18,7 @@ metadata:
 EOT
 }
 
-output "cluster_autoscaler_iam_role" {
+output "load_balancer_controller_iam_role_arn" {
   description = "AWS load balancer controller IAM role"
   value       = module.aws_lb_controller_iam_assumable_role.this_iam_role_arn
 }
