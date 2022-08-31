@@ -25,7 +25,7 @@ The following packages are included in the Fury Kubernetes Logging katalog:
 |----------------------------------------------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------|
 | [cluster-autoscaler](katalog/cluster-autoscaler)                     | `v1.23.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                                |
 | [aws-node-termination-handler](katalog/node-termination-handler)     | `v1.17.1` | Automatically manage graceful termination of pods in the event that one node is retired by AWS                         |
-| [aws-load-balancer-controller](katalog/load-balancer-controller)     | `v2.4`    | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
+| [aws-load-balancer-controller](katalog/load-balancer-controller)     | `v2.4.3`  | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
 | [aws-ebs-csi-driver](katalog/ebs-csi-driver)                         | `v1.11.2` | The Amazon EBS (CSI) Driver provides a CSI interface used by Kubernetes to manage the lifecycle of Amazon EBS volumes. |                                                |
 
 Click on each package to see its full documentation.
