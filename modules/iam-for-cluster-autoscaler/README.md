@@ -29,7 +29,7 @@ This terraform module provides an easy way to generate cluster autoscaler requir
 |            Name                    |               Description               |
 | ---------------------------------- | --------------------------------------- |
 | cluster\_autoscaler\_patches       | Cluster autoscaler SA Kustomize patch   |
-| cluster\_autoscaler\_iam_role_arn  | Cluster autoscaler IAM role arn         |
+| cluster\_autoscaler\_iam\_role\_arn  | Cluster autoscaler IAM role arn         |
 
 
 ## Usage
