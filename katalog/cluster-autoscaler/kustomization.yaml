@@ -13,5 +13,5 @@ resources:
 
 images:
   - name: cluster-autoscaler # k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.0
-    newName: registry.sighup.io/autoscaling/cluster-autoscaler
+    newName: registry.sighup.io/fury/autoscaling/cluster-autoscaler
     newTag: v1.23.0
