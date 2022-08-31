@@ -24,7 +24,7 @@ You can deploy cluster autoscaler in your EKS cluster by including the package i
 ...
 
 resources:
-  - katalog/clusterautoscaler
+  - katalog/cluster-autoscaler
 
 ...
 ```
@@ -85,6 +85,8 @@ patchesStrategicMerge:
 
 ...
 ```
+
+Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the IAM role.
 
 You can then apply your kustomize project by running the following command:
 
