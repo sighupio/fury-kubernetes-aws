@@ -37,3 +37,6 @@ kustomize build /tmp/external-snapshotter-6.0.1/deploy/kubernetes/snapshot-contr
 Check the differences between:
 - `built-crds.yaml` and `./crds/crds.yaml`
 - `built-snapshot-controller.yaml` and `./deploy-snapshot-controller.yaml`
+
+What was changed: 
+- snapshot-controller Deployment replicas from 2 to 1

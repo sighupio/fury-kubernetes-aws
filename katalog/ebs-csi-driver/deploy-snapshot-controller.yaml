@@ -132,7 +132,7 @@ metadata:
   namespace: kube-system
 spec:
   minReadySeconds: 15
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: snapshot-controller
