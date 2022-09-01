@@ -733,7 +733,7 @@ spec:
     spec:
       containers:
       - args:
-        - --cluster-name=${CLUSTER_NAME}
+        - --cluster-name=$(CLUSTER_NAME)
         - --ingress-class=alb
         image: amazon/aws-alb-ingress-controller:v2.4.3
         env:
