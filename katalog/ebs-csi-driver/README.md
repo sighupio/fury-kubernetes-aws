@@ -42,7 +42,8 @@ metadata:
   namespace: kube-system
 ```
 
-Refer to the Terraform module [iam-for-ebs-csi-driver](../../modules/iam-for-ebs-csi-driver) to create the IAM role.
+Refer to the Terraform module [iam-for-ebs-csi-driver](../../modules/iam-for-ebs-csi-driver) to create the
+IAM role and the kustomize patches as outputs.
 
 You can then apply your kustomize project by running the following command:
 

@@ -80,7 +80,8 @@ patchesStrategicMerge:
 ...
 ```
 
-Refer to the Terraform module [iam-for-load-balancer-controller](../../modules/iam-for-load-balancer-controller) to create the IAM role.
+Refer to the Terraform module [iam-for-load-balancer-controller](../../modules/iam-for-load-balancer-controller) to create the
+IAM role and the kustomize patches as outputs.
 
 You can then apply your kustomize project by running the following command:
 
