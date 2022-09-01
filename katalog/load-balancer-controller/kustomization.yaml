@@ -12,6 +12,6 @@ resources:
   - deploy.yaml
 
 images:
-  - name: aws-alb-ingress-controller # amazon/aws-alb-ingress-controller:v2.4.3
+  - name: amazon/aws-alb-ingress-controller # amazon/aws-alb-ingress-controller:v2.4.3
     newName: registry.sighup.io/fury/amazon/aws-alb-ingress-controller
     newTag: v2.4.3

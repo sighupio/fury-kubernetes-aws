@@ -735,7 +735,7 @@ spec:
       - args:
         - --cluster-name=${CLUSTER_NAME}
         - --ingress-class=alb
-        image: aws-alb-ingress-controller
+        image: amazon/aws-alb-ingress-controller:v2.4.3
         env:
           - name: CLUSTER_NAME
             value: changeme

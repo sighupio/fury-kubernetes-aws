@@ -9,5 +9,4 @@ Get the yaml file, for example https://github.com/kubernetes-sigs/aws-load-balan
 and compare it with `deploy.yaml` file.
 
 What was changed:
-- Changed the image with the images synchronized with registry.sighup.io
 - Moved cluster name to an environment variable `CLUSTER_NAME`
