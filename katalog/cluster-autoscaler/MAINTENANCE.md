@@ -31,7 +31,8 @@ What was changed:
     - --scale-up-from-zero
     - --skip-nodes-with-local-storage=false
     - --expander=least-waste
-    - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/changeme
+    - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/$(CLUSTER_NAME)
   ```
+- Added env var `CLUSTER_NAME` to the deployment, to simplify patching
 - Added requests and limits
 - Removed PodDisruptionBudget

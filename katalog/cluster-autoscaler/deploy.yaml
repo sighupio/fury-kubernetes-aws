@@ -262,10 +262,12 @@ spec:
             - --scale-up-from-zero
             - --skip-nodes-with-local-storage=false
             - --expander=least-waste
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/changeme
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/$(CLUSTER_NAME)
           env:
             - name: AWS_REGION
               value: "eu-west-1"
+            - name: CLUSTER_NAME
+              value: "mycluster"
           livenessProbe:
             httpGet:
               path: /health-check

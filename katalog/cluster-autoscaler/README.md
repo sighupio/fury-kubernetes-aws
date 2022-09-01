@@ -57,20 +57,11 @@ spec:
     spec:
       containers:
         - name: aws-cluster-autoscaler
-          command:
-            - ./cluster-autoscaler
-            - --cloud-provider=aws
-            - --namespace=kube-system
-            - --logtostderr=true
-            - --stderrthreshold=info
-            - --v=4
-            - --scale-up-from-zero
-            - --skip-nodes-with-local-storage=false
-            - --expander=least-waste
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/mycluster
           env:
             - name: AWS_REGION
               value: "eu-west-1"
+            - name: CLUSTER_NAME
+              value: mycluster
 ```
 
 and then add on the `kustomization.yaml` file the patches:
@@ -86,7 +77,8 @@ patchesStrategicMerge:
 ...
 ```
 
-Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the IAM role.
+Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the
+IAM role and the kustomize patches as outputs.
 
 You can then apply your kustomize project by running the following command:
 
