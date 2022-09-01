@@ -1,25 +1,4 @@
 ---
-# Source: aws-ebs-csi-driver/templates/poddisruptionbudget-controller.yaml
-apiVersion: policy/v1beta1
-kind: PodDisruptionBudget
-metadata:
-  name: ebs-csi-controller
-  namespace: kube-system
-  labels:
-    app.kubernetes.io/name: aws-ebs-csi-driver
-    app.kubernetes.io/instance: aws-ebs-csi-driver
-    helm.sh/chart: aws-ebs-csi-driver-2.10.1
-    app.kubernetes.io/version: "1.11.2"
-    app.kubernetes.io/component: csi-driver
-    app.kubernetes.io/managed-by: Helm
-spec:
-  selector:
-    matchLabels:
-      app: ebs-csi-controller
-      app.kubernetes.io/name: aws-ebs-csi-driver
-      app.kubernetes.io/instance: aws-ebs-csi-driver
-  maxUnavailable: 1
----
 # Source: aws-ebs-csi-driver/templates/serviceaccount-csi-controller.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -388,7 +367,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          envFrom:
           volumeMounts:
             - name: kubelet-dir
               mountPath: /var/lib/kubelet
@@ -424,7 +402,6 @@ spec:
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
               value: /var/lib/kubelet/plugins/ebs.csi.aws.com/csi.sock
-          envFrom:
           volumeMounts:
             - name: plugin-dir
               mountPath: /csi
@@ -438,7 +415,6 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - --csi-address=/csi/csi.sock
-          envFrom:
           volumeMounts:
             - name: plugin-dir
               mountPath: /csi
@@ -544,7 +520,6 @@ spec:
                   name: aws-meta
                   key: endpoint
                   optional: true
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -584,7 +559,6 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -601,7 +575,6 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -617,7 +590,6 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -634,7 +606,6 @@ spec:
           env:
             - name: ADDRESS
               value: /var/lib/csi/sockets/pluginproxy/csi.sock
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /var/lib/csi/sockets/pluginproxy/
@@ -646,7 +617,6 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - --csi-address=/csi/csi.sock
-          envFrom:
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
