@@ -8,3 +8,8 @@ variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
 }
+
+variable "region" {
+  description = "AWS region, used for kustomize patches generation"
+  type        = string
+}

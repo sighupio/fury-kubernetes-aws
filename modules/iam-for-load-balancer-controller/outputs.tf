@@ -15,6 +15,24 @@ metadata:
     eks.amazonaws.com/role-arn: ${module.aws_lb_controller_iam_assumable_role.this_iam_role_arn}
   name: aws-load-balancer-controller
   namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: aws-load-balancer-controller
+  name: aws-load-balancer-controller
+  namespace: kube-system
+spec:
+
+  template:
+    spec:
+      containers:
+        - name: controller
+          env:
+            - name: CLUSTER_NAME
+              value: ${var.cluster_name}
 EOT
 }
 
