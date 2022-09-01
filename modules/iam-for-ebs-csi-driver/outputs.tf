@@ -13,7 +13,7 @@ kind: ServiceAccount
 metadata:
   annotations:
     eks.amazonaws.com/role-arn: ${module.aws_ebs_csi_driver_iam_assumable_role.this_iam_role_arn}
-  name: TODO
+  name: ebs-csi-controller-sa
   namespace: kube-system
 EOT
 }
