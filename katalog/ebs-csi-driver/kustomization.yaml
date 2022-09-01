@@ -33,6 +33,9 @@ images:
   - name: k8s.gcr.io/sig-storage/csi-resizer
     newName: registry.sighup.io/fury/sig-storage/csi-resizer
     newTag: v1.4.0
+  - name: k8s.gcr.io/sig-storage/csi-snapshotter
+    newName: registry.sighup.io/fury/sig-storage/csi-snapshotter
+    newTag: v6.0.1
   - name: gcr.io/k8s-staging-sig-storage/snapshot-controller
     newName: registry.sighup.io/fury/sig-storage/snapshot-controller
     newTag: v5.0.1
