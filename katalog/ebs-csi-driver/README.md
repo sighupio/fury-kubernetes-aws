@@ -12,7 +12,14 @@ It's mandatory since EKS version 1.23.
 
 ## Image repository and tag
 
-* TODO
+* AWS EBS CSI Driver image: `registry.sighup.io/fury/ebs-csi-driver/aws-ebs-csi-driver`
+* CSI Node Driver registrar: `registry.sighup.io/fury/sig-storage/csi-node-driver-registrar`
+* K8S livenessprobe: `registry.sighup.io/fury/sig-storage/livenessprobe`
+* CSI Provisioner: `registry.sighup.io/fury/sig-storage/csi-provisioner`
+* CSI Attacher: `registry.sighup.io/fury/sig-storage/csi-attacher`
+* CSI Resizer: `registry.sighup.io/fury/sig-storage/csi-resizer`
+* CSI Snapshotter: `registry.sighup.io/fury/sig-storage/csi-snapshotter`
+* Snapshot Controller: `registry.sighup.io/fury/sig-storage/snapshot-controller`
 
 ## Deployment
 
