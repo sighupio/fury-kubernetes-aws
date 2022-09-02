@@ -9,7 +9,8 @@ helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-d
 helm repo update
 
 helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver -n kube-system \
-  --api-versions=snapshot.storage.k8s.io/v1 > built-ebs.yaml
+  --api-versions=snapshot.storage.k8s.io/v1 \
+  --set 'node.tolerateAllTaints'=true > built-ebs.yaml
 ```
 
 > NB `--api-versions=snapshot.storage.k8s.io/v1` is mandatory since without connecting to a real cluster, helm cannot
