@@ -21,12 +21,15 @@ If you are new to KFD please refer to the [official documentation][kfd-docs] on 
 
 The following packages are included in the Fury Kubernetes Logging katalog:
 
-| Package                                                              | Version   | Description                                                                                                            |
-|----------------------------------------------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------|
-| [cluster-autoscaler](katalog/cluster-autoscaler)                     | `v1.23.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                                |
-| [aws-node-termination-handler](katalog/node-termination-handler)     | `v1.17.1` | Automatically manage graceful termination of pods in the event that one node is retired by AWS                         |
-| [aws-load-balancer-controller](katalog/load-balancer-controller)     | `v2.4.3`  | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
-| [aws-ebs-csi-driver](katalog/ebs-csi-driver)                         | `v1.11.2` | The Amazon EBS (CSI) Driver provides a CSI interface used by Kubernetes to manage the lifecycle of Amazon EBS volumes. |                                                |
+| Package                                                                               | Version   | Description                                                                                                            |
+|---------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------|
+| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.23.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                                |
+| [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`       | Terraform module to manage IAM role used by cluster-autoscaler                                                         |
+| [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.17.1` | Automatically manage graceful termination of pods in the event that one node is retired by AWS                         |
+| [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.4.3`  | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
+| [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`       | Terraform module to manage IAM role used by aws-load-balancer-controller                                               |
+| [aws-ebs-csi-driver](katalog/ebs-csi-driver)                                          | `v1.11.2` | The Amazon EBS (CSI) Driver provides a CSI interface used by Kubernetes to manage the lifecycle of Amazon EBS volumes. |
+| [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`       | Terraform module to manage IAM role used by EBS CSI driver                                                             |
 
 Click on each package to see its full documentation.
 
@@ -45,7 +48,7 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 | Tool                        | Version   | Description                                                                                                                                                    |
 |-----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [furyctl][furyctl-repo]     | `>=0.6.0` | The recommended tool to download and manage KFD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
-| [kustomize][kustomize-repo] | `>=3.5.0` | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
+| [kustomize][kustomize-repo] | `>=3.5.3` | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
 
 ### Deployment
 
