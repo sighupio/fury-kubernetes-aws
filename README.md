@@ -37,6 +37,7 @@ Click on each package to see its full documentation.
 
 | Kubernetes Version |   Compatibility    | Notes                                               |
 |--------------------|:------------------:|-----------------------------------------------------|
+| `1.22.x`           | :white_check_mark: | No known issues                                     |
 | `1.23.x`           | :white_check_mark: | No known issues                                     |
 
 Check the [compatibility matrix][compatibility-matrix] for additional informations about previous releases of the modules.
