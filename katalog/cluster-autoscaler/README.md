@@ -7,7 +7,7 @@ are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA)
 
 ## Requirements
 
-- Kubernetes >= `1.23.0`
+- Kubernetes >= `1.21.0`
 - Kustomize >= `v3.3.X`
 
 ## Image repository and tag
