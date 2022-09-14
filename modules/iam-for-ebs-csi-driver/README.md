@@ -2,8 +2,7 @@
 
 This terraform module provides an easy way to generate EBS CSI driver required IAM permissions.
 
-> ⚠️ **Warning**: this module uses ["IAM Roles for ServiceAccount"](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
-> to inject AWS credentials inside cluster autoscaler pods
+> ⚠️ **Warning**: this module uses ["IAM Roles for ServiceAccount"](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to inject AWS credentials inside cluster autoscaler pods
 
 ## Requirements
 
