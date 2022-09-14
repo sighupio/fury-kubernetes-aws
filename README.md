@@ -51,6 +51,7 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 |-----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [furyctl][furyctl-repo]     | `>=0.6.0` | The recommended tool to download and manage KFD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
 | [kustomize][kustomize-repo] | `>=3.5.3` | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
+| [terraform][terraform-repo] | `>=0.15.4`| Terraform is used to provision packages using modules. To learn how to use `terraform`, please refer to the [repository][terraform-repo].                      |
 
 ### Deployment
 
@@ -97,6 +98,7 @@ kustomize build . | kubectl apply -f -
 [kfd-repo]: https://github.com/sighupio/fury-distribution
 [furyctl-repo]: https://github.com/sighupio/furyctl
 [kustomize-repo]: https://github.com/kubernetes-sigs/kustomize
+[terraform-repo]: https://github.com/hashicorp/terraform
 [kfd-docs]: https://docs.kubernetesfury.com/docs/distribution/
 [compatibility-matrix]: https://github.com/sighupio/fury-kubernetes-aws/blob/master/docs/COMPATIBILITY_MATRIX.md
 
