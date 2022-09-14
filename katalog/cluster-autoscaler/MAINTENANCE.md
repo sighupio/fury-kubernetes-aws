@@ -1,6 +1,6 @@
 # Cluster Autoscaler maintenance
 
-To maintain the clusterautoscaler package, you should follow this steps.
+To maintain the clusterautoscaler package, you should follow these steps.
 
 Build the new helm template with the following command:
 
