@@ -15,7 +15,7 @@ If you are new to KFD please refer to the [official documentation][kfd-docs] on 
 
 ## Overview
 
-**Kubernetes Fury AWS** uses a collection of open source tools to make and EKS cluster on AWS production grade.
+**Kubernetes Fury AWS** uses a collection of open source tools to make an EKS cluster on AWS production grade.
 
 ## Packages
 
