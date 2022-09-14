@@ -19,7 +19,7 @@ If you are new to KFD please refer to the [official documentation][kfd-docs] on 
 
 ## Packages
 
-The following packages are included in the Fury Kubernetes Logging katalog:
+The following packages are included in Kubernetes Fury AWS:
 
 | Package                                                                               | Version   | Description                                                                                                            |
 |---------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------|
