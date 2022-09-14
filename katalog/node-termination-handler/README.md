@@ -17,7 +17,7 @@ This package is deployed as Instance Metadata Service Processor to manage:
 ## Requirements
 
 - Kubernetes >= `1.21.0`
-- Kustomize >= `v3.3.X`
+- Kustomize >= `v3.5.3`
 
 ## Image repository and tag
 

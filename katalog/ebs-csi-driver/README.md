@@ -8,7 +8,7 @@ It's mandatory since EKS version 1.23.
 ## Requirements
 
 - Kubernetes >= `1.20.0`
-- Kustomize >= `v3.3.X`
+- Kustomize >= `v3.5.3`
 
 ## Image repository and tag
 

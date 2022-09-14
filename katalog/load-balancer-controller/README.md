@@ -10,7 +10,7 @@ AWS Load Balancer Controller is a controller to help manage Elastic Load Balance
 ## Requirements
 
 - Kubernetes >= `1.19.0`
-- Kustomize >= `v3.3.X`
+- Kustomize >= `v3.5.3`
 - [cert-manager][cert-manager]
 
 ## Image repository and tag
