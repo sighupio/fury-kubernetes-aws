@@ -1,6 +1,6 @@
 <h1>
     <img src="https://github.com/sighupio/fury-distribution/blob/master/docs/assets/fury-epta-white.png?raw=true" align="left" width="90" style="margin-right: 15px"/>
-    Kubernetes Fury Logging
+    Kubernetes Fury AWS
 </h1>
 
 ![Release](https://img.shields.io/badge/Latest%20Release-v2.0.0-blue)
