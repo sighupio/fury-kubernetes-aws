@@ -35,7 +35,10 @@ resources:
 ...
 ```
 
-you need then to patch the service account as follows:
+Refer to the Terraform module [iam-for-ebs-csi-driver](../../modules/iam-for-ebs-csi-driver) to create the
+IAM role and the required kustomize patches automatically.
+
+If you still want to create everything manually without using our Terraform Module, you need to patch the service account like below:
 
 `sa-patch.yaml`
 ```yaml
@@ -49,8 +52,7 @@ metadata:
   namespace: kube-system
 ```
 
-Refer to the Terraform module [iam-for-ebs-csi-driver](../../modules/iam-for-ebs-csi-driver) to create the
-IAM role and the kustomize patches as outputs.
+
 
 You can then apply your kustomize project by running the following command:
 

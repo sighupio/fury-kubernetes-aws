@@ -29,7 +29,11 @@ resources:
 ...
 ```
 
-you need then to patch the service account, the cluster name (for example `mycluster`) and the region (for example `eu-west-1`) as follows:
+Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the
+IAM role and the required kustomize patches automatically.
+
+If still you want to create everything manually without using our Terraform Module, you need to patch the service account, the cluster name
+(for example `mycluster`) and the region (for example `eu-west-1`) as follows:
 
 `sa-patch.yaml`
 ```yaml
@@ -76,9 +80,6 @@ patchesStrategicMerge:
 
 ...
 ```
-
-Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the
-IAM role and the kustomize patches as outputs.
 
 You can then apply your kustomize project by running the following command:
 

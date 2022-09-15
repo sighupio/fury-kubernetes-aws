@@ -32,7 +32,11 @@ resources:
 ...
 ```
 
-you need then to patch the service account and the cluster name (for example `mycluster`) as follows:
+Refer to the Terraform module [iam-for-load-balancer-controller](../../modules/iam-for-load-balancer-controller) to create the
+IAM role and the required kustomize patches automatically.
+
+If still you want to create everything manually without using our Terraform Module, you need then to patch the service
+account and the cluster name (for example `mycluster`) as follows:
 
 `sa-patch.yaml`
 ```yaml
@@ -79,9 +83,6 @@ patchesStrategicMerge:
 
 ...
 ```
-
-Refer to the Terraform module [iam-for-load-balancer-controller](../../modules/iam-for-load-balancer-controller) to create the
-IAM role and the kustomize patches as outputs.
 
 You can then apply your kustomize project by running the following command:
 
