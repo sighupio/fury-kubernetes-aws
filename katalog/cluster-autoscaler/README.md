@@ -24,7 +24,7 @@ You can deploy cluster autoscaler in your EKS cluster by including the package i
 ...
 
 resources:
-  - katalog/cluster-autoscaler
+  - katalog/cluster-autoscaler/{v1.21.x,v1.22.x,v1.23.x}
 
 ...
 ```

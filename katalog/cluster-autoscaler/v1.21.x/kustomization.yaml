@@ -9,9 +9,8 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - deploy.yaml
+  - ../base
 
 images:
-  - name: cluster-autoscaler # k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.0
-    newName: registry.sighup.io/fury/autoscaling/cluster-autoscaler
-    newTag: v1.23.0
+  - name: registry.sighup.io/fury/autoscaling/cluster-autoscaler
+    newTag: v1.21.3

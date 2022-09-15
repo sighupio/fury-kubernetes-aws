@@ -14,7 +14,7 @@ helm template cluster-autoscaler autoscaler/cluster-autoscaler -n kube-system \
   --set awsRegion=eu-west-1 > built.yaml
 ```
 
-Check the differences with `deploy.yaml` file and change accordingly.
+Check the differences with `base/deploy.yaml` file and change accordingly.
 
 What was changed:
 
@@ -36,3 +36,5 @@ What was changed:
 - Added env var `CLUSTER_NAME` to the deployment, to simplify patching
 - Added requests and limits
 - Removed PodDisruptionBudget
+
+Add the new EKS version folder like the existing v1.21.x, v1.22.x, v1.23.x if needed.
