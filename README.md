@@ -21,15 +21,15 @@ If you are new to KFD please refer to the [official documentation][kfd-docs] on 
 
 The following packages are included in Kubernetes Fury AWS:
 
-| Package                                                                               | Version   | Description                                                                                                            |
-|---------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------|
-| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.23.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                                |
-| [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`       | Terraform module to manage IAM role used by cluster-autoscaler                                                         |
-| [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.17.1` | Automatically manage graceful termination of pods in the event that one node is retired by AWS                         |
-| [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.4.3`  | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
-| [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`       | Terraform module to manage IAM role used by aws-load-balancer-controller                                               |
-| [aws-ebs-csi-driver](katalog/ebs-csi-driver)                                          | `v1.11.2` | The Amazon EBS (CSI) Driver provides a CSI interface used by Kubernetes to manage the lifecycle of Amazon EBS volumes. |
-| [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`       | Terraform module to manage IAM role used by EBS CSI driver                                                             |
+| Package                                                                               | Version                   | Description                                                                                                            |
+|---------------------------------------------------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------|
+| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.21.3/v1.22.3/v1.23.1` | A component that automatically adjusts the size of a Kubernetes Cluster                                                |
+| [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`                       | Terraform module to manage IAM role used by cluster-autoscaler                                                         |
+| [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.17.1`                 | Automatically manage graceful termination of pods in the event that one node is retired by AWS                         |
+| [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.4.3`                  | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster            |
+| [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`                       | Terraform module to manage IAM role used by aws-load-balancer-controller                                               |
+| [aws-ebs-csi-driver](katalog/ebs-csi-driver)                                          | `v1.11.2`                 | The Amazon EBS (CSI) Driver provides a CSI interface used by Kubernetes to manage the lifecycle of Amazon EBS volumes. |
+| [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`                       | Terraform module to manage IAM role used by EBS CSI driver                                                             |
 
 Click on each package to see its full documentation.
 
@@ -79,19 +79,19 @@ bases:
 
 ```yaml
 resources:
-- ./vendor/katalog/aws/cluster-autoscaler
+- ./vendor/katalog/aws/cluster-autoscaler/{v1.21.x,v1.22.x,v1.23.x}
 - ./vendor/katalog/aws/node-termination-handler
 - ./vendor/katalog/aws/load-balancer-controller
 - ./vendor/katalog/aws/ebs-csi-driver
 ```
+
+> NB: some packages needs additional configurations (IAM roles), they will not work out of the box. Refer to each package documentation for more details.
 
 5. To deploy the packages to your cluster, execute:
 
 ```bash
 kustomize build . | kubectl apply -f -
 ```
-
-> NB: some packages needs additional configurations, refer to each package documentation for more details.
 
 <!-- Links -->
 

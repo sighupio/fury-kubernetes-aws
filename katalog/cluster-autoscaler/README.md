@@ -12,7 +12,7 @@ are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA)
 
 ## Image repository and tag
 
-* Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.23.0`
+* Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.21.3,v1.22.3,v1.23.1`
 * Cluster autoscaler repo: [Cluster autoscaler at Github][github]
 
 ## Deployment
