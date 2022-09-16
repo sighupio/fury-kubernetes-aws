@@ -1,6 +1,6 @@
 # aws-node-termination-handler maintenance
 
-To maintain the aws-node-termination-handler package, you should follow this steps.
+To maintain the aws-node-termination-handler package, you should follow these steps.
 
 Build the new helm template with the following command:
 
