@@ -2,8 +2,7 @@
 
 <!-- <KFD-DOCS> -->
 
-A component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there
-are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA) was released with kubernetes 1.8.
+A component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA) was released with Kubernetes 1.8.
 
 ## Requirements
 
