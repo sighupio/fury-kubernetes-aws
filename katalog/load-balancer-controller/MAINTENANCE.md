@@ -1,6 +1,6 @@
 # Load Balancer controller maintenance
 
-To maintain the aws load balancer controller package, you should follow this steps.
+To maintain the AWS load balancer controller package, you should follow these steps.
 
 Go to https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/installation/ and follow the steps for
 the non-helm installation.
