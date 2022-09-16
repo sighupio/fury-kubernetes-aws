@@ -13,8 +13,7 @@ helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver -n kube-s
   --set 'node.tolerateAllTaints'=true > built-ebs.yaml
 ```
 
-> NB `--api-versions=snapshot.storage.k8s.io/v1` is mandatory since without connecting to a real cluster, helm cannot
-> determine the cluster capabilities, and the snapshotter sidecar is injected only if the cluster supports it.
+> ⚠️ `--api-versions=snapshot.storage.k8s.io/v1` is mandatory since without connecting to a real cluster, Helm cannot determine the cluster capabilities, and the snapshotter sidecar is injected only if the cluster supports it.
 
 Then, you should update the `ebs-csi-driver` package with the new `built-ebs.yaml` file.
 
