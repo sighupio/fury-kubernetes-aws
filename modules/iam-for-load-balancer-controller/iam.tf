@@ -243,3 +243,4 @@ module "aws_lb_controller_iam_assumable_role" {
   role_policy_arns              = [aws_iam_policy.aws_alb_controller.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
 }
+
