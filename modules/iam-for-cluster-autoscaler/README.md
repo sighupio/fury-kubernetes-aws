@@ -22,13 +22,14 @@ This terraform module provides an easy way to generate cluster autoscaler requir
 |         Name         |              Description              |     Type      | Default | Required |
 | -------------------- | ------------------------------------- | ------------- | ------- | :------: |
 | cluster_name         | The EKS cluster name                  | `string`      | n/a     |   yes    |
+| region               | The region where the cluster is       | `string`      | n/a     |   yes    |
 
 ## Outputs
 
 |            Name                    |               Description               |
 | ---------------------------------- | --------------------------------------- |
 | cluster\_autoscaler\_patches       | Cluster autoscaler SA Kustomize patch   |
-| cluster\_autoscaler\_iam\_role\_arn  | Cluster autoscaler IAM role arn         |
+| cluster\_autoscaler\_iam\_role\_arn  | Cluster autoscaler IAM role arn       |
 
 
 ## Usage
@@ -37,5 +38,6 @@ This terraform module provides an easy way to generate cluster autoscaler requir
 module "cluster_autoscaler_iam_role" {
   source             = "../vendor/modules/aws/iam-for-cluster-autoscaler"
   cluster_name       = "myekscluster"
+  region             = "eu-west-1"
 }
 ```
