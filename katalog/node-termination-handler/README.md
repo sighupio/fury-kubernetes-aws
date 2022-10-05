@@ -8,7 +8,7 @@ If not handled, your application code may not stop gracefully, take longer to re
 This package is deployed as Instance Metadata Service Processor to monitor:
 
 - EC2 Metadata for Scheduled Maintenance Events
-- Monitors EC2 Metadata for Spot Instance Termination Notifications
+- EC2 Metadata for Spot Instance Termination Notifications
 - Monitors EC2 Metadata for Rebalance Recommendation Notifications
 
 ## Requirements
