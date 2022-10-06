@@ -18,7 +18,7 @@ Check the differences with `base/deploy.yaml` file and change accordingly.
 
 What was changed:
 
-- Removed unnecessary helm tags from the manifests and replaced with `app: cluster-autoscaler` when applicable.
+- Removed unnecessary helm tags from the manifests and replaced with `app: cluster-autoscaler` when applicable, to maintain compatibility with older cluster-autoscaler package versions.
 - cluster-autoscaler command changed to: 
   ```yaml
   command:
