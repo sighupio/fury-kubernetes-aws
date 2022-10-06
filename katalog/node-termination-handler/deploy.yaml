@@ -3,36 +3,6 @@
 # license that can be found in the LICENSE file.
 
 ---
-# Source: aws-node-termination-handler/templates/psp.yaml
-apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
-metadata:
-  name: aws-node-termination-handler
-  annotations:
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
-spec:
-  privileged: false
-  hostIPC: false
-  hostNetwork: true
-  hostPID: false
-  hostPorts:
-  - min: 9092
-    max: 9092
-  readOnlyRootFilesystem: false
-  allowPrivilegeEscalation: false
-  allowedCapabilities:
-    - '*'
-  fsGroup:
-    rule: RunAsAny
-  runAsUser:
-    rule: RunAsAny
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
-  volumes:
-    - '*'
----
 # Source: aws-node-termination-handler/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount

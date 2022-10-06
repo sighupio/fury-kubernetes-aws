@@ -21,5 +21,6 @@ Check the differences with `deploy.yaml` file and change accordingly.
 
 What was changed:
 
-- Removed unnecessary helm tags from the manifests and replaced with `app: aws-node-termination-handler` when applicable.
+- Removed unnecessary helm tags from the manifests and replaced with `app: aws-node-termination-handler` when applicable to maintain compatibility with older aws-node-termination-handler package versions.
 - Changed the image in the manifest as `aws-node-termination-handler`, since the image is managed on the kustomization.yaml file
+- Removed PodSecurityPolicy from the generated manifest
