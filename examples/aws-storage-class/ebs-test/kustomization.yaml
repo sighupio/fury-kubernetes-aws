@@ -1,4 +1,0 @@
-namespace: kube-system
-
-resources:
-  - deploy.yml

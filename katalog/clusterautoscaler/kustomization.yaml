@@ -1,4 +1,0 @@
-resources:
-  - rbac.yml
-  - sa.yml
-  - deployment.yml
