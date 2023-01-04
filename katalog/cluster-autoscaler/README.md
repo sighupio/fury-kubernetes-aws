@@ -11,30 +11,30 @@ A component that automatically adjusts the size of a Kubernetes Cluster so that 
 
 ## Image repository and tag
 
-* Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.21.3,v1.22.3,v1.23.1`
-* Cluster autoscaler repo: [Cluster autoscaler at Github][github]
+- Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.21.3,v1.22.3,v1.23.1,v1.24.0`
+- Cluster autoscaler repo: [Cluster autoscaler at Github][ca-github]
 
 ## Deployment
 
-You can deploy cluster autoscaler in your EKS cluster by including the package in your kustomize project:
+You can deploy cluster autoscaler in your EKS cluster by including the package in your Kustomize project:
 
 `kustomization.yaml` file extract:
+
 ```yaml
 ...
 
 resources:
-  - katalog/cluster-autoscaler/{v1.21.x,v1.22.x,v1.23.x}
+  - katalog/cluster-autoscaler/{v1.21.x,v1.22.x,v1.23.x,v1.24.x}
 
 ...
 ```
 
-Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the
-IAM role and the required kustomize patches automatically.
+Refer to the Terraform module [iam-for-cluster-autoscaler](../../modules/iam-for-cluster-autoscaler) to create the IAM role and the required kustomize patches automatically.
 
-If still you want to create everything manually without using our Terraform Module, you need to patch the service account, the cluster name
-(for example `mycluster`) and the region (for example `eu-west-1`) as follows:
+If still you want to create everything manually without using our Terraform Module, you need to patch the service account, the cluster name (for example `mycluster`) and the region (for example `eu-west-1`) as follows:
 
 `sa-patch.yaml`
+
 ```yaml
 ---
 apiVersion: v1
@@ -47,6 +47,7 @@ metadata:
 ```
 
 `cluster-autoscaler-patch.yaml`
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -70,6 +71,7 @@ spec:
 and then add on the `kustomization.yaml` file the patches:
 
 `kustomization.yaml` file extract:
+
 ```yaml
 ...
 
@@ -88,12 +90,10 @@ kustomize build | kubectl apply -f -
 
 <!-- Links -->
 
-[github]: https://github.com/kubernetes/autoscaler
+[ca-github]: https://github.com/kubernetes/autoscaler
 
 <!-- </KFD-DOCS> -->
 
 ## License
 
 For license details please see [LICENSE](../../LICENSE)
-
-
