@@ -1,6 +1,6 @@
 # IAM for cluster autoscaler
 
-This terraform module provides an easy way to generate cluster autoscaler required IAM permissions.
+This terraform module provides an easy way to generate required IAM permissions for cluster autoscaler.
 
 > ⚠️ **Warning**: this module uses ["IAM Roles for ServiceAccount"](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to inject AWS credentials inside cluster autoscaler pods
 
@@ -30,7 +30,6 @@ This terraform module provides an easy way to generate cluster autoscaler requir
 | ---------------------------------- | --------------------------------------- |
 | cluster\_autoscaler\_patches       | Cluster autoscaler SA Kustomize patch   |
 | cluster\_autoscaler\_iam\_role\_arn  | Cluster autoscaler IAM role arn       |
-
 
 ## Usage
 
