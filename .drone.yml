@@ -1,0 +1,163 @@
+# Copyright (c) 2017-present SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+name: license
+kind: pipeline
+type: docker
+
+steps:
+  - name: check
+    image: golang:1.18.1-alpine
+    pull: always
+    commands:
+      - go install github.com/google/addlicense@v1.0.0
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present" --check .
+
+---
+name: policeman
+kind: pipeline
+type: docker
+
+depends_on:
+  - license
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: lint
+    image: quay.io/sighup/policeman
+    pull: always
+    environment:
+      # Identifies false positives like missing 'selector'.
+      # Doing this is valid for Kustomize patches
+      VALIDATE_KUBERNETES_KUBEVAL: "false"
+      # Some duplicated code is intended.
+      VALIDATE_JSCPD: "false"
+      # hadolint already validated dockerfiles
+      VALIDATE_DOCKERFILE: "false"
+      # Disable natural language checks
+      VALIDATE_NATURAL_LANGUAGE: "false"
+    depends_on:
+      - clone
+
+  - name: render
+    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.20.7_3.8.7_2.4.1
+    pull: always
+    commands:
+      - kustomize build katalog/cluster-autoscaler/v1.21.x > cluster-autoscaler-v1.21.x.yml
+      - kustomize build katalog/cluster-autoscaler/v1.22.x > cluster-autoscaler-v1.22.x.yml
+      - kustomize build katalog/cluster-autoscaler/v1.23.x > cluster-autoscaler-v1.23.x.yml
+      - kustomize build katalog/cluster-autoscaler/v1.24.x > cluster-autoscaler-v1.24.x.yml
+      - kustomize build katalog/ebs-csi-driver > ebs-csi-driver.yml
+      - kustomize build katalog/load-balancer-controller > load-balancer-controller.yml
+      - kustomize build katalog/node-termination-handler > node-termination-handler.yml
+
+
+  - name: check-deprecated-apis
+    image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5
+    pull: always
+    depends_on:
+      - render
+    commands:
+      # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
+      - /pluto detect cluster-autoscaler-v1.21.x.yml --ignore-deprecations --target-versions=k8s=v1.21.0
+      - /pluto detect cluster-autoscaler-v1.22.x.yml --ignore-deprecations --target-versions=k8s=v1.22.0
+      - /pluto detect cluster-autoscaler-v1.23.x.yml --ignore-deprecations --target-versions=k8s=v1.23.0
+      - /pluto detect cluster-autoscaler-v1.24.x.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+      - /pluto detect ebs-csi-driver.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+
+---
+name: release
+kind: pipeline
+type: docker
+
+# Uncomment once we have e2e tests
+# depends_on:
+# - e2e-kubernetes-1.20
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  ref:
+    include:
+      - refs/tags/**
+
+steps:
+  - name: prepare-tar-gz
+    image: alpine:latest
+    pull: always
+    depends_on: [clone]
+    commands:
+      - tar -zcvf kubernetes-fury-aws-${DRONE_TAG}.tar.gz katalog/ LICENSE README.md
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
+  - name: prepare-release-notes
+    image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
+    pull: always
+    depends_on: [clone]
+    settings:
+      release_notes_file_path: release-notes.md
+    when:
+      ref:
+        include:
+          - refs/tags/**
+
+  - name: publish-prerelease
+    image: plugins/github-release
+    pull: always
+    depends_on:
+      - prepare-tar-gz
+      - prepare-release-notes
+    settings:
+      api_key:
+        from_secret: github_token
+      file_exists: overwrite
+      files:
+        - kubernetes-fury-aws-${DRONE_TAG}.tar.gz
+      prerelease: true
+      overwrite: true
+      title: "Preview ${DRONE_TAG}"
+      note: release-notes.md
+      checksum:
+        - md5
+        - sha256
+    when:
+      ref:
+        include:
+          - refs/tags/v**-rc**
+
+  - name: publish-stable
+    image: plugins/github-release
+    pull: always
+    depends_on:
+      - prepare-tar-gz
+      - prepare-release-notes
+    settings:
+      api_key:
+        from_secret: github_token
+      file_exists: overwrite
+      files:
+        - kubernetes-fury-aws-${DRONE_TAG}.tar.gz
+      prerelease: false
+      overwrite: true
+      title: "Release ${DRONE_TAG}"
+      note: release-notes.md
+      checksum:
+        - md5
+        - sha256
+    when:
+      ref:
+        exclude:
+          - refs/tags/v**-rc**
+        include:
+          - refs/tags/v**
