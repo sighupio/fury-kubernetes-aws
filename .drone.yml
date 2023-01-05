@@ -40,6 +40,8 @@ steps:
       VALIDATE_DOCKERFILE: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
+      # Exclude old release notes that were created before we introduced policeman
+      FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
     depends_on:
       - clone
 

@@ -94,7 +94,7 @@ kustomize build | kubectl apply -f -
 
 <!-- Links -->
 
-[cert-manager]: https://github.com/sighupio/fury-kubernetes-ingress/tree/master/katalog/cert-manager 
+[cert-manager]: https://github.com/sighupio/fury-kubernetes-ingress/tree/master/katalog/cert-manager
 [github]: https://github.com/kubernetes-sigs/aws-load-balancer-controller/
 
 <!-- </KFD-DOCS> -->
