@@ -79,7 +79,8 @@ kind: pipeline
 type: docker
 
 # Uncomment once we have e2e tests
-# depends_on:
+depends_on:
+  - policeman
 # - e2e-kubernetes-1.20
 
 platform:
@@ -106,7 +107,7 @@ steps:
   - name: prepare-release-notes
     image: quay.io/sighup/fury-release-notes-plugin:3.7_2.8.4
     pull: always
-    depends_on: [clone, policeman]
+    depends_on: [clone]
     settings:
       release_notes_file_path: release-notes.md
     when:
