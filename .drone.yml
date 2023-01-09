@@ -96,7 +96,7 @@ steps:
   - name: prepare-tar-gz
     image: alpine:latest
     pull: always
-    depends_on: [clone, policeman]
+    depends_on: [clone]
     commands:
       - tar -zcvf kubernetes-fury-aws-${DRONE_TAG}.tar.gz katalog/ LICENSE README.md
     when:
