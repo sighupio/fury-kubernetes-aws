@@ -12,14 +12,14 @@ It's mandatory since EKS version 1.23.
 
 ## Image repository and tag
 
-* AWS EBS CSI Driver image: `registry.sighup.io/fury/ebs-csi-driver/aws-ebs-csi-driver:v1.11.2`
-* CSI Node Driver registrar: `registry.sighup.io/fury/sig-storage/csi-node-driver-registrar:v2.5.1`
-* K8S livenessprobe: `registry.sighup.io/fury/sig-storage/livenessprobe:v2.6.0`
-* CSI Provisioner: `registry.sighup.io/fury/sig-storage/csi-provisioner:v3.1.0`
-* CSI Attacher: `registry.sighup.io/fury/sig-storage/csi-attacher:v3.4.0`
-* CSI Resizer: `registry.sighup.io/fury/sig-storage/csi-resizer:v1.4.0`
-* CSI Snapshotter: `registry.sighup.io/fury/sig-storage/csi-snapshotter:v6.0.1`
-* Snapshot Controller: `registry.sighup.io/fury/sig-storage/snapshot-controller:v5.0.1`
+* AWS EBS CSI Driver image: `registry.sighup.io/fury/ebs-csi-driver/aws-ebs-csi-driver:v1.16.1`
+* CSI Node Driver registrar: `registry.sighup.io/fury/eks-distro/kubernetes-csi/csi-node-driver-registrar:v2.7.0-eks-1-25-latest`
+* K8S livenessprobe: `registry.sighup.io/fury/eks-distro/kubernetes-csi/livenessprobe:v2.9.0-eks-1-25-latest`
+* CSI Provisioner: `registry.sighup.io/fury/eks-distro/kubernetes-csi/external-provisioner:v3.4.0-eks-1-25-latest`
+* CSI Attacher: `registry.sighup.io/fury/eks-distro/kubernetes-csi/external-attacher:v4.1.0-eks-1-25-latest`
+* CSI Resizer: `registry.sighup.io/fury/eks-distro/kubernetes-csi/external-resizer:v1.7.0-eks-1-25-latest`
+* CSI Snapshotter: `registry.sighup.io/fury/eks-distro/kubernetes-csi/external-snapshotter/csi-snapshotter:v6.2.1-eks-1-25-latest`
+* Snapshot Controller: `registry.sighup.io/fury/sig-storage/snapshot-controller:v6.2.1`
 
 ## Deployment
 

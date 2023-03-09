@@ -31,8 +31,8 @@ Download the latest release for the CSI snapshotter component here: <https://git
 Build manifests for the CRDs and the snapshotter with (for example):
 
 ```bash
-kustomize build /tmp/external-snapshotter-6.0.1/client/config/crd > built-crds.yaml
-kustomize build /tmp/external-snapshotter-6.0.1/deploy/kubernetes/snapshot-controller > built-snapshot-controller.yaml
+kustomize build /tmp/external-snapshotter-6.2.1/client/config/crd > built-crds.yaml
+kustomize build /tmp/external-snapshotter-6.2.1/deploy/kubernetes/snapshot-controller > built-snapshot-controller.yaml
 ```
 
 Check the differences between:
