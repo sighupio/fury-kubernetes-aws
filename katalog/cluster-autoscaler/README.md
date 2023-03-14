@@ -11,7 +11,7 @@ A component that automatically adjusts the size of a Kubernetes Cluster so that 
 
 ## Image repository and tag
 
-- Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.21.3,v1.22.3,v1.23.1,v1.24.0`
+- Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.23.1,v1.24.0,1.25.0`
 - Cluster autoscaler repo: [Cluster autoscaler at Github][ca-github]
 
 ## Deployment

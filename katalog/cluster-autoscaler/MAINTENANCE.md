@@ -39,4 +39,4 @@ What was changed:
 - Added requests and limits
 - Removed PodDisruptionBudget
 
-Add the new EKS version folder like the existing v1.21.x, v1.22.x, v1.23.x, etc. if needed.
+Add the new EKS version folder like the existing v1.23.x, v1.24.x, v1.25.x, etc. if needed.

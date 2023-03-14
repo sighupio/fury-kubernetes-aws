@@ -49,10 +49,7 @@ steps:
     image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.20.7_3.8.7_2.4.1
     pull: always
     commands:
-      - kustomize build katalog/cluster-autoscaler/v1.21.x > cluster-autoscaler-v1.21.x.yml
-      - kustomize build katalog/cluster-autoscaler/v1.22.x > cluster-autoscaler-v1.22.x.yml
-      - kustomize build katalog/cluster-autoscaler/v1.23.x > cluster-autoscaler-v1.23.x.yml
-      - kustomize build katalog/cluster-autoscaler/v1.24.x > cluster-autoscaler-v1.24.x.yml
+      - kustomize build katalog/cluster-autoscaler/base > cluster-autoscaler.yml
       - kustomize build katalog/ebs-csi-driver > ebs-csi-driver.yml
       - kustomize build katalog/load-balancer-controller > load-balancer-controller.yml
       - kustomize build katalog/node-termination-handler > node-termination-handler.yml
@@ -65,13 +62,10 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect cluster-autoscaler-v1.21.x.yml --ignore-deprecations --target-versions=k8s=v1.21.0
-      - /pluto detect cluster-autoscaler-v1.22.x.yml --ignore-deprecations --target-versions=k8s=v1.22.0
-      - /pluto detect cluster-autoscaler-v1.23.x.yml --ignore-deprecations --target-versions=k8s=v1.23.0
-      - /pluto detect cluster-autoscaler-v1.24.x.yml --ignore-deprecations --target-versions=k8s=v1.24.0
-      - /pluto detect ebs-csi-driver.yml --ignore-deprecations --target-versions=k8s=v1.24.0
-      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.24.0
-      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.24.0
+      - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect ebs-csi-driver.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
 
 ---
 name: release

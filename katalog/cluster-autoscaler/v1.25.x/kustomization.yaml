@@ -13,4 +13,4 @@ resources:
 
 images:
   - name: registry.sighup.io/fury/autoscaling/cluster-autoscaler
-    newTag: v1.21.3
+    newTag: v1.25.0
