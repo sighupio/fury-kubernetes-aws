@@ -8,14 +8,14 @@ This terraform module provides an easy way to generate required IAM permissions 
 
 |   Name    | Version     |
 | --------- | ----------- |
-| terraform | `>= 0.15.4` |
-| aws       | `>= 3.37.0` |
+| terraform | `>= 1.3` |
+| aws       | `~> 3.76` |
 
 ## Providers
 
 | Name | Version  |
 | ---- | -------- |
-| aws  | `>= 3.37.0` |
+| aws  | `~> 3.76` |
 
 ## Inputs
 
