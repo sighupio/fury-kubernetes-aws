@@ -26,11 +26,18 @@ This terraform module provides an easy way to install addons on an existing EKS 
 | vpc\_cni             | An object list defining VPC CNI addon configuration        | `object`      | `{enabled=false}` | no       |
 
 Each object can be configured with the following parameters:
+
 |   Name  |                           Description                                                                  | Type     | Default     | Required |
 | ------- | ------------------------------------------------------------------------------------------------------ | -------- | ----------- | -------- |
 | enabled | Whether to enable the addon or not.                                                                    | `bool`   | `false`     | No       |
 | version | The addon version.                                                                                     | `string` | latest      | No       |
 | resolve_conflicts | How to resolve conflicts when migrating from self-managed add-ons. Can be NONE or OVERWRITE. | `string` | `OVERWRITE` | No       |
+
+Moreover, `ebs_csi_driver` and `vpc_cni` have the following parameter:
+
+|   Name                   |                           Description                                                                  | Type     | Default     | Required |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | -------- | ----------- | -------- |
+| service_account_role_arn |  The ARN of an existing IAM role to bind to the add-on's service account                               | `string` | n/a         | No       |
 
 ## Usage
 

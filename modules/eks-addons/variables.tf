@@ -12,9 +12,10 @@ variable "cluster_name" {
 variable "ebs_csi_driver" {
   description = "Enable and configure EBS CSI Driver"
   type = object({
-    enabled           = optional(bool, false)
-    version           = optional(string)
-    resolve_conflicts = optional(string, "OVERWRITE")
+    enabled                  = optional(bool, false)
+    version                  = optional(string)
+    resolve_conflicts        = optional(string, "OVERWRITE")
+    service_account_role_arn = optional(string)
   })
   default = {}
 }
@@ -42,9 +43,10 @@ variable "kube_proxy" {
 variable "vpc_cni" {
   description = "Enable and configure VPC CNI"
   type = object({
-    enabled           = optional(bool, false)
-    version           = optional(string)
-    resolve_conflicts = optional(string, "OVERWRITE")
+    enabled                  = optional(bool, false)
+    version                  = optional(string)
+    resolve_conflicts        = optional(string, "OVERWRITE")
+    service_account_role_arn = optional(string)
   })
   default = {}
 }
