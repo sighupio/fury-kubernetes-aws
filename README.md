@@ -3,7 +3,7 @@
     Kubernetes Fury AWS
 </h1>
 
-![Release](https://img.shields.io/badge/Latest%20Release-v2.2.0-blue)
+![Release](https://img.shields.io/badge/Latest%20Release-v3.0.0-blue)
 ![License](https://img.shields.io/github/license/sighupio/fury-kubernetes-aws?label=License)
 ![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack&label=Slack)
 
@@ -47,11 +47,11 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 
 ### Prerequisites
 
-| Tool                        | Version    | Description                                                                                                                                                    |
-| --------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [furyctl][furyctl-repo]     | `>=0.6.0`  | The recommended tool to download and manage KFD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
-| [kustomize][kustomize-repo] | `>=3.5.3`  | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
-| [terraform][terraform-repo] | `>=0.15.4` | Terraform is used to provision packages using modules. To learn how to use `terraform`, please refer to the [repository][terraform-repo].                      |
+| Tool                        | Version   | Description                                                                                                                                                    |
+| --------------------------- |-----------| -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [furyctl][furyctl-repo]     | `>=0.6.0` | The recommended tool to download and manage KFD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
+| [kustomize][kustomize-repo] | `>=3.5.3` | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
+| [terraform][terraform-repo] | `>=1.3.0` | Terraform is used to provision packages using modules. To learn how to use `terraform`, please refer to the [repository][terraform-repo].                      |
 
 ### Deployment
 
@@ -60,13 +60,13 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 ```yaml
 bases:
   - name: aws/cluster-autoscaler
-    version: "v2.2.0"
+    version: "v3.0.0"
   - name: aws/node-termination-handler
-    version: "v2.2.0"
+    version: "v3.0.0"
   - name: aws/load-balancer-controller
-    version: "v2.2.0"
+    version: "v3.0.0"
   - name: aws/ebs-csi-driver
-    version: "v2.2.0" 
+    version: "v3.0.0" 
 ```
 
 > See `furyctl` [documentation][furyctl-repo] for additional details about `Furyfile.yml` format.
