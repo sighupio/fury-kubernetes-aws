@@ -50,7 +50,6 @@ steps:
     pull: always
     commands:
       - kustomize build katalog/cluster-autoscaler/base > cluster-autoscaler.yml
-      - kustomize build katalog/ebs-csi-driver > ebs-csi-driver.yml
       - kustomize build katalog/load-balancer-controller > load-balancer-controller.yml
       - kustomize build katalog/node-termination-handler > node-termination-handler.yml
 
