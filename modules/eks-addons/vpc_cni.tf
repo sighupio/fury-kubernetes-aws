@@ -12,4 +12,5 @@ resource "aws_eks_addon" "vpc_cni" {
   service_account_role_arn = var.ebs_csi_driver.service_account_role_arn
   tags                     = var.tags
   count                    = var.vpc_cni.enabled ? 1 : 0
+  configuration_values     = var.vpc_cni.configuration_values
 }

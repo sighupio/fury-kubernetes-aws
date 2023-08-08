@@ -16,6 +16,7 @@ variable "ebs_csi_driver" {
     version                  = optional(string)
     resolve_conflicts        = optional(string, "OVERWRITE")
     service_account_role_arn = optional(string)
+    configuration_values     = optional(any)
   })
   default = {}
 }
@@ -23,9 +24,10 @@ variable "ebs_csi_driver" {
 variable "coredns" {
   description = "Enable and configure Coredns"
   type = object({
-    enabled           = optional(bool, false)
-    version           = optional(string)
-    resolve_conflicts = optional(string, "OVERWRITE")
+    enabled              = optional(bool, false)
+    version              = optional(string)
+    resolve_conflicts    = optional(string, "OVERWRITE")
+    configuration_values = optional(any)
   })
   default = {}
 }
@@ -33,9 +35,10 @@ variable "coredns" {
 variable "kube_proxy" {
   description = "Enable and configure kube-proxy"
   type = object({
-    enabled           = optional(bool, false)
-    version           = optional(string)
-    resolve_conflicts = optional(string, "OVERWRITE")
+    enabled              = optional(bool, false)
+    version              = optional(string)
+    resolve_conflicts    = optional(string, "OVERWRITE")
+    configuration_values = optional(any)
   })
   default = {}
 }
@@ -47,6 +50,7 @@ variable "vpc_cni" {
     version                  = optional(string)
     resolve_conflicts        = optional(string, "OVERWRITE")
     service_account_role_arn = optional(string)
+    configuration_values     = optional(any)
   })
   default = {}
 }
