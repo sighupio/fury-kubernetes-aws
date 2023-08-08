@@ -1,0 +1,14 @@
+{
+  "controller": {
+    "tolerations": [
+      {
+        "key": "node.kubernetes.io/role",
+        "value": "app",
+        "effect": "NoSchedule"
+      }
+    ],
+    "nodeSelector": {
+      "node.kubernetes.io/role": "app"
+    }
+  }
+}
