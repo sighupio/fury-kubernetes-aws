@@ -62,7 +62,6 @@ steps:
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
       - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
-      - /pluto detect ebs-csi-driver.yml --ignore-deprecations --target-versions=k8s=v1.25.0
       - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.25.0
       - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
 
