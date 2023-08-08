@@ -15,7 +15,7 @@ terraform {
 }
 
 module "addons" {
-  source = "../../../fury-kubernetes-aws/modules/eks-addons"
+  source = "../../modules/eks-addons"
   cluster_name = var.cluster_name
   ebs_csi_driver = {
     enabled = true
