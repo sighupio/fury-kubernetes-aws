@@ -6,6 +6,6 @@
 
 config {
   ignore_module = {
-    "../../modules/eks-addons" = true
+    "../modules/eks-addons" = true
   }
 }
