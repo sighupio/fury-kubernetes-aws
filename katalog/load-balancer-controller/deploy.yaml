@@ -867,6 +867,7 @@ spec:
       - args:
         - --cluster-name=$(CLUSTER_NAME)
         - --ingress-class=alb
+        - --feature-gates=enableServiceMutatorWebhook=false
         image: public.ecr.aws/eks/aws-load-balancer-controller:v2.6.0
         env:
           - name: CLUSTER_NAME
