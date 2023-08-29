@@ -13,9 +13,9 @@ AWS Load Balancer Controller is a controller to help manage Elastic Load Balance
 - Kustomize >= `v3.5.3`
 - [cert-manager][cert-manager]
 
-## Image repository and tag
+## Image repositories
 
-- AWS Load Balancer controller image: `registry.sighup.io/fury/amazon/aws-alb-ingress-controller:v2.4.3`
+- AWS Load Balancer controller image: `registry.sighup.io/fury/amazon/aws-alb-ingress-controller`
 - AWS Load Balancer controller repo: [AWS Load Balancer controller at Github][github]
 
 ## Deployment
