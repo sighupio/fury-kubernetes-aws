@@ -17,7 +17,7 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   "controller": {
     "tolerations": [
       {
-        "operator": "Exists
+        "operator": "Exists"
       }
     ]
   }
