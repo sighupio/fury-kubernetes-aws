@@ -11,5 +11,13 @@ resource "aws_eks_addon" "coredns" {
   resolve_conflicts    = var.coredns.resolve_conflicts
   tags                 = var.tags
   count                = var.coredns.enabled ? 1 : 0
-  configuration_values = var.coredns.configuration_values
+  configuration_values = var.coredns.configuration_values != null ? var.coredns.configuration_values : <<EOF
+{
+  "tolerations": [
+    {
+      "operator": "Exists"
+    }
+  ]
+}
+EOF
 }

@@ -12,5 +12,15 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   service_account_role_arn = var.ebs_csi_driver.service_account_role_arn
   tags                     = var.tags
   count                    = var.ebs_csi_driver.enabled ? 1 : 0
-  configuration_values     = var.ebs_csi_driver.configuration_values
+  configuration_values     = var.ebs_csi_driver.configuration_values != null ? var.ebs_csi_driver.configuration_values : <<EOF
+{
+  "controller": {
+    "tolerations": [
+      {
+        "operator": "Exists
+      }
+    ]
+  }
+}
+EOF
 }
