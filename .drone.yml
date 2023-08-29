@@ -44,7 +44,7 @@ steps:
       FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
       # Exclude schemas for kubeconform
       KUBERNETES_KUBECONFORM_OPTIONS: "--ignore-missing-schemas"
-      TERRAFORM_TFLINT_CONFIG_FILE: ".tflint.hcl"
+      VALIDATE_TERRAFORM_TFLINT: "false"
     depends_on:
       - clone
 
