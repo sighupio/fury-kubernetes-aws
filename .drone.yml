@@ -42,8 +42,8 @@ steps:
       VALIDATE_NATURAL_LANGUAGE: "false"
       # Exclude old release notes that were created before we introduced policeman
       FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
-      # Exclude kustomization.yaml for kubeconform
-      KUBERNETES_KUBECONFORM_OPTIONS: "-skip Kustomization -skip Certificate -skip Issuer -skip CustomResourceDefinition -skip PodMonitor"
+      # Exclude schemas for kubeconform
+      KUBERNETES_KUBECONFORM_OPTIONS: "--ignore-missing-schemas"
     depends_on:
       - clone
 
