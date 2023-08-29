@@ -25,7 +25,7 @@ variable "coredns" {
   description = "Enable and configure Coredns"
   type = object({
     enabled              = optional(bool, true)
-    version              = optional(string, "v1.9.3-eksbuild.2")
+    version              = optional(string, "v1.9.3-eksbuild.5")
     resolve_conflicts    = optional(string, "OVERWRITE")
     configuration_values = optional(any)
   })
