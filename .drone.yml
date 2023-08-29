@@ -40,8 +40,10 @@ steps:
       VALIDATE_DOCKERFILE: "false"
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
-      # Exclude old release notes that were created before we introduced policeman - exclude kustomization.yaml for kubeconform
-      FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md,.*kustomization.*)
+      # Exclude old release notes that were created before we introduced policeman
+      FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
+      # Exclude kustomization.yaml for kubeconform
+      KUBERNETES_KUBECONFORM_OPTIONS: "-skip Kustomization"
     depends_on:
       - clone
 
