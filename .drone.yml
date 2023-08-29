@@ -28,7 +28,7 @@ platform:
 
 steps:
   - name: lint
-    image: quay.io/sighup/policeman
+    image: quay.io/sighup/policeman:v5.2.1
     pull: always
     environment:
       # Identifies false positives like missing 'selector'.
