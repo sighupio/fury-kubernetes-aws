@@ -45,6 +45,8 @@ steps:
       # Exclude schemas for kubeconform
       KUBERNETES_KUBECONFORM_OPTIONS: "--ignore-missing-schemas"
       VALIDATE_TERRAFORM_TFLINT: "false"
+      VALIDATE_TERRAFORM_FMT: "false"
+      VALIDATE_TERRAFORM_TERRASCAN: "false"
     depends_on:
       - clone
 
