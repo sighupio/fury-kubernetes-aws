@@ -7,7 +7,7 @@
 resource "aws_eks_addon" "ebs_csi_driver" {
   cluster_name             = var.cluster_name
   addon_name               = "aws-ebs-csi-driver"
-  addon_version            = var.ebs_csi_driver.version
+  addon_version            = data.aws_eks_addon_version.latest_ebs_csi_driver.version
   resolve_conflicts        = var.ebs_csi_driver.resolve_conflicts
   service_account_role_arn = var.ebs_csi_driver.service_account_role_arn
   tags                     = var.tags
@@ -23,4 +23,10 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   }
 }
 EOF
+}
+
+data "aws_eks_addon_version" "latest_ebs_csi_driver" {
+  addon_name         = "aws-ebs-csi-driver"
+  kubernetes_version = data.aws_eks_cluster.eks.version
+  most_recent        = true
 }
