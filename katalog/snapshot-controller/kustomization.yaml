@@ -11,31 +11,8 @@ namespace: kube-system
 resources:
   - crds/crds.yaml
   - deploy-snapshot-controller.yaml
-  - deploy-ebs-driver.yaml
-
 
 images:
-  - name: public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver
-    newName: registry.sighup.io/fury/ebs-csi-driver/aws-ebs-csi-driver
-    newTag: v1.22.0
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/node-driver-registrar
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/csi-node-driver-registrar
-    newTag: v2.8.0-eks-1-27-9
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/livenessprobe
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/livenessprobe
-    newTag: v2.10.0-eks-1-27-9
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/external-provisioner
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/external-provisioner
-    newTag: v3.5.0-eks-1-27-9
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/external-attacher
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/external-attacher
-    newTag: v4.3.0-eks-1-27-9
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/external-resizer
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/external-resizer
-    newTag: v1.8.0-eks-1-27-9
-  - name: public.ecr.aws/eks-distro/kubernetes-csi/external-snapshotter/csi-snapshotter
-    newName: registry.sighup.io/fury/eks-distro/kubernetes-csi/external-snapshotter/csi-snapshotter
-    newTag: v6.2.2-eks-1-27-9
   - name: registry.k8s.io/sig-storage/snapshot-controller
     newName: registry.sighup.io/fury/sig-storage/snapshot-controller
     newTag: v6.2.1
