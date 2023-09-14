@@ -7,7 +7,7 @@
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name             = var.cluster_name
   addon_name               = "vpc-cni"
-  addon_version            = data.aws_eks_addon_version.latest_vpc_cni
+  addon_version            = data.aws_eks_addon_version.latest_vpc_cni.version
   resolve_conflicts        = var.vpc_cni.resolve_conflicts
   service_account_role_arn = var.vpc_cni.service_account_role_arn
   tags                     = var.tags
