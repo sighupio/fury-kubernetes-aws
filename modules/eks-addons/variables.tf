@@ -13,7 +13,7 @@ variable "ebs_csi_driver" {
   description = "Enable and configure EBS CSI Driver"
   type = object({
     enabled                  = optional(bool, true)
-    version                  = optional(string, "v1.22.0-eksbuild.1")
+    version                  = optional(string)
     resolve_conflicts        = optional(string, "OVERWRITE")
     service_account_role_arn = optional(string)
     configuration_values     = optional(any)
@@ -25,7 +25,7 @@ variable "coredns" {
   description = "Enable and configure Coredns"
   type = object({
     enabled              = optional(bool, true)
-    version              = optional(string, "v1.9.3-eksbuild.5")
+    version              = optional(string)
     resolve_conflicts    = optional(string, "OVERWRITE")
     configuration_values = optional(any)
   })
@@ -36,7 +36,7 @@ variable "kube_proxy" {
   description = "Enable and configure kube-proxy"
   type = object({
     enabled              = optional(bool, true)
-    version              = optional(string, "v1.26.2-eksbuild.1")
+    version              = optional(string)
     resolve_conflicts    = optional(string, "OVERWRITE")
     configuration_values = optional(any)
   })
@@ -47,7 +47,7 @@ variable "vpc_cni" {
   description = "Enable and configure VPC CNI"
   type = object({
     enabled                  = optional(bool, true)
-    version                  = optional(string, "v1.12.5-eksbuild.2")
+    version                  = optional(string)
     resolve_conflicts        = optional(string, "OVERWRITE")
     service_account_role_arn = optional(string)
     configuration_values     = optional(any)
