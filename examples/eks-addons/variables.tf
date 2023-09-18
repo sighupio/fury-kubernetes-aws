@@ -4,7 +4,7 @@
  * license that can be found in the LICENSE file.
  */
 
-output "ebs_csi_driver_iam_role_arn" {
-  description = "ebs-csi-driver IAM role"
-  value       = module.aws_ebs_csi_driver_iam_assumable_role.this_iam_role_arn
+variable "cluster_name" {
+  type        = string
+  description = "Unique cluster name. Used in multiple resources to identify your cluster resources"
 }

@@ -9,9 +9,9 @@ data "aws_eks_cluster" "this" {
 }
 
 resource "aws_iam_policy" "aws_alb_controller" {
-  name   = "${var.cluster_name}-aws-alb-controller"
+  name        = "${var.cluster_name}-aws-alb-controller"
   description = "EKS AWS load balancer controller IAM policy for cluster ${var.cluster_name}"
-  policy = <<EOF
+  policy      = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -257,11 +257,11 @@ EOF
 }
 
 module "aws_lb_controller_iam_assumable_role" {
-  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version = "v3.16.0"
+  source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version                       = "v3.16.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-aws-lb-controller"
-  provider_url                  = replace(data.aws_eks_cluster.this.identity.0.oidc.0.issuer, "https://", "")
+  provider_url                  = replace(data.aws_eks_cluster.this.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.aws_alb_controller.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
 }
