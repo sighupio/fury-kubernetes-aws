@@ -1,0 +1,12 @@
+{
+  "tolerations": [
+    {
+      "key": "node.kubernetes.io/role",
+      "value": "infra",
+      "effect": "NoSchedule"
+    }
+  ],
+  "nodeSelector": {
+    "node.kubernetes.io/role" : "app"
+  }
+}

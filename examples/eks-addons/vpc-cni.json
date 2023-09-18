@@ -1,0 +1,12 @@
+{
+  "env": {
+    "ANNOTATE_POD_IP": "false",
+    "AWS_VPC_CNI_NODE_PORT_SUPPORT": "true",
+    "AWS_VPC_ENI_MTU": "9001"
+  },
+  "init": {
+    "env": {
+      "DISABLE_TCP_EARLY_DEMUX": "false"
+    }
+  }
+}

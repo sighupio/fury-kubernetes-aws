@@ -28,7 +28,7 @@ platform:
 
 steps:
   - name: lint
-    image: quay.io/sighup/policeman
+    image: quay.io/sighup/policeman:v5.2.1
     pull: always
     environment:
       # Identifies false positives like missing 'selector'.
@@ -42,17 +42,22 @@ steps:
       VALIDATE_NATURAL_LANGUAGE: "false"
       # Exclude old release notes that were created before we introduced policeman
       FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
+      # Exclude schemas for kubeconform
+      KUBERNETES_KUBECONFORM_OPTIONS: "--ignore-missing-schemas"
+      VALIDATE_TERRAFORM_TFLINT: "false"
+      VALIDATE_TERRAFORM_FMT: "false"
+      VALIDATE_TERRAFORM_TERRASCAN: "false"
     depends_on:
       - clone
 
   - name: render
-    image: quay.io/sighup/e2e-testing:1.1.0_0.2.2_2.16.1_1.9.4_1.20.7_3.8.7_2.4.1
+    image: quay.io/sighup/e2e-testing:1.1.0_0.7.0_3.1.1_1.9.4_1.21.12_3.8.7_4.21.1
     pull: always
     commands:
       - kustomize build katalog/cluster-autoscaler/base > cluster-autoscaler.yml
-      - kustomize build katalog/ebs-csi-driver > ebs-csi-driver.yml
       - kustomize build katalog/load-balancer-controller > load-balancer-controller.yml
       - kustomize build katalog/node-termination-handler > node-termination-handler.yml
+      - kustomize build katalog/snapshot-controller > snapshot-controller.yml
 
 
   - name: check-deprecated-apis
@@ -62,10 +67,10 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
-      - /pluto detect ebs-csi-driver.yml --ignore-deprecations --target-versions=k8s=v1.25.0
-      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.25.0
-      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.25.0
+      - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.26.0
+      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.26.0
+      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.26.0
+      - /pluto detect snapshot-controller.yml --ignore-deprecations --target-versions=k8s=v1.26.0
 
 ---
 name: release

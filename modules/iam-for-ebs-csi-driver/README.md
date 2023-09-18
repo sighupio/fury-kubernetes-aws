@@ -27,7 +27,6 @@ This terraform module provides an easy way to generate EBS CSI driver required I
 
 |            Name                    |               Description               |
 | ---------------------------------- | --------------------------------------- |
-| ebs\_csi\_driver\_patches          | EBS CSI driver SA Kustomize patch       |
 | ebs\_csi\_driver\_iam\_role\_arn   | EBS CSI driver IAM role arn             |
 
 

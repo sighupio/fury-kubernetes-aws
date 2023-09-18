@@ -9,7 +9,11 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.76"
+      version = "~> 4.67"
     }
   }
+}
+
+data "aws_eks_cluster" "eks" {
+  name = var.cluster_name
 }
