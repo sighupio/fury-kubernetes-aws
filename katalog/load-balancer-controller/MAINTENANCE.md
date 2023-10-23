@@ -2,7 +2,7 @@
 
 To maintain the AWS load balancer controller package, you should follow these steps.
 
-Go to <https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/installation/> and follow the steps for
+Go to <https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/installation/> and follow the steps for
 the non-helm installation.
 
 Get the yaml file, for example <https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.7/v2_4_7_full.yaml>
