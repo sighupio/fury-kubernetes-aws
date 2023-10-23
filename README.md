@@ -23,12 +23,12 @@ The following packages are included in Kubernetes Fury AWS:
 
 | Package                                                                               | Version                         | Description                                                                                                 |
 | ------------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.23.1,v1.24.0,1.25.0,1.26.4` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
+| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.24.0,v1.25.0,v1.26.4,v1.27.2` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
 | [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`                             | Terraform module to manage IAM role used by cluster-autoscaler                                              |
 | [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.19.0`                       | Automatically manage graceful termination of pods in the event that one node is retired by AWS              |
 | [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.6.0`                        | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster |
 | [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`                             | Terraform module to manage IAM role used by aws-load-balancer-controller                                    |
-| [snapshot-controller](katalog/snapshot-controller)                                    | `v6.2.1`                        | Snapshot controller to enable snapshotting of the Amazon EBS driver.                                        |
+| [snapshot-controller](katalog/snapshot-controller)                                    | `v6.3.0`                        | Snapshot controller to enable snapshotting of the Amazon EBS driver.                                        |
 | [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`                             | Terraform module to manage IAM role used by EBS CSI driver                                                  |
 
 Click on each package to see its full documentation.
@@ -37,9 +37,9 @@ Click on each package to see its full documentation.
 
 | Kubernetes Version |   Compatibility    | Notes           |
 | ------------------ | :----------------: | --------------- |
-| `1.24.x`           | :white_check_mark: | No known issues |
 | `1.25.x`           | :white_check_mark: | No known issues |
 | `1.26.x`           | :white_check_mark: | No known issues |
+| `1.27.x`           | :white_check_mark: | No known issues |
 
 Check the [compatibility matrix][compatibility-matrix] for additional informations about previous releases of the modules.
 
@@ -60,13 +60,13 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 ```yaml
 bases:
   - name: aws/cluster-autoscaler
-    version: "v4.0.0"
+    version: "v4.1.0"
   - name: aws/node-termination-handler
-    version: "v4.0.0"
+    version: "v4.1.0"
   - name: aws/load-balancer-controller
-    version: "v4.0.0"
+    version: "v4.1.0"
   - name: aws/snapshot-controller
-    version: "v4.0.0" 
+    version: "v4.1.0" 
 ```
 
 > See `furyctl` [documentation][furyctl-repo] for additional details about `Furyfile.yml` format.
@@ -79,7 +79,7 @@ bases:
 
 ```yaml
 resources:
-- ./vendor/katalog/aws/cluster-autoscaler/{v1.21.x,v1.22.x,v1.23.x,v1.24.x,v1.25.x}
+- ./vendor/katalog/aws/cluster-autoscaler/{v1.24.x,v1.25.c,v1.26.c,v1.27.c}
 - ./vendor/katalog/aws/node-termination-handler
 - ./vendor/katalog/aws/load-balancer-controller
 - ./vendor/katalog/aws/snapshot-controller
