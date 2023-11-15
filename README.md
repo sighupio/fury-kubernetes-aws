@@ -79,7 +79,7 @@ bases:
 
 ```yaml
 resources:
-- ./vendor/katalog/aws/cluster-autoscaler/{v1.24.x,v1.25.c,v1.26.c,v1.27.c}
+- ./vendor/katalog/aws/cluster-autoscaler/{v1.24.x,v1.25.x,v1.26.x,v1.27.x}
 - ./vendor/katalog/aws/node-termination-handler
 - ./vendor/katalog/aws/load-balancer-controller
 - ./vendor/katalog/aws/snapshot-controller
