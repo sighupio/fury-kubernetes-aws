@@ -23,6 +23,11 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   }
 }
 EOF
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
 }
 
 data "aws_eks_addon_version" "latest_ebs_csi_driver" {
