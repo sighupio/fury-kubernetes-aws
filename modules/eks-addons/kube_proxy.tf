@@ -12,6 +12,11 @@ resource "aws_eks_addon" "kube_proxy" {
   tags                 = var.tags
   count                = var.kube_proxy.enabled ? 1 : 0
   configuration_values = var.kube_proxy.configuration_values
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
 }
 
 data "aws_eks_addon_version" "latest_kube_proxy" {

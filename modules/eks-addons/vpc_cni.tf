@@ -13,6 +13,11 @@ resource "aws_eks_addon" "vpc_cni" {
   tags                     = var.tags
   count                    = var.vpc_cni.enabled ? 1 : 0
   configuration_values     = var.vpc_cni.configuration_values
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
 }
 
 data "aws_eks_addon_version" "latest_vpc_cni" {
