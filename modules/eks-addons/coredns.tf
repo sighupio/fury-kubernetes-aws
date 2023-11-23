@@ -20,6 +20,11 @@ resource "aws_eks_addon" "coredns" {
   ]
 }
 EOF
+  timeouts {
+    create = "60m"
+    update = "60m"
+    delete = "60m"
+  }
 }
 
 data "aws_eks_addon_version" "latest_coredns" {
