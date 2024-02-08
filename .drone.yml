@@ -8,11 +8,11 @@ type: docker
 
 steps:
   - name: check
-    image: golang:1.19.4-alpine
+    image: docker.io/library/golang:1.21
     pull: always
     commands:
-      - go install github.com/google/addlicense@v1.0.0
-      - addlicense -c "SIGHUP s.r.l" -v -l bsd -y "2017-present" --check .
+      - go install github.com/google/addlicense@v1.1.1
+      - addlicense -c "SIGHUP s.r.l" -v -l bsd --check .
 
 ---
 name: policeman
@@ -67,10 +67,10 @@ steps:
       - render
     commands:
       # we use --ignore-deprecations because we don't want the CI to fail when the API has not been removed yet.
-      - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.26.0
-      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.26.0
-      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.26.0
-      - /pluto detect snapshot-controller.yml --ignore-deprecations --target-versions=k8s=v1.26.0
+      - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.29.0
+      - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.29.0
+      - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.29.0
+      - /pluto detect snapshot-controller.yml --ignore-deprecations --target-versions=k8s=v1.29.0
 
 ---
 name: release

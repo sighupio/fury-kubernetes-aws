@@ -9,9 +9,8 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-  - deploy.yaml
+  - ../base
 
 images:
-  - name: aws-node-termination-handler
-    newName: registry.sighup.io/fury/aws-ec2/aws-node-termination-handler
-    newTag: v1.20.0
+  - name: registry.sighup.io/fury/autoscaling/cluster-autoscaler
+    newTag: v1.28.2
