@@ -5,7 +5,10 @@ To maintain the aws-node-termination-handler package, you should follow these st
 Build the new helm template with the following command:
 
 ```bash
-helm repo add eks https://aws.github.io/eks-charts
+aws ecr-public get-login-password \
+     --region us-east-1 | helm registry login \
+     --username AWS \
+     --password-stdin public.ecr.aws
 
 helm template aws-node-termination-handler \
   --namespace kube-system \
@@ -14,7 +17,7 @@ helm template aws-node-termination-handler \
   --set enableScheduledEventDraining="false" \
   --set enablePrometheusServer="true" \
   --set podMonitor.create="true" \
-  eks/aws-node-termination-handler > built.yaml
+  oci://public.ecr.aws/aws-ec2/helm/aws-node-termination-handler > built.yaml
 ```
 
 Check the differences with `deploy.yaml` file and change accordingly.

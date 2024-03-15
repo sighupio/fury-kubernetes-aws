@@ -95,10 +95,54 @@ rules:
   - watch
   - update
   - patch
+  - delete
 - apiGroups:
   - snapshot.storage.k8s.io
   resources:
   - volumesnapshots/status
+  verbs:
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotcontents
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - update
+  - delete
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshotcontents/status
+  verbs:
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshots
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+- apiGroups:
+  - groupsnapshot.storage.k8s.io
+  resources:
+  - volumegroupsnapshots/status
   verbs:
   - update
   - patch
@@ -155,7 +199,7 @@ spec:
       - args:
         - --v=5
         - --leader-election=true
-        image: registry.k8s.io/sig-storage/snapshot-controller:v6.2.1
+        image: registry.k8s.io/sig-storage/snapshot-controller:v6.3.1
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
       serviceAccountName: snapshot-controller
