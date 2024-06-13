@@ -69,7 +69,7 @@ module "cluster_autoscaler_iam_assumable_role" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "v3.16.0"
   create_role                   = true
-  role_name                     = "${var.cluster_name}-cluster-autoscaler"
+  role_name                     = coalesce(var.autoscaler_iam_role_name_override, "${var.cluster_name}-cluster-autoscaler")
   provider_url                  = replace(data.aws_eks_cluster.this.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.cluster_autoscaler.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler"]

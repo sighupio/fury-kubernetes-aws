@@ -8,3 +8,9 @@ variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
 }
+
+variable "lb_iam_role_name_override" {
+  description = "IAM role name for the AWS Load Balancer Controller"
+  type        = string
+  default     = ""
+}

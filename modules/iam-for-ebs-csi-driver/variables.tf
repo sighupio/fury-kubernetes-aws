@@ -8,3 +8,9 @@ variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
 }
+
+variable "ebs_iam_role_name_override" {
+  description = "IAM role name for the EBS CSI Driver"
+  type        = string
+  default     = ""
+}
