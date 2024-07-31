@@ -3,7 +3,7 @@
     Kubernetes Fury AWS
 </h1>
 
-![Release](https://img.shields.io/badge/Latest%20Release-v4.0.0-blue)
+![Release](https://img.shields.io/badge/Latest%20Release-v4.2.1-blue)
 ![License](https://img.shields.io/github/license/sighupio/fury-kubernetes-aws?label=License)
 ![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack&label=Slack)
 
@@ -62,13 +62,13 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 ```yaml
 bases:
   - name: aws/cluster-autoscaler
-    version: "v4.2.0"
+    version: "v4.2.1"
   - name: aws/node-termination-handler
-    version: "v4.2.0"
+    version: "v4.2.1"
   - name: aws/load-balancer-controller
-    version: "v4.2.0"
+    version: "v4.2.1"
   - name: aws/snapshot-controller
-    version: "v4.2.0" 
+    version: "v4.2.1" 
 ```
 
 > See `furyctl` [documentation][furyctl-repo] for additional details about `Furyfile.yml` format.
