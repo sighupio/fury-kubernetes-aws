@@ -159,7 +159,6 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: snapshot-controller
-  namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -180,7 +179,7 @@ metadata:
   name: snapshot-controller
   namespace: kube-system
 spec:
-  minReadySeconds: 15
+  minReadySeconds: 35
   replicas: 1
   selector:
     matchLabels:
@@ -199,7 +198,7 @@ spec:
       - args:
         - --v=5
         - --leader-election=true
-        image: registry.k8s.io/sig-storage/snapshot-controller:v6.3.1
+        image: registry.k8s.io/sig-storage/snapshot-controller:v8.0.1
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
       serviceAccountName: snapshot-controller
