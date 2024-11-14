@@ -7,8 +7,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.14.0
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: ingressclassparams.elbv2.k8s.aws
@@ -43,20 +42,31 @@ spec:
         description: IngressClassParams is the Schema for the IngressClassParams API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
           spec:
             description: IngressClassParamsSpec defines the desired state of IngressClassParams
             properties:
+              certificateArn:
+                description: CertificateArn specifies the ARN of the certificates
+                  for all Ingresses that belong to IngressClass with this IngressClassParams.
+                items:
+                  type: string
+                type: array
               group:
                 description: Group defines the IngressGroup for all Ingresses that
                   belong to IngressClass with this IngressClassParams.
@@ -79,7 +89,38 @@ spec:
                 enum:
                 - ipv4
                 - dualstack
+                - dualstack-without-public-ipv4
                 type: string
+              listeners:
+                description: Listeners define a list of listeners with their protocol,
+                  port and attributes.
+                items:
+                  properties:
+                    listenerAttributes:
+                      description: The attributes of the listener
+                      items:
+                        description: Attributes defines custom attributes on resources.
+                        properties:
+                          key:
+                            description: The key of the attribute.
+                            type: string
+                          value:
+                            description: The value of the attribute.
+                            type: string
+                        required:
+                        - key
+                        - value
+                        type: object
+                      type: array
+                    port:
+                      description: The port of the listener
+                      format: int32
+                      type: integer
+                    protocol:
+                      description: The protocol of the listener
+                      type: string
+                  type: object
+                type: array
               loadBalancerAttributes:
                 description: LoadBalancerAttributes define the custom attributes to
                   LoadBalancers for all Ingress that that belong to IngressClass with
@@ -99,49 +140,50 @@ spec:
                   type: object
                 type: array
               namespaceSelector:
-                description: NamespaceSelector restrict the namespaces of Ingresses
-                  that are allowed to specify the IngressClass with this IngressClassParams.
+                description: |-
+                  NamespaceSelector restrict the namespaces of Ingresses that are allowed to specify the IngressClass with this IngressClassParams.
                   * if absent or present but empty, it selects all namespaces.
                 properties:
                   matchExpressions:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
                     items:
-                      description: A label selector requirement is a selector that
-                        contains values, a key, and an operator that relates the key
-                        and values.
+                      description: |-
+                        A label selector requirement is a selector that contains values, a key, and an operator that
+                        relates the key and values.
                       properties:
                         key:
                           description: key is the label key that the selector applies
                             to.
                           type: string
                         operator:
-                          description: operator represents a key's relationship to
-                            a set of values. Valid operators are In, NotIn, Exists
-                            and DoesNotExist.
+                          description: |-
+                            operator represents a key's relationship to a set of values.
+                            Valid operators are In, NotIn, Exists and DoesNotExist.
                           type: string
                         values:
-                          description: values is an array of string values. If the
-                            operator is In or NotIn, the values array must be non-empty.
-                            If the operator is Exists or DoesNotExist, the values
-                            array must be empty. This array is replaced during a strategic
+                          description: |-
+                            values is an array of string values. If the operator is In or NotIn,
+                            the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                            the values array must be empty. This array is replaced during a strategic
                             merge patch.
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: matchLabels is a map of {key,value} pairs. A single
-                      {key,value} in the matchLabels map is equivalent to an element
-                      of matchExpressions, whose key field is "key", the operator
-                      is "In", and the values array contains only "value". The requirements
-                      are ANDed.
+                    description: |-
+                      matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                 type: object
                 x-kubernetes-map-type: atomic
@@ -174,10 +216,11 @@ spec:
                       items:
                         type: string
                       type: array
-                    description: Tags specifies subnets in the load balancer's VPC
-                      where each tag specified in the map key contains one of the
-                      values in the corresponding value list. Exactly one of this
-                      or `ids` must be specified.
+                    description: |-
+                      Tags specifies subnets in the load balancer's VPC where each
+                      tag specified in the map key contains one of the values in the corresponding
+                      value list.
+                      Exactly one of this or `ids` must be specified.
                     type: object
                 type: object
               tags:
@@ -207,8 +250,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.14.0
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: targetgroupbindings.elbv2.k8s.aws
@@ -248,20 +290,29 @@ spec:
         description: TargetGroupBinding is the Schema for the TargetGroupBinding API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
           spec:
             description: TargetGroupBindingSpec defines the desired state of TargetGroupBinding
             properties:
+              multiClusterTargetGroup:
+                description: MultiClusterTargetGroup Denotes if the TargetGroup is
+                  shared among multiple clusters
+                type: boolean
               networking:
                 description: networking provides the networking setup for ELBV2 LoadBalancer
                   to access targets in TargetGroup.
@@ -272,28 +323,30 @@ spec:
                     items:
                       properties:
                         from:
-                          description: List of peers which should be able to access
-                            the targets in TargetGroup. At least one NetworkingPeer
-                            should be specified.
+                          description: |-
+                            List of peers which should be able to access the targets in TargetGroup.
+                            At least one NetworkingPeer should be specified.
                           items:
                             description: NetworkingPeer defines the source/destination
                               peer for networking rules.
                             properties:
                               ipBlock:
-                                description: IPBlock defines an IPBlock peer. If specified,
-                                  none of the other fields can be set.
+                                description: |-
+                                  IPBlock defines an IPBlock peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   cidr:
-                                    description: CIDR is the network CIDR. Both IPV4
-                                      or IPV6 CIDR are accepted.
+                                    description: |-
+                                      CIDR is the network CIDR.
+                                      Both IPV4 or IPV6 CIDR are accepted.
                                     type: string
                                 required:
                                 - cidr
                                 type: object
                               securityGroup:
-                                description: SecurityGroup defines a SecurityGroup
-                                  peer. If specified, none of the other fields can
-                                  be set.
+                                description: |-
+                                  SecurityGroup defines a SecurityGroup peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   groupID:
                                     description: GroupID is the EC2 SecurityGroupID.
@@ -304,24 +357,24 @@ spec:
                             type: object
                           type: array
                         ports:
-                          description: List of ports which should be made accessible
-                            on the targets in TargetGroup. If ports is empty or unspecified,
-                            it defaults to all ports with TCP.
+                          description: |-
+                            List of ports which should be made accessible on the targets in TargetGroup.
+                            If ports is empty or unspecified, it defaults to all ports with TCP.
                           items:
                             properties:
                               port:
                                 anyOf:
                                 - type: integer
                                 - type: string
-                                description: The port which traffic must match. When
-                                  NodePort endpoints(instance TargetType) is used,
-                                  this must be a numerical port. When Port endpoints(ip
-                                  TargetType) is used, this can be either numerical
-                                  or named port on pods. if port is unspecified, it
-                                  defaults to all ports.
+                                description: |-
+                                  The port which traffic must match.
+                                  When NodePort endpoints(instance TargetType) is used, this must be a numerical port.
+                                  When Port endpoints(ip TargetType) is used, this can be either numerical or named port on pods.
+                                  if port is unspecified, it defaults to all ports.
                                 x-kubernetes-int-or-string: true
                               protocol:
-                                description: The protocol which traffic must match.
+                                description: |-
+                                  The protocol which traffic must match.
                                   If protocol is unspecified, it defaults to TCP.
                                 enum:
                                 - TCP
@@ -407,14 +460,19 @@ spec:
         description: TargetGroupBinding is the Schema for the TargetGroupBinding API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -428,6 +486,10 @@ spec:
                 - ipv4
                 - ipv6
                 type: string
+              multiClusterTargetGroup:
+                description: MultiClusterTargetGroup Denotes if the TargetGroup is
+                  shared among multiple clusters
+                type: boolean
               networking:
                 description: networking defines the networking rules to allow ELBV2
                   LoadBalancer to access targets in TargetGroup.
@@ -440,28 +502,30 @@ spec:
                         of traffic that is allowed to access TargetGroup's targets.
                       properties:
                         from:
-                          description: List of peers which should be able to access
-                            the targets in TargetGroup. At least one NetworkingPeer
-                            should be specified.
+                          description: |-
+                            List of peers which should be able to access the targets in TargetGroup.
+                            At least one NetworkingPeer should be specified.
                           items:
                             description: NetworkingPeer defines the source/destination
                               peer for networking rules.
                             properties:
                               ipBlock:
-                                description: IPBlock defines an IPBlock peer. If specified,
-                                  none of the other fields can be set.
+                                description: |-
+                                  IPBlock defines an IPBlock peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   cidr:
-                                    description: CIDR is the network CIDR. Both IPV4
-                                      or IPV6 CIDR are accepted.
+                                    description: |-
+                                      CIDR is the network CIDR.
+                                      Both IPV4 or IPV6 CIDR are accepted.
                                     type: string
                                 required:
                                 - cidr
                                 type: object
                               securityGroup:
-                                description: SecurityGroup defines a SecurityGroup
-                                  peer. If specified, none of the other fields can
-                                  be set.
+                                description: |-
+                                  SecurityGroup defines a SecurityGroup peer.
+                                  If specified, none of the other fields can be set.
                                 properties:
                                   groupID:
                                     description: GroupID is the EC2 SecurityGroupID.
@@ -472,9 +536,9 @@ spec:
                             type: object
                           type: array
                         ports:
-                          description: List of ports which should be made accessible
-                            on the targets in TargetGroup. If ports is empty or unspecified,
-                            it defaults to all ports with TCP.
+                          description: |-
+                            List of ports which should be made accessible on the targets in TargetGroup.
+                            If ports is empty or unspecified, it defaults to all ports with TCP.
                           items:
                             description: NetworkingPort defines the port and protocol
                               for networking rules.
@@ -483,15 +547,15 @@ spec:
                                 anyOf:
                                 - type: integer
                                 - type: string
-                                description: The port which traffic must match. When
-                                  NodePort endpoints(instance TargetType) is used,
-                                  this must be a numerical port. When Port endpoints(ip
-                                  TargetType) is used, this can be either numerical
-                                  or named port on pods. if port is unspecified, it
-                                  defaults to all ports.
+                                description: |-
+                                  The port which traffic must match.
+                                  When NodePort endpoints(instance TargetType) is used, this must be a numerical port.
+                                  When Port endpoints(ip TargetType) is used, this can be either numerical or named port on pods.
+                                  if port is unspecified, it defaults to all ports.
                                 x-kubernetes-int-or-string: true
                               protocol:
-                                description: The protocol which traffic must match.
+                                description: |-
+                                  The protocol which traffic must match.
                                   If protocol is unspecified, it defaults to TCP.
                                 enum:
                                 - TCP
@@ -513,41 +577,42 @@ spec:
                     description: matchExpressions is a list of label selector requirements.
                       The requirements are ANDed.
                     items:
-                      description: A label selector requirement is a selector that
-                        contains values, a key, and an operator that relates the key
-                        and values.
+                      description: |-
+                        A label selector requirement is a selector that contains values, a key, and an operator that
+                        relates the key and values.
                       properties:
                         key:
                           description: key is the label key that the selector applies
                             to.
                           type: string
                         operator:
-                          description: operator represents a key's relationship to
-                            a set of values. Valid operators are In, NotIn, Exists
-                            and DoesNotExist.
+                          description: |-
+                            operator represents a key's relationship to a set of values.
+                            Valid operators are In, NotIn, Exists and DoesNotExist.
                           type: string
                         values:
-                          description: values is an array of string values. If the
-                            operator is In or NotIn, the values array must be non-empty.
-                            If the operator is Exists or DoesNotExist, the values
-                            array must be empty. This array is replaced during a strategic
+                          description: |-
+                            values is an array of string values. If the operator is In or NotIn,
+                            the values array must be non-empty. If the operator is Exists or DoesNotExist,
+                            the values array must be empty. This array is replaced during a strategic
                             merge patch.
                           items:
                             type: string
                           type: array
+                          x-kubernetes-list-type: atomic
                       required:
                       - key
                       - operator
                       type: object
                     type: array
+                    x-kubernetes-list-type: atomic
                   matchLabels:
                     additionalProperties:
                       type: string
-                    description: matchLabels is a map of {key,value} pairs. A single
-                      {key,value} in the matchLabels map is equivalent to an element
-                      of matchExpressions, whose key field is "key", the operator
-                      is "In", and the values array contains only "value". The requirements
-                      are ANDed.
+                    description: |-
+                      matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+                      map is equivalent to an element of matchExpressions, whose key field is "key", the
+                      operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                 type: object
                 x-kubernetes-map-type: atomic
@@ -579,6 +644,10 @@ spec:
                 enum:
                 - instance
                 - ip
+                type: string
+              vpcID:
+                description: VpcID is the VPC of the TargetGroup. If unspecified,
+                  it will be automatically inferred.
                 type: string
             required:
             - serviceRef
@@ -651,11 +720,19 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  creationTimestamp: null
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-controller-role
 rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - update
 - apiGroups:
   - ""
   resources:
@@ -867,7 +944,7 @@ spec:
       - args:
         - --cluster-name=$(CLUSTER_NAME)
         - --ingress-class=alb
-        image: public.ecr.aws/eks/aws-load-balancer-controller:v2.7.0
+        image: public.ecr.aws/eks/aws-load-balancer-controller:v2.10.0
         env:
           - name: CLUSTER_NAME
             value: changeme
