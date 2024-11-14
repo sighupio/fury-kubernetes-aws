@@ -9,12 +9,16 @@ kind: ServiceAccount
 metadata:
   name: aws-node-termination-handler
   namespace: kube-system
+  labels:
+    app: aws-node-termination-handler
 ---
 # Source: aws-node-termination-handler/templates/clusterrole.yaml
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: aws-node-termination-handler
+  labels:
+    app: aws-node-termination-handler
 rules:
 - apiGroups:
     - ""
@@ -56,38 +60,12 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: aws-node-termination-handler
+  labels:
+    app: aws-node-termination-handler
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: aws-node-termination-handler
-subjects:
-  - kind: ServiceAccount
-    name: aws-node-termination-handler
-    namespace: kube-system
----
-# Source: aws-node-termination-handler/templates/psp.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: aws-node-termination-handler-psp
-  namespace: kube-system
-rules:
-  - apiGroups: ['policy']
-    resources: ['podsecuritypolicies']
-    verbs:     ['use']
-    resourceNames:
-      - aws-node-termination-handler
----
-# Source: aws-node-termination-handler/templates/psp.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: aws-node-termination-handler-psp
-  namespace: kube-system
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: aws-node-termination-handler-psp
 subjects:
   - kind: ServiceAccount
     name: aws-node-termination-handler
@@ -223,6 +201,8 @@ kind: PodMonitor
 metadata:
   name: aws-node-termination-handler
   namespace: kube-system
+  labels:
+    app: aws-node-termination-handler
 spec:
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
