@@ -28,7 +28,7 @@ The following packages are included in Kubernetes Fury AWS:
 | [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.20.0`                       | Automatically manage graceful termination of pods in the event that one node is retired by AWS              |
 | [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.7.0`                        | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster |
 | [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`                             | Terraform module to manage IAM role used by aws-load-balancer-controller                                    |
-| [snapshot-controller](katalog/snapshot-controller)                                    | `v6.3.1`                        | Snapshot controller to enable snapshotting of the Amazon EBS driver.                                        |
+| [snapshot-controller](katalog/snapshot-controller)                                    | `v8.1.0`                        | Snapshot controller to enable snapshotting of the Amazon EBS driver.                                        |
 | [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`                             | Terraform module to manage IAM role used by EBS CSI driver                                                  |
 
 Click on each package to see its full documentation.
