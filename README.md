@@ -23,7 +23,7 @@ The following packages are included in Kubernetes Fury AWS:
 
 | Package                                                                               | Version                         | Description                                                                                                 |
 | ------------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.25.0,v1.26.4,v1.27.2,v1.28.2,v1.29.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
+| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.25.0,v1.26.4,v1.27.2,v1.28.2,v1.29.0,v1.30.2,v1.31.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
 | [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`                             | Terraform module to manage IAM role used by cluster-autoscaler                                              |
 | [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.22.1`                       | Automatically manage graceful termination of pods in the event that one node is retired by AWS              |
 | [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.7.0`                        | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster |
