@@ -18,7 +18,7 @@ This package is deployed as Instance Metadata Service Processor to monitor:
 
 ## Image repository and tag
 
-- AWS node termination handler image: `registry.sighup.io/fury/aws-ec2/aws-node-termination-handler:v1.17.1`
+- AWS node termination handler image: `registry.sighup.io/fury/aws-ec2/aws-node-termination-handler:v1.22.1`
 - AWS node termination handler repo: [AWS node termination handler at Github][github]
 
 ## Deployment
