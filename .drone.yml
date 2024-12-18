@@ -41,7 +41,7 @@ steps:
       # Disable natural language checks
       VALIDATE_NATURAL_LANGUAGE: "false"
       # Exclude old release notes that were created before we introduced policeman
-      FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md)
+      FILTER_REGEX_EXCLUDE: (docs/releases/v1[.]15[.].*[.]md|\.github)
       # Exclude schemas for kubeconform
       KUBERNETES_KUBECONFORM_OPTIONS: "--ignore-missing-schemas"
       VALIDATE_TERRAFORM_TFLINT: "false"
