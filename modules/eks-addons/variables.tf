@@ -20,6 +20,17 @@ variable "ebs_csi_driver" {
   default = {}
 }
 
+variable "snapshot_controller" {
+  description = "Enable and configure EBS CSI Driver"
+  type = object({
+    enabled                  = optional(bool, true)
+    resolve_conflicts        = optional(string, "OVERWRITE")
+    service_account_role_arn = optional(string)
+    configuration_values     = optional(any)
+  })
+  default = {}
+}
+
 variable "coredns" {
   description = "Enable and configure Coredns"
   type = object({
