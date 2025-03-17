@@ -145,6 +145,8 @@ spec:
               value: "false"
             - name: TAINT_NODE
               value: "false"
+            - name: ENABLE_OUT_OF_SERVICE_TAINT
+              value: "false"
             - name: EXCLUDE_FROM_LOAD_BALANCERS
               value: "false"
             - name: DELETE_LOCAL_DATA
@@ -158,6 +160,8 @@ spec:
             - name: EMIT_KUBERNETES_EVENTS
               value: "false"
             - name: ENABLE_SPOT_INTERRUPTION_DRAINING
+              value: "true"
+            - name: ENABLE_ASG_LIFECYCLE_DRAINING
               value: "true"
             - name: ENABLE_SCHEDULED_EVENT_DRAINING
               value: "false"
