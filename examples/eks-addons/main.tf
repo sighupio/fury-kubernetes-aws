@@ -19,22 +19,27 @@ module "addons" {
   cluster_name = var.cluster_name
   ebs_csi_driver = {
     enabled = true
-    version = "v1.21.0-eksbuild.1"
+    version = "v1.40.1-eksbuild.1"
     configuration_values = file("ebs.json")
+  }
+  snapshot_controller = {
+    enabled = true
+    version = "v8.2.0-eksbuild.1"
+    configuration_values = file("snapshot-controller.json")
   }
   coredns = {
     enabled = true
-    version = "v1.9.3-eksbuild.5"
+    version = "v1.11.4-eksbuild.2"
     configuration_values = file("coredns.json")
   }
   kube_proxy = {
     enabled = true
-    version = "v1.25.6-eksbuild.1"
+    version = "v1.31.3-eksbuild.2"
     configuration_values = file("kube-proxy.json")
   }
   vpc_cni = {
     enabled = true
-    version = "v1.12.2-eksbuild.1"
+    version = "v1.19.3-eksbuild.1"
     configuration_values = file("vpc-cni.json")
   }
 }
