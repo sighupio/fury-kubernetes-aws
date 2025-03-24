@@ -44,6 +44,7 @@ resource "aws_iam_policy" "aws_alb_controller" {
                 "ec2:GetCoipPoolUsage",
                 "ec2:DescribeCoipPools",
                 "ec2:GetSecurityGroupsForVpc",
+                "ec2:DescribeIpamPools",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:DescribeLoadBalancerAttributes",
                 "elasticloadbalancing:DescribeListeners",
@@ -55,7 +56,8 @@ resource "aws_iam_policy" "aws_alb_controller" {
                 "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:DescribeTags",
                 "elasticloadbalancing:DescribeTrustStores",
-                "elasticloadbalancing:DescribeListenerAttributes"
+                "elasticloadbalancing:DescribeListenerAttributes",
+                "elasticloadbalancing:DescribeCapacityReservation"
             ],
             "Resource": "*"
         },
@@ -205,7 +207,9 @@ resource "aws_iam_policy" "aws_alb_controller" {
                 "elasticloadbalancing:ModifyTargetGroup",
                 "elasticloadbalancing:ModifyTargetGroupAttributes",
                 "elasticloadbalancing:DeleteTargetGroup",
-                "elasticloadbalancing:ModifyListenerAttributes"
+                "elasticloadbalancing:ModifyListenerAttributes",
+                "elasticloadbalancing:ModifyCapacityReservation",
+                "elasticloadbalancing:ModifyIpPools"
             ],
             "Resource": "*",
             "Condition": {
@@ -251,7 +255,8 @@ resource "aws_iam_policy" "aws_alb_controller" {
                 "elasticloadbalancing:ModifyListener",
                 "elasticloadbalancing:AddListenerCertificates",
                 "elasticloadbalancing:RemoveListenerCertificates",
-                "elasticloadbalancing:ModifyRule"
+                "elasticloadbalancing:ModifyRule",
+                "elasticloadbalancing:SetRulePriorities"
             ],
             "Resource": "*"
         }
