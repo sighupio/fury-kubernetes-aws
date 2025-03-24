@@ -11,7 +11,7 @@ A component that automatically adjusts the size of a Kubernetes Cluster so that 
 
 ## Image repository and tag
 
-- Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.28.2,v1.29.0,v1.30.2,v1.31.0`
+- Cluster autoscaler image: `registry.sighup.io/autoscaling/cluster-autoscaler:v1.29.0,v1.30.2,v1.31.0,v1.32.0`
 - Cluster autoscaler repo: [Cluster autoscaler at Github][ca-github]
 
 ## Deployment
@@ -24,7 +24,7 @@ You can deploy cluster autoscaler in your EKS cluster by including the package i
 ...
 
 resources:
-  - katalog/cluster-autoscaler/{v1.28.x,v1.29.x,v1.30.x,v1.31.x}
+  - katalog/cluster-autoscaler/{v1.29.x,v1.30.x,v1.31.x,v1.32.0}
 
 ...
 ```
