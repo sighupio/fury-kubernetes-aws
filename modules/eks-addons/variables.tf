@@ -21,7 +21,7 @@ variable "ebs_csi_driver" {
 }
 
 variable "snapshot_controller" {
-  description = "Enable and configure EBS CSI Driver"
+  description = "Enable and configure Snapshot Controller"
   type = object({
     enabled                  = optional(bool, true)
     resolve_conflicts        = optional(string, "OVERWRITE")
