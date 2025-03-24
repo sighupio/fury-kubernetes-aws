@@ -14,4 +14,4 @@ resources:
 images:
   - name: public.ecr.aws/eks/aws-load-balancer-controller # public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
     newName: registry.sighup.io/fury/amazon/aws-alb-ingress-controller
-    newTag: v2.10.0
+    newTag: v2.12.0
