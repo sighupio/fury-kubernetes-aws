@@ -57,7 +57,6 @@ steps:
       - kustomize build katalog/cluster-autoscaler/base > cluster-autoscaler.yml
       - kustomize build katalog/load-balancer-controller > load-balancer-controller.yml
       - kustomize build katalog/node-termination-handler > node-termination-handler.yml
-      - kustomize build katalog/snapshot-controller > snapshot-controller.yml
 
 
   - name: check-deprecated-apis
@@ -70,7 +69,6 @@ steps:
       - /pluto detect cluster-autoscaler.yml --ignore-deprecations --target-versions=k8s=v1.32.0
       - /pluto detect load-balancer-controller.yml --ignore-deprecations --target-versions=k8s=v1.29.0
       - /pluto detect node-termination-handler.yml --ignore-deprecations --target-versions=k8s=v1.29.0
-      - /pluto detect snapshot-controller.yml --ignore-deprecations --target-versions=k8s=v1.29.0
 
 ---
 name: release

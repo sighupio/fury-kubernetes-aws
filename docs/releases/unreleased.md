@@ -1,18 +1,44 @@
 # AWS Add-on Module Release TBD
 
-Welcome to the latest release of the `aws` module for the [`Kubernetes Fury Distribution`](https://github.com/sighupio/fury-distribution) maintained by team SIGHUP.
+Welcome to the latest release of the `aws` module for the [`Kubernetes Fury Distribution`](https://github.com/sighupio/fury-distribution), maintained by team SIGHUP.
 
-This is a minor release that updates all packages and adds compatibility with Kubernetes 1.32.
+This is a **major release** that updates all packages, adds compatibility with **Kubernetes 1.32** and moves the snapshot-controller management under EKS addons.
 
 ## Component Images 🚢
 
 | Component                  | Supported Version                                                                                 | Previous Version |
 | -------------------------- |---------------------------------------------------------------------------------------------------|------------------|
 | `cluster-austoscaler`      | [`v1.32.0`](https://github.com/kubernetes/autoscaler/releases/tag/cluster-autoscaler-1.32.0)      | `1.31.0`         |
-| `snapshot-controller`      | [`v8.1.0`](https://github.com/kubernetes-csi/external-snapshotter/releases/tag/v8.1.0)            | `v6.3.1`         |
+| `snapshot-controller`      | **REMOVED**                                                                                       | `v8.1.0`         |
 | `load-balancer-controller` | [`v2.12.0`](https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/tag/v2.12.0) | `2.10.0`         |
 | `node-termination-handler` | [`v1.25.0`](https://github.com/aws/aws-node-termination-handler/releases/tag/v1.25.0)             | `v1.22.1`        |
 
-> Please refer to the individual release notes to get detailed information on each release.
+> **Note:** Please refer to the individual release notes for detailed information on each update.
+
+## Breaking Changes 🚨
+
+In this release, the **Snapshot Controller** has been migrated from **Katalog** (Kubernetes manifests managed with Kustomize) to **AWS EKS Addon** (using Terraform modules).
+
+### 🔑 Key Changes
+
+- The **Snapshot Controller** is no longer deployed using Kustomize within Katalog.
+- Instead, it is now managed as an **AWS EKS Addon**, simplifying lifecycle management and ensuring better integration with AWS services.
+- This change improves maintainability, reduces manual updates, and leverages AWS-managed updates for security and stability.
+
+### ⚠️ Impact & Considerations
+
+- Existing snapshot functionality should remain unaffected.
+- Users should ensure that the **AWS EKS Addon** for the Snapshot Controller is enabled in their cluster.
+- If any custom configurations were applied via Kustomize, they should be reviewed and adapted to the AWS EKS Addon settings.
+
+## Update Guide 🛠️
+
+Delete the existing snapshot-controller:
+
+```shell
+kustomize build katalog/snapshot-controller | kubectl delete -f -
+```
+
+Apply the updated terraform module included in this release.
 
 <!-- Links -->
