@@ -3,7 +3,7 @@
     Kubernetes Fury AWS
 </h1>
 
-![Release](https://img.shields.io/badge/Latest%20Release-v4.3.0-blue)
+![Release](https://img.shields.io/badge/Latest%20Release-v5.0.0-blue)
 ![License](https://img.shields.io/github/license/sighupio/fury-kubernetes-aws?label=License)
 ![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack&label=Slack)
 
@@ -23,13 +23,14 @@ The following packages are included in Kubernetes Fury AWS:
 
 | Package                                                                               | Version                           | Description                                                                                                 |
 | ------------------------------------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.28.2,v1.29.0,v1.30.2,v1.31.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
+| [cluster-autoscaler](katalog/cluster-autoscaler)                                      | `v1.29.0,v1.30.2,v1.31.0,v1.32.0` | A component that automatically adjusts the size of a Kubernetes Cluster                                     |
 | [IAM role for cluster-autoscaler](modules/iam-for-cluster-autoscaler)                 | `-`                               | Terraform module to manage IAM role used by cluster-autoscaler                                              |
-| [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.22.1`                         | Automatically manage graceful termination of pods in the event that one node is retired by AWS              |
-| [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.10.0`                         | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster |
+| [aws-node-termination-handler](katalog/node-termination-handler)                      | `v1.25.0`                         | Automatically manage graceful termination of pods in the event that one node is retired by AWS              |
+| [aws-load-balancer-controller](katalog/load-balancer-controller)                      | `v2.12.0`                         | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster |
 | [IAM role for aws-load-balancer-controller](modules/iam-for-load-balancer-controller) | `-`                               | Terraform module to manage IAM role used by aws-load-balancer-controller                                    |
-| [snapshot-controller](katalog/snapshot-controller)                                    | `v8.1.0`                          | Snapshot controller to enable snapshotting of the Amazon EBS driver.                                        |
 | [IAM role for aws-ebs-csi-driver](modules/iam-for-ebs-csi-driver)                     | `-`                               | Terraform module to manage IAM role used by EBS CSI driver                                                  |
+| [EKS Addons](modules/eks-addons)                                                      | `-`                               | Terraform module to install the main EKS Addons (coredns, EBS CSI Driver, snapshot controller, VPC cni)     |
+
 
 Click on each package to see its full documentation.
 
@@ -37,10 +38,10 @@ Click on each package to see its full documentation.
 
 | Kubernetes Version |   Compatibility    | Notes           |
 | ------------------ | :----------------: | --------------- |
-| `1.28.x`           | :white_check_mark: | No known issues |
 | `1.29.x`           | :white_check_mark: | No known issues |
 | `1.30.x`           | :white_check_mark: | No known issues |
 | `1.31.x`           | :white_check_mark: | No known issues |
+| `1.32.x`           | :white_check_mark: | No known issues |
 
 Check the [compatibility matrix][compatibility-matrix] for additional informations about previous releases of the modules.
 
@@ -61,13 +62,12 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 ```yaml
 bases:
   - name: aws/cluster-autoscaler
-    version: "v4.3.0"
+    version: "v5.0.0"
   - name: aws/node-termination-handler
-    version: "v4.3.0"
+    version: "v5.0.0"
   - name: aws/load-balancer-controller
-    version: "v4.3.0"
-  - name: aws/snapshot-controller
-    version: "v4.3.0" 
+    version: "v5.0.0"
+
 ```
 
 > See `furyctl` [documentation][furyctl-repo] for additional details about `Furyfile.yml` format.
@@ -80,10 +80,9 @@ bases:
 
 ```yaml
 resources:
-- ./vendor/katalog/aws/cluster-autoscaler/{v1.28.x,v1.29.x,v1.30.x,v1.31.x}
+- ./vendor/katalog/aws/cluster-autoscaler/{v1.29.x,v1.30.x,v1.31.x,v1.32.x}
 - ./vendor/katalog/aws/node-termination-handler
 - ./vendor/katalog/aws/load-balancer-controller
-- ./vendor/katalog/aws/snapshot-controller
 ```
 
 > NB: some packages needs additional configurations (IAM roles), they will not work out of the box. Refer to each package documentation for more details.

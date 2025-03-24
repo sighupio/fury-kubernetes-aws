@@ -17,13 +17,14 @@ This terraform module provides an easy way to install addons on an existing EKS 
 
 ## Inputs
 
-|         Name         |              Description                                   |     Type      | Default           | Required |
-| -------------------- | ---------------------------------------------------------- | ------------- | ----------------- | :------: |
-| cluster\_name        | The EKS cluster name                                       | `string`      | n/a               | yes      |
-| ebs\_csi\_driver     | An object list defining EBS CSI Driver addon configuration | `object`      | `{enabled=false}` | no       |
-| coredns              | An object list defining coredns addon configuration        | `object`      | `{enabled=false}` | no       |
-| kube\_proxy          | An object list defining kube-proxy addon configuration     | `object`      | `{enabled=false}` | no       |
-| vpc\_cni             | An object list defining VPC CNI addon configuration        | `object`      | `{enabled=false}` | no       |
+| Name                 | Description                                                     | Type     | Default           | Required |
+| -------------------- | --------------------------------------------------------------- | -------- | ----------------- | :------: |
+| cluster\_name        | The EKS cluster name                                            | `string` | n/a               |   yes    |
+| ebs\_csi\_driver     | An object list defining EBS CSI Driver addon configuration      | `object` | `{enabled=false}` |    no    |
+| snapshot\_controller | An object list defining Snapshot Controller addon configuration | `object` | `{enabled=false}` |    no    |
+| coredns              | An object list defining coredns addon configuration             | `object` | `{enabled=false}` |    no    |
+| kube\_proxy          | An object list defining kube-proxy addon configuration          | `object` | `{enabled=false}` |    no    |
+| vpc\_cni             | An object list defining VPC CNI addon configuration             | `object` | `{enabled=false}` |    no    |
 
 Each object can be configured with the following parameters:
 
@@ -49,6 +50,11 @@ module "addons" {
   ebs_csi_driver = {
     enabled = true
     version = "v1.19.0-eksbuild.2"
+  }
+  snapshot_controller = {
+    enabled = true
+    version = "v8.2.0-eksbuild.1"
+    configuration_values = file("snapshot-controller.json")
   }
   coredns = {
     enabled = true
