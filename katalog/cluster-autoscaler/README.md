@@ -1,6 +1,6 @@
 # Cluster Autoscaler
 
-<!-- <KFD-DOCS> -->
+<!-- <SD-DOCS> -->
 
 A component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes. Supports several public cloud providers. Version 1.0 (GA) was released with Kubernetes 1.8.
 
@@ -92,7 +92,7 @@ kustomize build | kubectl apply -f -
 
 [ca-github]: https://github.com/kubernetes/autoscaler
 
-<!-- </KFD-DOCS> -->
+<!-- </SD-DOCS> -->
 
 ## License
 

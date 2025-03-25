@@ -1,6 +1,6 @@
 # AWS Load Balancer controller
 
-<!-- <KFD-DOCS> -->
+<!-- <SD-DOCS> -->
 
 AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster.
 
@@ -97,7 +97,7 @@ kustomize build | kubectl apply -f -
 [cert-manager]: https://github.com/sighupio/fury-kubernetes-ingress/tree/master/katalog/cert-manager
 [github]: https://github.com/kubernetes-sigs/aws-load-balancer-controller/
 
-<!-- </KFD-DOCS> -->
+<!-- </SD-DOCS> -->
 
 ## License
 

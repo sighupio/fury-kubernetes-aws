@@ -1,25 +1,29 @@
-<h1>
-    <img src="https://github.com/sighupio/fury-distribution/blob/main/docs/assets/fury-epta-white.png?raw=true" align="left" width="90" style="margin-right: 15px"/>
-    Kubernetes Fury AWS
+<h1 align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sighupio/distribution/refs/heads/main/docs/assets/white-logo.png">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/sighupio/distribution/refs/heads/main/docs/assets/black-logo.png">
+  <img alt="Shows a black logo in light color mode and a white one in dark color mode." src="https://raw.githubusercontent.com/sighupio/distribution/refs/heads/main/docs/assets/white-logo.png">
+</picture><br/>
+  AWS Module
 </h1>
 
 ![Release](https://img.shields.io/badge/Latest%20Release-v5.0.0-blue)
-![License](https://img.shields.io/github/license/sighupio/fury-kubernetes-aws?label=License)
+![License](https://img.shields.io/github/license/sighupio/module-aws?label=License)
 ![Slack](https://img.shields.io/badge/slack-@kubernetes/fury-yellow.svg?logo=slack&label=Slack)
 
-<!-- <KFD-DOCS> -->
+<!-- <SD-DOCS> -->
 
-**Kubernetes Fury AWS** provides support AWS packages for [Kubernetes Fury Distribution (KFD)][kfd-repo].
+**AWS Module** provides support AWS packages for [SIGHUP Distribution (SD)][kfd-repo].
 
-If you are new to KFD please refer to the [official documentation][kfd-docs] on how to get started with KFD.
+If you are new to SD please refer to the [official documentation][kfd-docs] on how to get started with SD.
 
 ## Overview
 
-**Kubernetes Fury AWS** uses a collection of open source tools to make an EKS cluster on AWS production grade.
+**AWS Module** uses a collection of open source tools to make an EKS cluster on AWS production grade.
 
 ## Packages
 
-The following packages are included in Kubernetes Fury AWS:
+The following packages are included in AWS Module:
 
 | Package                                                                               | Version                           | Description                                                                                                 |
 | ------------------------------------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
@@ -51,7 +55,7 @@ Check the [compatibility matrix][compatibility-matrix] for additional informatio
 
 | Tool                        | Version    | Description                                                                                                                                                    |
 | --------------------------- |------------| -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [furyctl][furyctl-repo]     | `>=0.25.0` | The recommended tool to download and manage KFD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
+| [furyctl][furyctl-repo]     | `>=0.25.0` | The recommended tool to download and manage SD modules and their packages. To learn more about `furyctl` read the [official documentation][furyctl-repo].     |
 | [kustomize][kustomize-repo] | `>=3.5.3`  | Packages are customized using `kustomize`. To learn how to create your customization layer with `kustomize`, please refer to the [repository][kustomize-repo]. |
 | [terraform][terraform-repo] | `>=1.3.0`  | Terraform is used to provision packages using modules. To learn how to use `terraform`, please refer to the [repository][terraform-repo].                      |
 
@@ -102,7 +106,7 @@ kustomize build . | kubectl apply -f -
 [kfd-docs]: https://docs.kubernetesfury.com/docs/distribution/
 [compatibility-matrix]: https://github.com/sighupio/fury-kubernetes-aws/blob/master/docs/COMPATIBILITY_MATRIX.md
 
-<!-- </KFD-DOCS> -->
+<!-- </SD-DOCS> -->
 
 <!-- <FOOTER> -->
 
